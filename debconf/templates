@@ -1,0 +1,30 @@
+Template: Automation/db_user
+Type: string
+Description: Username:
+ Enter MySQL username.
+
+Template: Automation/db_password
+Type: password
+Description: Password:
+ Enter MySQL password.
+
+Template: Automation/email_add
+Type: string
+Description: Email address
+ Enter your email address.
+
+Template: Automation/db_name
+Type: string
+Description: Database name
+ Enter the database name, you want to create.
+
+Template: Automation/db_yesno
+Type: boolean
+Description: true/false
+ True for demo database or False for blank database.
+
+Template: Automation/account
+Type: note
+Description: LOGIN WITH
+ Username=admin 
+ Password=admin
