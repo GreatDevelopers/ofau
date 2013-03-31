@@ -1,8 +1,5 @@
-"""
-%% settings.py %%
+# Django settings for TCC11_12 project.
 
-This file is like the configuration file for the Software. The connectivity of Database with Software is done here. 
-"""
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -15,16 +12,13 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'automation',                      # Or path to database file if using sqlite3.
-        'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': 'a',
+        'NAME': 'db_name',                      # Or path to database file if using sqlite3.
+        'USER': 'db_user',                      # Not used with sqlite3.
+        'PASSWORD': 'db_password',
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
-
-
-
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -40,11 +34,10 @@ TIME_ZONE = 'Asia/Kolkata'
 LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
-
-DEFAULT_FROM_EMAIL = 'tccludhiana@gmail.com'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'tccludhiana@gmail.com'
-EMAIL_HOST_PASSWORD = 'tcc@gndec'
+DEFAULT_FROM_EMAIL = 'email_add'
+EMAIL_HOST = 'localhost'
+EMAIL_HOST_USER = 'email_user'
+EMAIL_HOST_PASSWORD = 'email_pass'
 EMAIL_USE_TLS = True 
 EMAIL_PORT = "587"
 
@@ -115,7 +108,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'Automation.urls'
 
-TEMPLATE_DIRS = ("/home/sandy/Automation/templates"
+TEMPLATE_DIRS = ("mPath/Automation/templates"
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -132,11 +125,11 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'registration',
     'Automation.tcc',
-    
     'tagging',
 )
 
 
 ACCOUNT_ACTIVATION_DAYS = 2
+
 
 LOGIN_REDIRECT_URL = '/automation/tcc11_12/index'
