@@ -523,7 +523,8 @@ def gen_report(request):
 	The jobs which are non suspence comes here. Depending on the material type, 
 	it is given a type: Routine or Institutional.
 	"""
-	
+	job = Job.objects.aggregate(Max('id'))
+	jobmaxid = job['id__max']
 	client = Job.objects.get(id=jobmaxid)
 	gen = ClientJob.objects.aggregate(Max('id'))
 	genid =gen['id__max']
@@ -701,7 +702,7 @@ def bill(request):
 	getadd = Job.objects.all().filter(id = jobid).values('client__client__first_name', 
 	'client__client__middle_name', 'client__client__last_name',
 	'client__client__address', 'client__client__city', 
-	'client__client__state','site','letter_no','letter_date',).distinct()
+	'client__client__state','site','letter_no','letter_date','date').distinct()
 	from Automation.tcc.variable import *
 	bill = Bill.objects.get(job_no=job_no)
 	servicetaxprint = servicetaxprint
@@ -712,12 +713,12 @@ def bill(request):
 	net_total_eng = num2eng(net_total1)
 	template = {'job_no': job_no ,'net_total_eng':net_total_eng,'servicetaxprint'
 	:servicetaxprint,'highereducationtaxprint':highereducationtaxprint,
-	'educationtaxprint':educationtaxprint,'bill':bill, 'job' : job, 'net_total1' : 
+	'educationtaxprint':educationtaxprint,'bill':bill, 'job':job, 'net_total1' : 
 	net_total1, 'getjob' : getjob, 'getadd' : getadd,}
 	amtid = Amount.objects.aggregate(Max('id'))
 	amtmaxid =amtid['id__max']
 	amt = Amount.objects.get(id = amtmaxid)
-	if amt.report_type == "GENERAL" :
+	if amt.report_type == "General_report" :
 		return render_to_response('tcc/bill.html', dict(template.items() + 
 		tmp.items()), context_instance = RequestContext(request))
 	else :
@@ -738,14 +739,12 @@ def receipt_report(request):
 		id = Job.objects.aggregate(Max('id'))
 		maxid =id['id__max']
 		job = Job.objects.get(id = maxid)
-	job_no = job.job_no
-	jobid =job.id
-	client = Job.objects.all().filter(id = jobid).values('client__client__first_name', 
+	client = Job.objects.all().filter(id = job.id).values('client__client__first_name', 
 	'client__client__middle_name', 'client__client__last_name',
 	'client__client__address', 'client__client__city')
-	mate = Job.objects.all().filter(job_no=job_no).values('clientjob__material__name',
+	mate = Job.objects.all().filter(job_no=job.job_no).values('clientjob__material__name',
 	'suspencejob__field__name','report_type','date').distinct()
-	bill = Bill.objects.get(job_no=job_no)
+	bill = Bill.objects.get(job_no=job.job_no)
 	balance = bill.balance
 	net_total_eng = num2eng(balance)
 	template = {'mate':mate, 'net_total_eng':net_total_eng,'client':client,
@@ -1352,33 +1351,32 @@ def  daily_report(request):
 			dates(start_date, end_date)	
 			if type=="CASH":
 				client = Job.objects.filter(date__range=(start_date,end_date)).\
-				filter(pay='CASH').values('id', 'job_no', 'date', 
-				'client__client__first_name', 'tds').distinct().order_by('job_no')
-				job = Job.objects.all().filter(date__range=(start_date,end_date)).filter(pay='CASH')
-				testtotal = TestTotal.objects.all()
-				tds_temp = Job.objects.all().filter(date__range=(start_date,
-				end_date)).aggregate(Sum('tds'))
-				tds= tds_temp['tds__sum']
-				total_temp = TestTotal.objects.filter(job_id__in=job).aggregate(Sum('unit_price'))
-				total= total_temp['unit_price__sum']
+				filter(pay='CASH').values( 'date', 
+				'client__client__first_name','client__client__middle_name',
+				'client__client__last_name','client__client__address',
+				'client__client__city','job_no' ).order_by('job_no').distinct()
+				job = Job.objects.all().values_list('job_no',flat=True).\
+				filter(date__range=(start_date,end_date)).filter(pay='CASH')
+				bill = Bill.objects.all()
+				net_total_temp = Bill.objects.filter(job_no__in=job).aggregate(Sum('net_total'))
+				net_total= net_total_temp['net_total__sum']
 				template ={'date': start_date, 'client':client, 'type':type, 
-				'total':total, 'testtotal':testtotal, 'tds':tds}
+				'bill':bill,'net_total':net_total,'job':job}
 				return render_to_response('tcc/dailyreport.html', dict(template.items() 
 				+ tmp.items()), context_instance=RequestContext(request))
 			else :
-				client = Job.objects.filter(date__range=(start_date,
-				end_date)).filter(pay='ONLINE').values('id', 'job_no', 'date', 
-				'client__client__first_name','tds').distinct().order_by('job_no')
-				job = Job.objects.all().filter(date__range=(start_date,
-				end_date)).filter(pay='ONLINE')
-				testtotal = TestTotal.objects.all()
-				tds_temp = Job.objects.all().filter(date__range=(start_date,
-				end_date)).aggregate(Sum('tds'))
-				tds= tds_temp['tds__sum']
-				total_temp = TestTotal.objects.filter(job_id__in=job).aggregate(Sum('unit_price'))
-				total= total_temp['unit_price__sum']
+				client = Job.objects.filter(date__range=(start_date,end_date)).\
+				filter(pay='ONLINE'|'DD'|'CHEQUE').values( 'date', 
+				'client__client__first_name','client__client__middle_name',
+				'client__client__last_name','client__client__address',
+				'client__client__city','job_no' ).order_by('job_no').distinct()
+				job = Job.objects.all().values_list('job_no',flat=True).\
+				filter(date__range=(start_date,end_date)).filter(pay='ONLINE'|'DD'|'CHEQUE')
+				bill = Bill.objects.all()
+				net_total_temp = Bill.objects.filter(job_no__in=job).aggregate(Sum('net_total'))
+				net_total= net_total_temp['net_total__sum']
 				template ={'date': start_date, 'client':client, 'type':type, 
-				'total':total, 'testtotal':testtotal, 'tds':tds}
+				'bill':bill,'net_total':net_total,'job':job}
 				return render_to_response('tcc/dailyreport.html', dict(template.items() 
 				+ tmp.items()), context_instance=RequestContext(request))
 	else:
