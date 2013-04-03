@@ -1219,7 +1219,6 @@ def  monthly_report(request):
 			cd = form.cleaned_data
 			month = cd['month']
 			year = cd['year']
-			month_print = month
 			paid_education_tax= cd['paid_education_tax']
 			paid_higher_education_tax= cd['paid_higher_education_tax']
 			paid_service_tax= cd['paid_service_tax']
@@ -1249,7 +1248,7 @@ def  monthly_report(request):
 			high_tax = higher_education_tax-paid_higher_education_tax
 			final = ser_tax + edu_tax +high_tax
 			paid_tax = paid_education_tax+paid_higher_education_tax+ paid_service_tax
-			template = {'client':client, 'bill':bill, 'tax':tax, 'month': month_print, 
+			template = {'client':client, 'bill':bill, 'tax':tax, 'month': month, 
 			'service_tax':service_tax, 'education_tax':education_tax, 
 			'higher_education_tax':higher_education_tax, 'net_total':net_total, 
 			'total':total, 'year':year, 'paid_higher_education_tax':paid_higher_education_tax, 
@@ -1366,12 +1365,13 @@ def  daily_report(request):
 				+ tmp.items()), context_instance=RequestContext(request))
 			else :
 				client = Job.objects.filter(date__range=(start_date,end_date)).\
-				filter(pay='ONLINE'|'DD'|'CHEQUE').values( 'date', 
+				filter(Q(pay='CHEQUE')|Q(pay='DD')|Q(pay='ONLINE')).values( 'date', 
 				'client__client__first_name','client__client__middle_name',
 				'client__client__last_name','client__client__address',
 				'client__client__city','job_no' ).order_by('job_no').distinct()
 				job = Job.objects.all().values_list('job_no',flat=True).\
-				filter(date__range=(start_date,end_date)).filter(pay='ONLINE'|'DD'|'CHEQUE')
+				filter(date__range=(start_date,end_date)).\
+				filter(Q(pay='CHEQUE')|Q(pay='DD')|Q(pay='ONLINE'))
 				bill = Bill.objects.all()
 				net_total_temp = Bill.objects.filter(job_no__in=job).aggregate(Sum('net_total'))
 				net_total= net_total_temp['net_total__sum']
