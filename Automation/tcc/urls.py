@@ -55,6 +55,8 @@ urlpatterns = patterns('Automation.tcc.views',
     (r'^othertest/$', 'add_job_other_test'),
     (r'^gen_report_other/$', 'gen_report_other'),
     (r'^edit_profile/$', 'edit_profile'),
+    (r'^get_documents/$', 'get_documents'),
+    
    
 )
 
@@ -69,4 +71,7 @@ urlpatterns += patterns('Automation.tcc.views_ext',
     (r'^billperf/$', 'billperf'),
     (r'^payjob/$', 'search_job'),
     (r'^editwork/$', 'edit_work'),
+    (r'^performabill/$', 'get_performa_bill'),
+    (r'^get_document_perf/$', 'get_document_perf'),
+    (r'^otherperftest/$', 'add_perf_other_test'),
    )
