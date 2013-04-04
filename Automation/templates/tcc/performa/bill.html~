@@ -81,7 +81,7 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 	<br/>
 	<b>Note :</b>
 	<ol>
-	<li>Payment may be made vide D.D./Cash/Online in favour of Director, Guru Nanak dev Engg. College, Ludhiana.</li>
+	<li>Payment may be made vide D.D./cash/online in favour of Director, Guru Nanak dev Engg. College, Ludhiana.</li>
 	<li>The Testing /Work shall be done on Receipt of this payment.</li>
 	<li>Bank Details for Online Payment:</li>
 	<table border="0">
