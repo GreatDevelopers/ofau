@@ -671,14 +671,28 @@ def job_ok(request):
 		higher_education_tax = higher_education_tax, education_tax = education_tax, 
 		net_total = net_total, balance = balance)
 	m.save()
-	temp = {"maxid":maxid,'material':material,}
+	return HttpResponseRedirect(reverse('Automation.tcc.views.get_documents'))
+	
+@login_required
+def get_documents(request):
+	"""
+	** get_documents **
+
+	This shows the different documents once the job is completely filled and is 
+	asked to generate bill. Depending upon the type of user the documents are 
+	provided to the user.
+	"""
+	id = Job.objects.aggregate(Max('job_no'))
+	maxid =id['job_no__max']
+	amt = Job.objects.filter(job_no=maxid).values('amount__report_type')
+	temp = {"maxid":maxid,'amt':amt}
 	if request.user.is_staff == 1 and request.user.is_active == 1 and \
 	request.user.is_superuser == 1 :
-		return render_to_response('tcc/job_ok.html', dict(temp.items() + tmp.items()), 
-		context_instance=RequestContext(request))
+		return render_to_response('tcc/job_ok.html', dict(temp.items() + 
+		tmp.items()), context_instance=RequestContext(request))
 	else :
-		return render_to_response('tcc/client_job_ok.html', dict(temp.items() + tmp.items()), 
-		context_instance=RequestContext(request))
+		return render_to_response('tcc/client_job_ok.html',dict(temp.items() + 
+		tmp.items()), context_instance=RequestContext(request))
 
 @login_required
 def bill(request):
