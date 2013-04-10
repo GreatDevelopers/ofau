@@ -825,7 +825,7 @@ def receipt_report(request):
 	job_date = job.date
 	client = Job.objects.all().filter(id = jobid).values('client__client__first_name', 
 	'client__client__middle_name', 'client__client__last_name',
-	'client__client__address', 'client__client__city')
+	'client__client__address', 'client__client__city','client__client__company')
 	mate = Job.objects.all().filter(job_no=job_no).values('clientjob__material__name',
 	'suspencejob__field__name','report_type','date').distinct()
 	bill = Bill.objects.get(job_no=job_no)
