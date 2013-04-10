@@ -292,10 +292,7 @@ class EditJob(models.Model):
 	site = models.CharField(max_length=600,blank=True,null=True)
 	type_of_work = models.ForeignKey(Govt)
 	report_type = models.ForeignKey(Report)
-	pay = models.CharField(max_length=600, blank=True )
 	date = models.DateField(auto_now_add=True)
-	check_number = models.CharField(max_length=15,blank=True)
-	check_dd_date = models.CharField(blank=True, max_length=15)
 	letter_no = models.IntegerField(blank=True,null=True)
 	letter_date = models.DateField( blank=True, null=True)
 	tds = models.IntegerField(default="0")
@@ -366,7 +363,7 @@ class ClientEditJob(models.Model):
 	""" 
 	job = models.ForeignKey(EditJob)
 	material = models.ForeignKey(Material)
-	test = models.ManyToManyField(Test)
+	test = models.ManyToManyField(Test,blank=True,null=True)
 	
 	def __unicode__(self):
           return self.id()
@@ -435,7 +432,7 @@ class SuspenceEditJob(models.Model):
 	""" 
 	job = models.ForeignKey(EditJob)
 	field = models.ForeignKey(Material)
-	test = models.ForeignKey(Test)
+	test = models.ForeignKey(Test,blank=True,null=True)
 	other = models.CharField(max_length=600, blank=True )
 	
 	def __unicode__(self):
@@ -501,15 +498,24 @@ class TestTotalPerf(models.Model):
 	a performa job_id.
 	
 	""" 
-	job_no = models.IntegerField(editable =False)
 	job = models.ForeignKey(EditJob)
-	mat = models.IntegerField(editable =True,null=True)
 	unit_price = models.IntegerField(blank=True,null=True)
-	balance = models.IntegerField(blank=True,null=True)
-	type = models.CharField(max_length=100,blank=True,null=True)
+	rate = models.IntegerField(null=True, blank=True)
 
 	def __unicode__(self):
         	return self.id
+        	
+class TestTotalPerfForm(forms.ModelForm):
+	"""
+	** TestTotalForm **
+	
+	TestTotalForm Class define the form for TestTotal model.
+	
+	""" 
+	class Meta :
+		model = TestTotalPerf
+		exclude= ['job']
+
 
 
 class Bill(models.Model):
@@ -545,6 +551,10 @@ class BillPerf(models.Model):
 	service_tax = models.IntegerField(blank=True,null=True)
 	net_total = models.IntegerField(blank=True,null=True)
 	price = models.IntegerField(blank=True,null=True)
+	trans_total = models.IntegerField(blank=True,null=True)
+	trans_net_total = models.IntegerField(blank=True,null=True)
+	balance = models.IntegerField(blank=True,null=True)
+
 
 
 class Amount(models.Model):

@@ -16,7 +16,7 @@
 <div style="top:290px;float:right;">Dated : {{job_date}} </div>
 <br/><br/>
 
-<div align="left">To,<br>{% for add in getadd %} {{ add.client__client__first_name}} {{ add.client__client__middle_name}} {{ add.client__client__last_name}} {{ add.client__client__address}}  {{ add.client__client__city}} {% if add.client__client__company != ""%}
+<div align="left">To,<br><br>{% for add in getadd %} {{ add.client__client__first_name}} {{ add.client__client__middle_name}} {{ add.client__client__last_name}} {{ add.client__client__address}}  {{ add.client__client__city}}<br/> {% if add.client__client__company != ""%}
 Agency: {{add.client__client__company}}
 {% endif %}{% endfor %}
 <br/><br/>
@@ -32,7 +32,7 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 		<td  colspan="2" rowspan="8" valign="top">
 <table width="100%"  style="margin:0px; padding:0px;">
 <tr>
-<td style="border:1px solid #000;">Per. </td>
+<td style="border:1px solid #000;">Description</td>
 
 <td style="border:1px solid #000;" >Rate</td>
 </tr>
@@ -49,7 +49,7 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 		{% elif test.suspencejob__field__name == "Survey" or test.clientjob__material__name == "Structural Design (OHSR)" %}
 		works of
 		{% else %}
-		 sample of 
+		 sample/s of 
 		{% endif %}{% if test.report_type == 1 %} {{test.clientjob__material__name}}
 		{% else %}{{test.suspencejob__field__name}}{% endif %}
 		</td>
@@ -92,6 +92,6 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 		</tr>	
 	</table>
 
-<div style="position:absolute;right:50px;top:750px;">DEAN TESTING AND CONSULTANCY</div>
+<div style="position:absolute;right:50px;top:900px;">DEAN TESTING AND CONSULTANCY</div>
 </body>
 </html>

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+                                                                                                                                                                                          {% extends "base.html" %}
 {% load i18n %}
 <html lang="en">
 <head>
@@ -36,7 +36,15 @@
 		<td> {{client.clientjob__material__name}}</td>	
 		<td>{{client.site}}</td>
 		<td>{{client.testtotal__unit_price}}</td>
-		<td><a href="/automation/tcc/report/?id={{client.id}}">Get Report</a></td>
+		{% for job in amt %}
+		{% if job.amount__report_type == "Suspence" %}
+			<td><b><center><a href="/automation/tcc/s_report/?id={{client.id}}" target="window">SUSPENCE REPORT</a> 
+			</td>
+		{% else %}
+			<td><b><center><a href="/automation/tcc/report/?id={{client.id}}" target="window">GENERAL REPORT</a> </td>
+		{% endif %}
+	{% endfor %}
+		
 		<td><a href="/automation/tcc/bill/?id={{client.id}}">Get Bill</a></td>
 		<td><a href="/automation/tcc/receipt/?id={{client.id}}">Get Receipt</a></td>
     </tr>

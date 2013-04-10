@@ -35,7 +35,7 @@
       {% for client in results %}
 	<tr>
 	<td>{{forloop.counter}}</td>
-        <td> {{ client.first_name }} {{client.middle_name}} {{client.last_name}}</li>
+        <td> {{ client.first_name }} {{client.middle_name}} {{client.last_name}}</td>
         <td> {{client.address}},{{client.city}}</td>
         <td>{{client.company}}</td>
         <td>{{client.email_address}}</td>
@@ -44,7 +44,9 @@
         <td>{{client.type_of_organisation}}</td>
        <td><a href="/automation/tcc/addjob/?id={{ client.id }}">ADD JOB</a>/
 	<a href="/automation/tcc/selectfield/?id={{ client.id }}">ADD PERFORMA JOB</a>/
+	<a href="/automation/tcc/nonpayment/?id={{ client.id }}">ADD NON-PAYMENT JOB</a>/
 	<a href="/automation/tcc/prevwork/?id={{ client.id }}">View Previous Work</a></td>
+	
 	</tr>
       {% endfor %}
       </ul>

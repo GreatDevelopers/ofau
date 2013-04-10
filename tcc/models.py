@@ -276,6 +276,27 @@ class Job(models.Model):
 	def __unicode__(self):
           return self.id()
 
+class NonPaymentJob(models.Model):
+	client = models.ForeignKey(UserProfile)
+	ref_no =  models.CharField(max_length=100,blank=True)
+	dated = models.DateField( blank=True, null=True)
+	site = models.CharField(max_length=5000,blank=True,null=True)
+	material_type = models.CharField(max_length=500)
+	date = models.DateField(auto_now_add=True)
+
+	def __unicode__(self):
+          return self.id()
+
+class NonPaymentJobForm(forms.ModelForm):
+	"""
+	** NonPaymentJobForm **
+	
+	NonPaymentJobForm Class define form for NonPaymentJob model.
+	
+	""" 
+	class Meta :
+		model = NonPaymentJob
+		exclude= ['date','client']
 
 class EditJob(models.Model):
 	"""
