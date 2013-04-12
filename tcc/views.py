@@ -1207,7 +1207,7 @@ def search(request):
 			
 	   	)	
 		aset = (
-	     		Q(address__icontains=addquery)|
+	     	Q(address__icontains=addquery)|
 			Q(city__icontains=addquery)
 		)
 		results = UserProfile.objects.filter(aset).filter(qset).distinct()
