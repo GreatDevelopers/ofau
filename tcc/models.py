@@ -687,7 +687,7 @@ class Staff(models.Model):
 	code = models.CharField(max_length=5)
 	name = models.CharField(max_length=50)
 	daily_income = models.IntegerField(blank=True)
-	position = models.CharField(max_length=15)
+	position = models.CharField(max_length=100)
 	lab = models.ForeignKey(Lab)
 	email =models.EmailField(blank=True)
 

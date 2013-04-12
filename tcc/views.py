@@ -1205,12 +1205,13 @@ def search(request):
 			Q(middle_name__icontains=query) |
 			Q(last_name__icontains=query)
 			
-	   	)
+	   	)	
 		aset = (
 	     		Q(address__icontains=addquery)|
 			Q(city__icontains=addquery)
 		)
-        	results = UserProfile.objects.filter(qset).filter(aset).distinct()
+		results = UserProfile.objects.filter(aset).filter(qset).distinct()
+	
     	else:
         	results = []
 	temp = {'results': results,'query': query,}
@@ -1538,7 +1539,8 @@ def  main_register(request):
 			'General_report').values('job__date', 'job__id', 'job__job_no', 
 			'college_income', 'admin_charge', 'consultancy_asst', 'development_fund', 
 			'unit_price', 'job__client__client__first_name', 'job__client__client__middle_name',
-			'job__client__client__last_name', 'job__client__client__address', 'job__client__client__city','job__clientjob__material__name')
+			'job__client__client__last_name', 'job__client__client__address', 'job__client__client__city',
+			'job__clientjob__material__name').order_by('job__id')
 			admin_charge_temp = Amount.objects.filter(id__in=job).filter(report_type =
 			'General_report').aggregate(Sum('admin_charge'))
 			admin_charge= admin_charge_temp['admin_charge__sum']

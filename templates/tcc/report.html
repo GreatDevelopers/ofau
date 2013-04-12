@@ -15,7 +15,7 @@ Vide Cash from {% for names in name %}{{ names.client__client__first_name }}
 {{ names.client__client__address }} {{ names.client__client__city }},
 {% if names.client__client__company != ""%}
 Agency: {{names.client__client__company}}
-{% endif %} {% endfor %}on account of testing/checking of {{mat}}. <br/><br/><br/>
+{% endif %} {% endfor %}on account of {% if mat = "Mix Design" %} preparation of {% else %}testing/checking of {% endif %}{{mat}}. <br/><br/><br/>
 <div >Vide Receipt No. : {{user.job_no }}  Dated: {{user.date}} </div>
 <div >Nature of Consultancy : {{ con_type }},  Ratio {{ ratio1 }}:{{ ratio2 }} </div>
 <div align= "left">

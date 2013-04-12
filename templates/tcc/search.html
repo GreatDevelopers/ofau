@@ -9,7 +9,11 @@
   <h2 class="changeBlue">Search a Client</h2>
   <form action="." method="GET">
     <label for="q">Name: </label>
+	{% if query == "" %}
+		 <input type="text" name="q" value=" ">
+	{% else %}
     <input type="text" name="q" value="{{ query|escape }}">
+	{% endif %}
 	<label for="add">Address: </label>
     <input type="text" name="add" value="{{ addquery|escape }}"><br>
    

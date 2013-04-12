@@ -825,7 +825,7 @@ def receipt_report(request):
 	job_date = job.date
 	client = Job.objects.all().filter(id = jobid).values('client__client__first_name', 
 	'client__client__middle_name', 'client__client__last_name',
-	'client__client__address', 'client__client__city')
+	'client__client__address', 'client__client__city','client__client__company')
 	mate = Job.objects.all().filter(job_no=job_no).values('clientjob__material__name',
 	'suspencejob__field__name','report_type','date').distinct()
 	bill = Bill.objects.get(job_no=job_no)
@@ -1203,14 +1203,15 @@ def search(request):
 		qset = (
 			Q(first_name__icontains=query) |
 			Q(middle_name__icontains=query) |
-			Q(last_name__icontains=query)|
+			Q(last_name__icontains=query)
 			
-	   	)
+	   	)	
 		aset = (
 	     		Q(address__icontains=addquery)|
 			Q(city__icontains=addquery)
 		)
-        	results = UserProfile.objects.filter(qset).filter(aset).distinct()
+		results = UserProfile.objects.filter(aset).filter(qset).distinct()
+	
     	else:
         	results = []
 	temp = {'results': results,'query': query,}
@@ -1537,7 +1538,9 @@ def  main_register(request):
 			amount = Amount.objects.all().filter(id__in=job).filter(report_type =
 			'General_report').values('job__date', 'job__id', 'job__job_no', 
 			'college_income', 'admin_charge', 'consultancy_asst', 'development_fund', 
-			'unit_price', 'job__client__client__first_name', 'job__clientjob__material__name')
+			'unit_price', 'job__client__client__first_name', 'job__client__client__middle_name',
+			'job__client__client__last_name', 'job__client__client__address', 'job__client__client__city',
+			'job__clientjob__material__name').order_by('job__id')
 			admin_charge_temp = Amount.objects.filter(id__in=job).filter(report_type =
 			'General_report').aggregate(Sum('admin_charge'))
 			admin_charge= admin_charge_temp['admin_charge__sum']
@@ -1653,7 +1656,7 @@ def non_payment_register(request):
 			start_date = cd['start_date']
 			end_date = cd['end_date']
 			dates(start_date, end_date)
-			npr_obj = NonPaymentJob.objects.all().filter(date__range=(start_date,end_date)).values('date',
+			npr_obj = NonPaymentJob.objects.all().filter(date__range=(start_date,end_date)).values('id','date',
 			'dated','ref_no','site','client__first_name','client__middle_name','client__last_name','client__address','material_type')
 			template={'npr_obj':npr_obj}
 			return render_to_response('tcc/non_payment_register.html', dict(template.items()

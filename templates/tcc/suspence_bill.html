@@ -30,9 +30,7 @@ Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{letter.le
 			<td>Rate</td>
 			<td>Amount</td>
 		</tr>
-		<tr><td><b>Charges For</b> {% for material in getjob %}
-		   
-			{% if material.report_type == 1 %} {{material.clientjob__material__name}}{% else %}{{material.suspencejob__field__name}}{% endif %}<br>
+		<tr><td><b>Charges For</b> {% for material in getjob %}{% if material.clientjob__material__name == "Mix Design" %} Preparation of {% else %}Testing/Checking of {% endif %}</b>{% if material.report_type == 1 %} {{material.clientjob__material__name}}{% else %}{{material.suspencejob__field__name}}{% endif %}<br>
 			
 			{% endfor%}
 			</td>
@@ -40,15 +38,15 @@ Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{letter.le
 			{% for test in getjob %}
 		{{test.sample}}
 		{% if test.suspencejob__field__name == "Soil for BC" %}
-		 bore of 
+		 Bore Hole/s
 		{% elif test.clientjob__material__name == "Cubes" %}
-		set of
+		set/s
 		{% elif test.suspencejob__field__name == "Survey" or test.clientjob__material__name == "Structural Design (OHSR)"  or test.clientjob__material__name == "Structural Design(Building)"%}
 		No.
 		{% else %}
-		 sample of 
-		{% endif %}{% if test.report_type == 1 %} {{test.clientjob__material__name}}{% else %}{{test.suspencejob__field__name}}{% endif %}<br>{% endfor %}</td></td>
-			<td rowspan="8">{% for test in getjob %}{{test.testtotal__unit_price}}<br>{% endfor %}</td>
+		 sample/s
+		{% endif %}<br></td></td>
+			<td rowspan="8">{% widthratio test.testtotal__unit_price test.sample 1 %}<br>{% endfor %}</td>
 			<td align="right" rowspan="2">{{ bill.price }}</td>
 		</tr>
 		<tr>			
