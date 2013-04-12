@@ -25,8 +25,8 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 		<tr>
 			<td>Details</td>
 			<td>Per. </td>
-			<td>Rate</td>
-			<td>Amount(&#8377;)</td>
+			<td>Rate (&#8377;)</td>
+			<td>Amount (&#8377;)</td>
 		</tr>
 		<tr><td><b>Charges For {% for material in getjob %} {% if material.clienteditjob__material__name ==  "Structural Design(Building)" %}
 		Preparation of 
@@ -38,13 +38,15 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 			
 			{% endfor%}
 			</td>
-			<td rowspan="6">
+			<td rowspan="8">
 			{% for test in getjob %}{{test.sample}} {% if test.clienteditjob__material__name ==  "Structural Design(Building)" %}No. 
-			{% else %}
-			sample 
+			{% elif test.suspenceeditjob__field__name == "Soil for BC" %}Bore Hole/s  {% elif test.clienteditjob__material__name == "Cubes" %}
+		set/s 
+		{% else %}
+			sample/s 
 			{% endif %} 
-			<br>{% endfor %}</td>
-			<td rowspan="6">&#8377;{% for test in getjob %}{{test.testtotalperf__unit_price}}<br>{% endfor %}</td>
+			<br></td>
+			<td rowspan="8">{% widthratio test.testtotalperf__unit_price test.sample 1 %}<br>{% endfor %}</td>
 			<td align="right" rowspan="2"> {{ bill.price }}</td>
 		</tr>
 		<tr>

@@ -314,7 +314,7 @@ class EditJob(models.Model):
 	type_of_work = models.ForeignKey(Govt)
 	report_type = models.ForeignKey(Report)
 	date = models.DateField(auto_now_add=True)
-	letter_no = models.CharField(blank=True,null=True)
+	letter_no = models.CharField( max_length=200,blank=True,null=True)
 	letter_date = models.DateField( max_length=200, null=True, blank=True)
 	tds = models.IntegerField(default="0")
 

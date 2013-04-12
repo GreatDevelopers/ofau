@@ -60,7 +60,9 @@ def perfselectfield(request):
 		m.save()
 	report = Report.objects.all()
 	mat = Material.objects.all()
-	return render_to_response('tcc/performa/typeofworkperf.html',{'report':report,'mat':mat}, context_instance=RequestContext(request))
+	temp = {'report':report,'mat':mat}
+	return render_to_response('tcc/performa/typeofworkperf.html',dict(temp.items() + 
+	tmp.items()), context_instance=RequestContext(request))
 
 @login_required
 def perfselect(request):
@@ -74,7 +76,9 @@ def perfselect(request):
 	mat = Material.objects.all()
 	material = Report.objects.get(id=request.GET['id'])
 	field_list = Material.objects.all().filter(report_id =material)
-	return render_to_response('tcc/performa/tagsperf.html',{'field_list':field_list,'report':report,'mat':mat}, context_instance=RequestContext(request))
+	temp = {'field_list':field_list,'report':report,'mat':mat}
+	return render_to_response('tcc/performa/tagsperf.html',dict(temp.items() + 
+	tmp.items()), context_instance=RequestContext(request))
 
 @login_required
 def add_perf(request):
@@ -128,14 +132,13 @@ def add_perf(request):
 				profile1.job = client
 				profile1.save()
 				form2.save_m2m()
-				if profile.report_type == "1":
-					return HttpResponseRedirect(reverse('Automation.tcc.views_ext.add_suspence_perf'))
-				else :
-					return HttpResponseRedirect(reverse('Automation.tcc.views_ext.gen_report_perf'))
+				return HttpResponseRedirect(reverse('Automation.tcc.views_ext.gen_report_perf'))
 		else:	
 			form1 = editJobForm()
 			form2 = editClientJobForm()
-		return render_to_response('tcc/performa/add_perf.html', {"form1": form1,"test":test,'field_list':field_list,'payment':payment,'work':work,"report":report,'query':query}, context_instance=RequestContext(request))
+		temp ={"form1": form1,"test":test,'field_list':field_list,'payment':payment,'work':work,"report":report,'query':query}
+		return render_to_response('tcc/performa/add_perf.html', dict(temp.items() + 
+		tmp.items()), context_instance=RequestContext(request))
 	else :
 		field_list = Material.objects.all().filter(report_id = 2)
 		if request.method=='POST':
@@ -171,7 +174,9 @@ def add_perf(request):
 		else:	
 			form1 = editJobForm()
 			form2 = editSuspenceJobForm()
-		return render_to_response('tcc/performa/add_suspence.html', {"form1": form1,"test":test,'field_list':field_list,'payment':payment,'work':work,"report":report,'query':query}, context_instance=RequestContext(request))
+		temp = {"form1": form1,"test":test,'field_list':field_list,'payment':payment,'work':work,"report":report,'query':query}
+		return render_to_response('tcc/performa/add_suspence.html', dict(temp.items() + 
+		tmp.items()), context_instance=RequestContext(request))
 		
 @login_required
 def add_perf_other_test(request):
@@ -301,6 +306,7 @@ def gen_report_perf(request):
 	price = sum(values)
 	unit_price = price*int(client.sample)
 	p = TestTotalPerf(unit_price=unit_price, job=client,rate=0)
+	p.save()
 	return HttpResponseRedirect(reverse('Automation.tcc.views_ext.job_submit_perf'))
 	
 
@@ -365,7 +371,9 @@ def job_submit_perf(request):
 	addid =add['id__max']
 	more = editClientadd.objects.get(id=addid)
 	moremat = more.client_id
-	return render_to_response('tcc/performa/job_submit.html',{'mee':mee,'value':value,'moremat':moremat}, context_instance=RequestContext(request))
+	temp ={'mee':mee,'value':value,'moremat':moremat}
+	return render_to_response('tcc/performa/job_submit.html',dict(temp.items() + 
+		tmp.items()), context_instance=RequestContext(request))
 
 @login_required
 def job_ok_perf(request):

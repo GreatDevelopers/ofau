@@ -1537,7 +1537,8 @@ def  main_register(request):
 			amount = Amount.objects.all().filter(id__in=job).filter(report_type =
 			'General_report').values('job__date', 'job__id', 'job__job_no', 
 			'college_income', 'admin_charge', 'consultancy_asst', 'development_fund', 
-			'unit_price', 'job__client__client__first_name', 'job__clientjob__material__name')
+			'unit_price', 'job__client__client__first_name', 'job__client__client__middle_name',
+			'job__client__client__last_name', 'job__client__client__address', 'job__client__client__city','job__clientjob__material__name')
 			admin_charge_temp = Amount.objects.filter(id__in=job).filter(report_type =
 			'General_report').aggregate(Sum('admin_charge'))
 			admin_charge= admin_charge_temp['admin_charge__sum']

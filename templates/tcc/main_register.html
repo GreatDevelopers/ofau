@@ -10,7 +10,7 @@
 		<td>Ref.No </td>
 		<td>Date</td>
 		<td>Receipt</td>
-		<td>Address</td>
+		<td>Name & Address</td>
 		<td>Type of Material</td>
 		<td>College Income {{collegeincome }}%</td>
 		<td>Admin Charges {{admincharge}}%</td>
@@ -30,7 +30,9 @@
 			<td>{{ amounts.job__id}}</td> 
 			<td> {{ amounts.job__date }}</td>
 			<td> {{ amounts.job__job_no }}</td>
-			<td> {{amounts.job__client__client__first_name}}</td>
+			<td> {{amounts.job__client__client__first_name}} {{amounts.job__client__client__middle_name}}
+			{{amounts.job__client__client__last_name}} {{amounts.job__client__client__address}} 
+			{{amounts.job__client__client__city}}</td>
 			<td>{{amounts.job__clientjob__material__name}}</td>
 			<td>{{amounts.college_income}}</td>
 			<td>{{amounts.admin_charge}}</td>
