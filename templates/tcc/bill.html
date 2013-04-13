@@ -11,7 +11,7 @@
 <br>
 <body>
 <h2 align="center">BILL</h2>
-
+{% load humanize %}
 <div style="top:290px;float:left;">No. : GNDEC/TCC/B/{{ job_no }}</div>
 <div style="top:290px;float:right;">Dated : {{job_date}} </div>
 <br/><br/>
@@ -68,7 +68,7 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 			
 			{% endfor%}
 			</td>
-		<td align="right" rowspan="2">{{ bill.price }}</td>
+		<td align="right" rowspan="2">{{ bill.price|intcomma }}</td>
 		</tr>
 		<tr>
 		
@@ -78,18 +78,18 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 		</tr>
 		<tr>
 			<td>Service Tax:  @ {{ servicetaxprint }}% </td>
-			<td  align="right">{{ bill.service_tax }}</td>
+			<td  align="right">{{ bill.service_tax|intcomma }}</td>
 		<tr>
 			<td>Education Cess  @ {{ educationtaxprint }}% </td>
-			<td  align="right">{{ bill.education_tax }}</td>
+			<td  align="right">{{ bill.education_tax|intcomma }}</td>
 		</tr>
 		<tr>
 			<td>Higher Education Cess  @ {{ highereducationtaxprint }}% </td>
-			<td  align="right">{{ bill.higher_education_tax }}</td>
+			<td  align="right">{{ bill.higher_education_tax|intcomma }}</td>
 		</tr>
 		<tr>
 				<td>Total (Rupees {{ net_total_eng }} only) </td>
-			<td  align="right">{{ cdftotal }} {{ bill.net_total}}</td>
+			<td  align="right">{{ cdftotal }} {{ bill.net_total|intcomma}}</td>
 		</tr>	
 	</table>
 

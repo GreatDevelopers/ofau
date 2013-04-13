@@ -25,27 +25,27 @@ Agency: {{names.client__client__company}}
 	<td colspan="3">THE DISTRIBUTION MAY BE MADE AS</td>
 </tr>
 
-  
+  {% load humanize %}
 <tr>
 	<td rowspan="9">CREDITS</td>
 	<td>COLLEGE INCOME {{ collegeincome }}% </td>
-	<td  align="right">{{ amount.college_income }}</td>
+	<td  align="right">{{ amount.college_income|intcomma }}</td>
 </tr>
 <tr>
 	<td>ADMN. CHARGES {{ admincharge }}% </td>
-	<td  align="right">{{ amount.admin_charge }}</td>
+	<td  align="right">{{ amount.admin_charge|intcomma }}</td>
 </tr>
 <tr>
 	<td>CONSULTANCY ASST. </td>
-	<td  align="right">{{ amount.consultancy_asst }}</td>
+	<td  align="right">{{ amount.consultancy_asst|intcomma }}</td>
 </tr>
 <tr>
 	<td>DEV. FUND (CONSULTANCY) </td>
-	<td  align="right">{{ amount.development_fund }}</td>
+	<td  align="right">{{ amount.development_fund|intcomma }}</td>
 </tr>
 <tr>
 	<td>TOTAL (Rs.) </td>
-	<td  align="right">{{ amount.unit_price }}</td>
+	<td  align="right">{{ amount.unit_price|intcomma }}</td>
 </tr>
 </table>
 </div>
