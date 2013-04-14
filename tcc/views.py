@@ -1211,9 +1211,8 @@ def search(request):
 			Q(city__icontains=addquery)
 		)
 		results = UserProfile.objects.filter(aset).filter(qset).distinct()
-	
-    	else:
-        	results = []
+	else:
+		results = []
 	temp = {'results': results,'query': query,}
 	return render_to_response("tcc/search.html", dict(temp.items() + tmp.items()),
 	context_instance=RequestContext(request))
@@ -1648,6 +1647,50 @@ def suspence_register(request):
 	template ={'form': form}
 	return render_to_response('tcc/client.html', dict(template.items() + tmp.items()), 
 	context_instance=RequestContext(request))
+	
+def tds_register(request):
+	if request.method == 'POST':
+		form = DateReport(request.POST)
+		if form.is_valid():
+			cd = form.cleaned_data
+			start_date = cd['start_date']
+			end_date = cd['end_date']
+			dates(start_date, end_date)
+			job = Job.objects.exclude(tds=0).filter(date__range=(start_date, end_date)).\
+			values('job_no', 'date', 'client__client__first_name',
+			'client__client__middle_name', 'client__client__last_name', 
+			'client__client__address', 'client__client__city', 'date', 'tds')
+			bill = Bill.objects.all()
+			client = Job.objects.values_list('job_no',flat=True).exclude(tds=0).\
+			filter(date__range=(start_date, end_date))
+			tds_temp = Job.objects.filter(job_no__in=client).aggregate(Sum('tds'))
+			tds= tds_temp['tds__sum']			
+			total_temp = Bill.objects.filter(job_no__in=client).aggregate(Sum('price'))
+			total= total_temp['price__sum']
+			service_tax_temp = Bill.objects.filter(job_no__in=client).\
+			aggregate(Sum('service_tax'))
+			service_tax= service_tax_temp['service_tax__sum']
+			education_tax_temp = Bill.objects.filter(job_no__in=client).\
+			aggregate(Sum('education_tax'))
+			education_tax= education_tax_temp['education_tax__sum']
+			higher_education_tax_temp = Bill.objects.filter(job_no__in=client).\
+			aggregate(Sum('higher_education_tax'))
+			higher_education_tax= higher_education_tax_temp['higher_education_tax__sum']
+			net_total_temp = Bill.objects.filter(job_no__in=client).aggregate(Sum('net_total'))
+			net_total= net_total_temp['net_total__sum']
+			balance_temp = Bill.objects.filter(job_no__in=client).aggregate(Sum('balance'))
+			balance= balance_temp['balance__sum']
+			template = {'job':job, 'bill':bill, 'total':total, 'service_tax':service_tax, 
+			'education_tax':education_tax, 'higher_education_tax':higher_education_tax, 'tds':tds,
+			'net_total':net_total, 'balance':balance, 's_date':start_date, 'e_date':end_date}
+			return render_to_response('tcc/tds_register.html', dict(template.items()
+			+ tmp.items()), context_instance=RequestContext(request))
+	else:
+		form = DateReport()
+	template = {'form':form}
+	return render_to_response('tcc/client.html', dict(template.items() + tmp.items()),
+	context_instance=RequestContext(request))
+			
 def non_payment_register(request):
 	if request.method == 'POST':
 		form = DateReport(request.POST)
@@ -1656,11 +1699,13 @@ def non_payment_register(request):
 			start_date = cd['start_date']
 			end_date = cd['end_date']
 			dates(start_date, end_date)
-			npr_obj = NonPaymentJob.objects.all().filter(date__range=(start_date,end_date)).values('id','date',
-			'dated','ref_no','site','client__first_name','client__middle_name','client__last_name','client__address','material_type')
-			template={'npr_obj':npr_obj}
-			return render_to_response('tcc/non_payment_register.html', dict(template.items()
-			+ tmp.items()), context_instance=RequestContext(request))
+			npr_obj = NonPaymentJob.objects.all().filter(date__range=(start_date,
+			end_date)).values('id','date',
+			'dated','ref_no','site','client__first_name','client__middle_name',
+			'client__last_name','client__address','material_type')
+			template = {'npr_obj':npr_obj}
+			return render_to_response('tcc/non_payment_register.html', 
+			dict(template.items() + tmp.items()), context_instance=RequestContext(request))
 	else:
 		form = DateReport()
 	template ={'form': form}
