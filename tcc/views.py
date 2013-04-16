@@ -1647,7 +1647,43 @@ def suspence_register(request):
 	template ={'form': form}
 	return render_to_response('tcc/client.html', dict(template.items() + tmp.items()), 
 	context_instance=RequestContext(request))
-	
+
+# Payment Register
+
+def payment_register(request):
+	if request.method == 'POST':
+		form = DateReport(request.POST)
+		if form.is_valid():
+			cd = form.cleaned_data
+			start_date = cd['start_date']
+			end_date = cd['end_date']
+			dates(start_date, end_date)	
+			
+			job = Job.objects.filter(date__range=(start_date,end_date)).values( 'date', 
+			'client__client__first_name','client__client__middle_name',
+			'client__client__last_name','client__client__address',
+			'job_no').order_by('job_no').distinct()
+			client = Job.objects.all().values_list('job_no',flat=True).\
+			filter(date__range=(start_date,end_date))
+			bill = Bill.objects.all()
+			net_total_temp = Bill.objects.filter(job_no__in=client).aggregate(Sum('net_total'))
+			net_total= net_total_temp['net_total__sum']
+
+			
+			#bill = Bill.objects.filter(date__range=(start_date,end_date)).values(
+			#'education_tax', 'higher_education_tax',
+			#'service_tax', 'net_total').order_by('job_no').distinct()
+			template ={'form': form}
+			return render_to_response('tcc/payment_register.html', 
+			dict(template.items() + tmp.items()), context_instance=RequestContext(request))
+	else:
+		form = DateReport()
+	template ={'form': form}
+	return render_to_response('tcc/client.html', dict(template.items() + tmp.items()), 
+	context_instance=RequestContext(request))
+
+# End Payment Register
+
 def tds_register(request):
 	if request.method == 'POST':
 		form = DateReport(request.POST)
