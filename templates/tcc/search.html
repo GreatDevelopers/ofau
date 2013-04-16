@@ -22,7 +22,7 @@
 
   {% if query %}
     <h3>Results for "{{ query|escape }}":</h3>
-<table border='1' style="table-layout:fixed;">
+<table border='1' class="fixed">
 <tr>
 		<th>Sr.No </th>
 		<th>Name of Parties</th>
@@ -31,7 +31,7 @@
                 <th>Email Address</th>
                 <th>Website</th>
                 <th>Phone No</th>
-		<th style="overflow:hidden;word-wrap:break-word; ">Type of organisation</th>
+		<th>Type of organisation</th>
 		<th>Your Activity</th>
 	</tr>
     {% if results %}
@@ -43,7 +43,7 @@
         <td> {{client.address}},{{client.city}}</td>
         <td>{{client.company}}</td>
         <td>{{client.email_address}}</td>
-        <td style="overflow:hidden;word-wrap:break-word; ">{{client.website}}</td>
+        <td >{{client.website}}</td>
         <td>{{client.contact_no}}</td>
         <td>{{client.type_of_organisation}}</td>
        <td><a href="/automation/tcc/addjob/?id={{ client.id }}">ADD

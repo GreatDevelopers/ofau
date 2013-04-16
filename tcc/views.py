@@ -1712,6 +1712,31 @@ def non_payment_register(request):
 	return render_to_response('tcc/client.html', dict(template.items() + tmp.items()),
 	context_instance=RequestContext(request))	
 
+# Client Register
+
+def client_register(request):
+	if request.method == 'POST':
+		form = DateReport(request.POST)
+		if form.is_valid():
+			cd = form.cleaned_data
+			start_date = cd['start_date']
+			end_date = cd['end_date']
+			dates(start_date, end_date)
+			cr_obj = UserProfile.objects.all().filter(date__range=(start_date,end_date)).values('first_name',
+			'middle_name', 'last_name', 'address', 'company', 'city', 
+			'pin_code', 'state', 'website', 'email_address', 
+			'contact_no', 'type_of_organisation', 'date')
+			template={'cr_obj':cr_obj}
+			return render_to_response('tcc/client_register.html', dict(template.items()
+			+ tmp.items()), context_instance=RequestContext(request))
+	else:
+		form = DateReport()
+	template ={'form': form}
+	return render_to_response('tcc/client.html', dict(template.items() + tmp.items()),
+	context_instance=RequestContext(request))	
+
+# end cliemt_register function
+
 def  gov_pri_report(request):
 	"""
 	** gov_pri_report **

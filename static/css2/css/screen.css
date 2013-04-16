@@ -3,6 +3,14 @@ html { height: 100%; font-size: 13px; font-family: arial; color: #404040; backgr
 
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td { margin: 0; padding: 0; }
 
+table.fixed{
+table-layout:fixed;
+}
+table.fixed td, th{
+overflow:hidden;
+word-wrap:break-word; 
+}
+
 table {
     background-color:#f6f6cd;
     border-collapse:collapse;
