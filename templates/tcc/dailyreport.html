@@ -11,7 +11,7 @@
                
 		<td><b>Total</b></td>
 	</tr>
-
+{% load humanize %}
     {% for clients in client %}
     {% for bills in bill %}
           {% if clients.job_no == bills.job_no %}
@@ -21,7 +21,7 @@
 			<td> {{ clients.date }}</td>
 			<td> {{clients.client__client__first_name}} {{clients.client__client__middle_name}} {{clients.client__client__last_name}} {{clients.client__client__address}} {{clients.client__client__city}}</td>
                        
-		        <td ALIGN="right">{{bills.net_total}}</td>
+		        <td ALIGN="right">{{bills.net_total|intcomma}}</td>
 		
 		</tr>
        		{% endif  %}
@@ -31,7 +31,7 @@
 	<tr>
          <td colspan='4'><b><center>SUM</center></td>
        
-         <td ALIGN="right"><b>{{ net_total }}</td>
+         <td ALIGN="right"><b>{{ net_total|intcomma }}</td>
         </tr>
      
 </table>

@@ -56,6 +56,7 @@ class UserProfile(models.Model):
 	contact_no = models.CharField(max_length=500)
 	type_of_organisation = models.CharField(max_length=20, choices = 
 	ORGANISATION_CHOICES)
+	date = models.DateField(auto_now_add=True)
 
 	def __unicode__(self):
         	return self.first_name

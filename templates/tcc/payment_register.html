@@ -1,0 +1,71 @@
+<html>
+<head>
+    <title>Payment Register</title>
+</head>
+<body>
+
+<div align="center"> Payment Register
+<table border='1'>
+	<tr>
+		<td>S.No</td>
+		<td>Receipt No.</td>
+		<td>Job No </td>
+		<td>Address</td>
+		<td>Total</td>
+		<td>Service Tax</td>
+		<td>Education Tax</td>
+		<td>Higher Education Tax</td>
+		<td>Net Total</td>
+	</tr>
+{% if job %}
+    {% for jobs in job %}
+    {% for bills in bill %}  
+   		 {% if bills.job_no == jobs.job_no %}  	
+         <tr>
+		
+            <td>{{forloop.counter}}</td>           
+			<td></td>
+			<td>{{jobs.job_no}}</td> 
+			<td>{{jobs.client__client__first_name}}  {{jobs.client__client__middle_name}}
+			 {{jobs.client__client__last_name}},  {{jobs.client__client__address}}, 
+			 {{jobs.client__client__city}}</td>
+			<td></td>
+			<td>{{bills.service_tax}}</td>
+			<td>{{bills.education_tax}}</td>
+			<td>{{bills.higher_education_tax}}</td>
+			<td>{{bills.net_total}}</td>
+		
+		</tr>
+        	{% endif  %}
+		
+	
+        {% endfor %}
+	{% endfor %}
+{% endif  %}
+
+<!--		<tr>
+			<td><b>  </b></td>
+			<td><b> </b></td>
+			 <td><b></b></td>
+			<td><b>  </b></td>
+			<td><b> </b></td>
+			<td><b> </b></td>
+			<td><b> {{college_income}} </b></td>
+	         <td><b>{{admin_charge}}</b></td>
+	        <td><b>	{{consultancy_asst}} </b></td>
+	        <td><b> {{development_fund}}</b></td>
+                <td><b> </b></td>
+              <td><b> </b></td>
+               <td><b> </b></td>
+              
+	        
+	         <td><b>{{total}} </b></td>
+	</tr>-->	
+</table>
+</div>
+
+
+</body>
+	
+
+

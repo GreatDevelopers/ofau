@@ -22,7 +22,7 @@
 
   {% if query %}
     <h3>Results for "{{ query|escape }}":</h3>
-<table border='1' width='100%'>
+<table border='1' class="fixed">
 <tr>
 		<th>Sr.No </th>
 		<th>Name of Parties</th>
@@ -32,7 +32,7 @@
                 <th>Website</th>
                 <th>Phone No</th>
 		<th>Type of organisation</th>
-		<th>Your Activity<th>
+		<th>Your Activity</th>
 	</tr>
     {% if results %}
       
@@ -43,12 +43,15 @@
         <td> {{client.address}},{{client.city}}</td>
         <td>{{client.company}}</td>
         <td>{{client.email_address}}</td>
-        <td>{{client.website}}</td>
+        <td >{{client.website}}</td>
         <td>{{client.contact_no}}</td>
         <td>{{client.type_of_organisation}}</td>
-       <td><a href="/automation/tcc/addjob/?id={{ client.id }}">ADD JOB</a>/
-	<a href="/automation/tcc/selectfield/?id={{ client.id }}">ADD PERFORMA JOB</a>/
-	<a href="/automation/tcc/nonpayment/?id={{ client.id }}">ADD NON-PAYMENT JOB</a>/
+       <td><a href="/automation/tcc/addjob/?id={{ client.id }}">ADD
+	   JOB</a> |
+	<a href="/automation/tcc/selectfield/?id={{ client.id }}">ADD
+	PERFORMA JOB</a> |
+	<a href="/automation/tcc/nonpayment/?id={{ client.id }}">ADD
+	NON-PAYMENT JOB</a> |
 	<a href="/automation/tcc/prevwork/?id={{ client.id }}">View Previous Work</a></td>
 	
 	</tr>
