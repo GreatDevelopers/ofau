@@ -12,8 +12,8 @@
 <body>
 <h2 align="center">BILL</h2>
 
-<div style="top:290px;left:0px;">No. : GNDEC/TCC/B/{{ job_no }}</div>
-<div style="top:290px;left:700px;">Dated : {{job_date}} </div>
+<div style="top:290px;float:left;">No. : GNDEC/TCC/B/{{ job_no }}</div>
+<div style="top:290px;float:right;">Dated : {{job_date}} </div> 	
 <br/><br/>
 
 <div align="left">To,<br>{% for add in getadd %} {{ add.client__client__first_name}} {{ add.client__client__middle_name}} {{ add.client__client__last_name}} {{ add.client__client__address}}  {{ add.client__client__city}}  {% if add.client__client__company != ""%}
@@ -30,7 +30,7 @@ Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{letter.le
 			<td>Rate</td>
 			<td>Amount</td>
 		</tr>
-		<tr><td><b>Charges For</b> {% for material in getjob %}{% if material.clientjob__material__name == "Mix Design" %} Preparation of {% else %}Testing/Checking of {% endif %}</b>{% if material.report_type == 1 %} {{material.clientjob__material__name}}{% else %}{{material.suspencejob__field__name}}{% endif %}<br>
+		<tr><td><b>Charges For</b> {% for material in getjob %}</b>{% if material.report_type == 1 %} {{material.clientjob__material__name}}{% else %}{{material.suspencejob__field__name}}{% endif %}<br>
 			
 			{% endfor%}
 			</td>
@@ -45,8 +45,8 @@ Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{letter.le
 		No.
 		{% else %}
 		 sample/s
-		{% endif %}<br></td></td>
-			<td rowspan="8">{% widthratio test.testtotal__unit_price test.sample 1 %}<br>{% endfor %}</td>
+		{% endif %}<br>{% endfor %}<br></td>
+			<td rowspan="8">{% for test in getjob %}{% widthratio test.testtotal__unit_price test.sample 1 %}<br>{% endfor %}</td>
 			<td align="right" rowspan="2">{{ bill.price }}</td>
 		</tr>
 		<tr>			

@@ -64,7 +64,7 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 		</tr>
 		<tr><td> 
 		   
-			<b>Charges For  {% for material in getjob %}{% if material.clientjob__material__name == "Mix Design" %} Preparation of {% else %}Testing/Checking of {% endif %}</b>{% if material.report_type == 1 %} {{material.clientjob__material__name}}{% else %}{{material.suspencejob__field__name}}{% endif %}<br>
+			<b>Charges For </b>{% for material in getjob %}{% if material.report_type == 1 %} {{material.clientjob__material__name}}{% else %}{{material.suspencejob__field__name}}{% endif %}<br>
 			
 			{% endfor%}
 			</td>

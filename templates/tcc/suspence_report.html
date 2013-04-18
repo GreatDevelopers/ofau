@@ -12,7 +12,7 @@
 A sum of Rs. {{bill.balance}}/- ( Rupees {{ net_total_eng }} only ) has been deposited by {% for names in getadd %}{{ names.client__client__first_name }} 
 {{ names.client__client__middle_name }} {{ names.client__client__last_name }}
 {{ names.client__client__address }} {{ names.client__client__city }} {% if names.client__client__company != "" %}Agency :{{names.client__client__company}}{% endif %}{% endfor %} by {% for job in getjob %}{{ job.pay}}  {{ job.check_number}},{{job.check_dd_date }}
- on account of {% if job.clientjob__material__name == "Mix Design" or job.clientjob__material__name == "Structural Design(Building)" or job.clientjob__material__name == "Structural Design (OHSR)" or job.clientjob__material__name == "Structural Design (Treatment Plant)" %} Preparation of {% elif job.clientjob__material__name == "Hammer" %}  {% else %} Testing/Checking of {% endif %} {% if job.report_type == 1 %} {{job.clientjob__material__name}}{% else %}{{job.suspencejob__field__name}}{% endif %}{% endfor %}. 
+ on account of {% if job.report_type == 1 %} {{job.clientjob__material__name}}{% else %}{{job.suspencejob__field__name}}{% endif %}{% endfor %}. 
  This amount is kept in suspence till clearance. <br/><br/>
 <div style="position:absolute;left:7px;">Receipt No. : {{job_no }}   </div><br/>
 <div style="position:absolute;left:7px;">Dated: {{job_date}}</div>

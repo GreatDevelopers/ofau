@@ -24,29 +24,48 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 	<table border="1" width="100%">
 		<tr>
 			<td>Details</td>
-			<td>Per. </td>
+			<!--<td>Per. </td>
 			<td>Rate (&#8377;)</td>
-			<td>Amount (&#8377;)</td>
-		</tr>
-		<tr><td><b>Charges For {% for material in getjob %} {% if material.clienteditjob__material__name ==  "Structural Design(Building)" %}
-		Preparation of 
+			<td>Amount (&#8377;)</td>-->
+		<td  colspan="2" rowspan="9" valign="top">
+<table width="100%"  style="margin:0px; padding:0px;">
+<tr>
+<td style="border:1px solid #000;">Description</td>
+
+<td style="border:1px solid #000;" >Rate</td>
+</tr>
+
+		{% for test in getjob %}
+<tr >
+<td style="border:1px solid #ccc;" >
+
+		{{test.sample}}
+		{% if test.suspenceeditjob__field__name == "Soil for BC" %}
+		 Bore Hole 
+		{% elif test.clienteditjob__material__name == "Cubes" %}
+		set
+		{% elif test.suspenceeditjob__field__name == "Survey" or test.clientjob__material__name == "Structural Design (OHSR)" %}
+		works of
+		{% elif test.clienteditjob__material__name == "Mix Design" %}
+		No.
 		{% else %}
-	Testing/Checking of
-	{% endif %}</b> 
+		 sample/s 
+		{% endif %}
+		</td>
+
+<td  style="border:1px solid #ccc;"> {% widthratio test.testtotalperf__unit_price test.sample 1 %} </td></tr>
+{% endfor %}
+</table>
+<!--<td >{% for test in getjob %}{{test.testtotal__unit_price}}<br>{% endfor %}</td>-->
+	</td>	
+			<td>Amount</td>
+		</tr>
+		<tr><td> 
 		   
-			{% if material.report_type == 1 %} {{material.clienteditjob__material__name}}{% else %}{{material.suspenceeditjob__field__name}}{% endif %}
+			<b>Charges For  {% for material in getjob %}</b>{% if material.report_type == 1 %} {{material.clienteditjob__material__name}}{% else %}{{material.suspenceeditjob__field__name}}{% endif %}<br>
 			
 			{% endfor%}
 			</td>
-			<td rowspan="8">
-			{% for test in getjob %}{{test.sample}} {% if test.clienteditjob__material__name ==  "Structural Design(Building)" %}No. 
-			{% elif test.suspenceeditjob__field__name == "Soil for BC" %}Bore Hole/s  {% elif test.clienteditjob__material__name == "Cubes" %}
-		set/s 
-		{% else %}
-			sample/s 
-			{% endif %} 
-			<br></td>
-			<td rowspan="8">{% widthratio test.testtotalperf__unit_price test.sample 1 %}<br>{% endfor %}</td>
 			<td align="right" rowspan="2"> {{ bill.price }}</td>
 		</tr>
 		<tr>
