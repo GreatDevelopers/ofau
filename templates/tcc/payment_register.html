@@ -10,7 +10,7 @@
 		<td>S.No</td>
 		<td>Receipt No.</td>
 		<td>Job No </td>
-		<td>Address</td>
+		<td>Name & Address</td>
 		<td>Total</td>
 		<td>Service Tax</td>
 		<td>Education Tax</td>
@@ -24,12 +24,12 @@
          <tr>
 		
             <td>{{forloop.counter}}</td>           
-			<td></td>
-			<td>{{jobs.job_no}}</td> 
+			<td>{{jobs.job_no}}</td>
+			<td>{{jobs.id}}</td> 
 			<td>{{jobs.client__client__first_name}}  {{jobs.client__client__middle_name}}
 			 {{jobs.client__client__last_name}},  {{jobs.client__client__address}}, 
 			 {{jobs.client__client__city}}</td>
-			<td></td>
+			<td>{{bills.price}}</td>
 			<td>{{bills.service_tax}}</td>
 			<td>{{bills.education_tax}}</td>
 			<td>{{bills.higher_education_tax}}</td>
@@ -43,9 +43,7 @@
 	{% endfor %}
 {% endif  %}
 
-<!--		<tr>
-			<td><b>  </b></td>
-			<td><b> </b></td>
+		<tr>
 			 <td><b></b></td>
 			<td><b>  </b></td>
 			<td><b> </b></td>
@@ -54,13 +52,8 @@
 	         <td><b>{{admin_charge}}</b></td>
 	        <td><b>	{{consultancy_asst}} </b></td>
 	        <td><b> {{development_fund}}</b></td>
-                <td><b> </b></td>
-              <td><b> </b></td>
-               <td><b> </b></td>
-              
-	        
-	         <td><b>{{total}} </b></td>
-	</tr>-->	
+	        <td><b>{{net_total}} </b></td>
+	</tr>
 </table>
 </div>
 
