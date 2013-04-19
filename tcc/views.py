@@ -1484,7 +1484,7 @@ def  daily_report(request):
 				filter(pay='CASH').values( 'date', 
 				'client__client__first_name','client__client__middle_name',
 				'client__client__last_name','client__client__address',
-				'client__client__city','job_no' ).order_by('job_no').distinct()
+				'client__client__city','job_no','client__client__company' ).order_by('job_no').distinct()
 				job = Job.objects.all().values_list('job_no',flat=True).\
 				filter(date__range=(start_date,end_date)).filter(pay='CASH')
 				bill = Bill.objects.all()
