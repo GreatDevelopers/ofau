@@ -1484,7 +1484,7 @@ def  daily_report(request):
 				filter(pay='CASH').values( 'date', 
 				'client__client__first_name','client__client__middle_name',
 				'client__client__last_name','client__client__address',
-				'client__client__city','job_no','client__client__company' ).order_by('job_no').distinct()
+				'client__client__city','job_no' ).order_by('job_no').distinct()
 				job = Job.objects.all().values_list('job_no',flat=True).\
 				filter(date__range=(start_date,end_date)).filter(pay='CASH')
 				bill = Bill.objects.all()
@@ -1539,7 +1539,7 @@ def  main_register(request):
 			'college_income', 'admin_charge', 'consultancy_asst', 'development_fund', 
 			'unit_price', 'job__client__client__first_name', 'job__client__client__middle_name',
 			'job__client__client__last_name', 'job__client__client__address', 'job__client__client__city',
-			'job__clientjob__material__name').order_by('job__id')
+			'job__clientjob__material__name','job__client__client__company').order_by('job__id')
 			admin_charge_temp = Amount.objects.filter(id__in=job).filter(report_type =
 			'General_report').aggregate(Sum('admin_charge'))
 			admin_charge= admin_charge_temp['admin_charge__sum']
