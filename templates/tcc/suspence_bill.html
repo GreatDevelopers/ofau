@@ -53,7 +53,7 @@ Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{letter.le
 			<td>Site : {% for add in getjob %}{{ add.site}} {% endfor %}</td>
 			
 		</tr>
-		 {% if bill.trans_total != 0 %}
+		 {% if bill.trans_total != NULL %}
 
 	<tr>
 			<td>Transportation Charges</td>

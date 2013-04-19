@@ -477,8 +477,8 @@ def billperf(request):
 	job_no = job.job_no
 	job_date = job.date
 	getjob = EditJob.objects.all().filter(job_no=job_no).values(
-	'clienteditjob__material__name','date','testtotalperf__unit_price','site',
-	'suspenceeditjob__field__name','report_type','sample').distinct()
+	'clienteditjob__material__name','clienteditjob__test__name','date','testtotalperf__unit_price','site',
+	'suspenceeditjob__field__name','suspenceeditjob__other','report_type','sample').distinct()
 	getadd = EditJob.objects.all().filter(id = jobid).values('client__client__first_name', 
 	'client__client__middle_name', 'client__client__last_name',
 	'client__client__address', 'client__client__city', 

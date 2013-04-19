@@ -776,7 +776,7 @@ def bill(request):
 	job_no = job.job_no
 	job_date =job.date
 	getjob = Job.objects.all().filter(job_no=job_no).values(
-	'clientjob__material__name','date','testtotal__unit_price','site','suspencejob__field__name','report_type',
+	'clientjob__material__name','clientjob__test__name','date','testtotal__unit_price','site','suspencejob__field__name','report_type',
 	'sample',).distinct()
 	gettest = Job.objects.all().filter(job_no=job_no).values(
 	'clientjob__material__test__name','clientjob__material__id','clientjob__material__test__material_id')

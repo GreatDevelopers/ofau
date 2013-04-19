@@ -32,7 +32,8 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 <tr>
 <td style="border:1px solid #000;">Description</td>
 
-<td style="border:1px solid #000;" >Rate</td>
+<td style="border:1px solid #000;" >Per</td>
+
 </tr>
 
 		{% for test in getjob %}
@@ -41,7 +42,7 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 
 		{{test.sample}}
 		{% if test.suspenceeditjob__field__name == "Soil for BC" %}
-		 Bore Hole 
+		 Bore Hole each upto {{test.suspenceeditjob__other}} m
 		{% elif test.clienteditjob__material__name == "Cubes" %}
 		set
 		{% elif test.suspenceeditjob__field__name == "Survey" or test.clientjob__material__name == "Structural Design (OHSR)" %}
@@ -53,12 +54,13 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 		{% endif %}
 		</td>
 
-<td  style="border:1px solid #ccc;"> {% widthratio test.testtotalperf__unit_price test.sample 1 %} </td></tr>
+<td  style="border:1px solid #ccc;"> {% widthratio test.testtotalperf__unit_price test.sample 1 %} </td>
+<!--<td  style="border:1px solid #ccc;"> {{ test.testtotalperf__unit_price}}</td>--></tr>
 {% endfor %}
 </table>
 <!--<td >{% for test in getjob %}{{test.testtotal__unit_price}}<br>{% endfor %}</td>-->
 	</td>	
-			<td>Amount</td>
+			<td>Total(&#8377;)</td>
 		</tr>
 		<tr><td> 
 		   
@@ -66,7 +68,7 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 			
 			{% endfor%}
 			</td>
-			<td align="right" rowspan="2"> {{ bill.price }}</td>
+			<td align="right" rowspan="2"> {% for test in getjob %}{{test.testtotalperf__unit_price}}<br>{% endfor %}</td>
 		</tr>
 		<tr>
 			

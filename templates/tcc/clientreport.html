@@ -6,7 +6,7 @@
 </head>
 {% block content %}
 <body>
-  <h1 class="changeBlue">Search</h1>
+  <h2 class="changeBlue">Search</h2>
   <form action="." method="GET">
     <label for="q">Type the job_no you want to search: </label>
     <input type="text" name="q" value="{{ query|escape }}" type="number" pattern="[0-9]+" min="1"><br />
