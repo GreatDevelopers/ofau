@@ -1662,18 +1662,16 @@ def payment_register(request):
 			job = Job.objects.filter(date__range=(start_date,end_date)).values( 'date', 
 			'client__client__first_name','client__client__middle_name',
 			'client__client__last_name','client__client__address',
-			'job_no').order_by('job_no').distinct()
+			'job_no','id').order_by('job_no').distinct()
 			client = Job.objects.all().values_list('job_no',flat=True).\
 			filter(date__range=(start_date,end_date))
 			bill = Bill.objects.all()
+			
 			net_total_temp = Bill.objects.filter(job_no__in=client).aggregate(Sum('net_total'))
 			net_total= net_total_temp['net_total__sum']
 
-			
-			#bill = Bill.objects.filter(date__range=(start_date,end_date)).values(
-			#'education_tax', 'higher_education_tax',
-			#'service_tax', 'net_total').order_by('job_no').distinct()
-			template ={'form': form}
+			template ={'form': form, 'job':job, 'bill':bill,
+            'net_total':net_total}
 			return render_to_response('tcc/payment_register.html', 
 			dict(template.items() + tmp.items()), context_instance=RequestContext(request))
 	else:
