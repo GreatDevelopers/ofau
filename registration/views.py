@@ -9,6 +9,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from Automation.tcc.models import *
 from registration.backends import get_backend
+from django.shortcuts import get_object_or_404
 
 def material_site():
 	material = Material.objects.all().filter(report=1)
