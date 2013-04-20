@@ -1662,7 +1662,7 @@ def payment_register(request):
 			job = Job.objects.filter(date__range=(start_date,end_date)).values( 'date', 
 			'client__client__first_name','client__client__middle_name',
 			'client__client__last_name','client__client__address',
-			'job_no','id').order_by('job_no').distinct()
+			'job_no','id','tds').order_by('job_no').distinct()
 			client = Job.objects.all().values_list('job_no',flat=True).\
 			filter(date__range=(start_date,end_date))
 			bill = Bill.objects.all()
@@ -1670,8 +1670,28 @@ def payment_register(request):
 			net_total_temp = Bill.objects.filter(job_no__in=client).aggregate(Sum('net_total'))
 			net_total= net_total_temp['net_total__sum']
 
+			price_temp = Bill.objects.filter(job_no__in=client).aggregate(Sum('price'))
+			price_total= price_temp['price__sum']
+
+			tds_temp = Job.objects.filter(job_no__in=client).aggregate(Sum('tds'))
+			tds_total= tds_temp['tds__sum']
+
+
+			service_tax_temp = Bill.objects.filter(job_no__in=client).aggregate(Sum('service_tax'))
+			service_tax_total= service_tax_temp['service_tax__sum']
+
+			edu_tax_temp = Bill.objects.filter(job_no__in=client).aggregate(Sum('education_tax'))
+			edu_tax_total= edu_tax_temp['education_tax__sum']
+
+			high_edu_tax_temp = Bill.objects.filter(job_no__in=client).aggregate(Sum('higher_education_tax'))
+			high_edu_tax_total= high_edu_tax_temp['higher_education_tax__sum']
+			
 			template ={'form': form, 'job':job, 'bill':bill,
-            'net_total':net_total}
+            'net_total':net_total, 'price_total':price_total,
+			'tds_total':tds_total,
+			'service_tax_total':service_tax_total,
+			'edu_tax_total':edu_tax_total,
+			'high_edu_tax_total':high_edu_tax_total}
 			return render_to_response('tcc/payment_register.html', 
 			dict(template.items() + tmp.items()), context_instance=RequestContext(request))
 	else:
