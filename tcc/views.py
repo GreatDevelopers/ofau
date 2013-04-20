@@ -1534,25 +1534,25 @@ def  main_register(request):
 			job = Job.objects.filter(date__year=year).filter(date__month=month)
 			client = Job.objects.filter(date__year=year).filter(date__month
 			= month).values('client__client__first_name')
-			amount = Amount.objects.all().filter(id__in=job).filter(report_type =
+			amount = Amount.objects.all().filter(job_id__in=job).filter(report_type =
 			'General_report').values('job__date', 'job__id', 'job__job_no', 
 			'college_income', 'admin_charge', 'consultancy_asst', 'development_fund', 
 			'unit_price', 'job__client__client__first_name', 'job__client__client__middle_name',
 			'job__client__client__last_name', 'job__client__client__address', 'job__client__client__city',
 			'job__clientjob__material__name','job__client__client__company').order_by('job__id')
-			admin_charge_temp = Amount.objects.filter(id__in=job).filter(report_type =
+			admin_charge_temp = Amount.objects.filter(job_id__in=job).filter(report_type =
 			'General_report').aggregate(Sum('admin_charge'))
 			admin_charge= admin_charge_temp['admin_charge__sum']
-			college_income_temp = Amount.objects.filter(id__in=job).filter(report_type =
+			college_income_temp = Amount.objects.filter(job_id__in=job).filter(report_type =
 			'General_report').aggregate(Sum('college_income'))
 			college_income= college_income_temp['college_income__sum']
-			consultancy_asst_temp = Amount.objects.filter(id__in=job).filter(report_type = 
+			consultancy_asst_temp = Amount.objects.filter(job_id__in=job).filter(report_type = 
 			'General_report').aggregate(Sum('consultancy_asst'))
 			consultancy_asst= consultancy_asst_temp['consultancy_asst__sum']
-			development_fund_temp = Amount.objects.filter(id__in=job).filter(report_type = 
+			development_fund_temp = Amount.objects.filter(job_id__in=job).filter(report_type = 
 			'General_report').aggregate(Sum('development_fund'))
 			development_fund= development_fund_temp['development_fund__sum']
-			price_temp = Amount.objects.filter(id__in=job).filter(report_type = 
+			price_temp = Amount.objects.filter(job_id__in=job).filter(report_type = 
 			'General_report').aggregate(Sum('unit_price'))
 			total= price_temp['unit_price__sum']
 			template ={'month': month_print, 'year':year, 'amount':amount, 'job':job, 
@@ -1630,7 +1630,7 @@ def suspence_register(request):
 			filter(date__range=(start_date,end_date)).values( 'date', 
 			'client__client__first_name','client__client__middle_name',
 			'client__client__last_name','client__client__address', 'report_type',
-			'client__client__city','job_no', 'clientjob__material__name', 
+			'client__client__city','job_no', 'id', 'clientjob__material__name', 
 			'suspencejob__field__name', 'pay', 'tds','check_number', 'check_dd_date',
 			 ).order_by('job_no').distinct()
 			client = Job.objects.all().values_list('job_no',flat=True).\
@@ -1638,7 +1638,7 @@ def suspence_register(request):
 			bill = Bill.objects.all()
 			net_total_temp = Bill.objects.filter(job_no__in=client).aggregate(Sum('net_total'))
 			net_total= net_total_temp['net_total__sum']
-			template ={'date': start_date, 'client':client, 'type':type, 
+			template ={'s_date': start_date, 'e_date':end_date, 'client':client, 'type':type, 
 			'bill':bill,'net_total':net_total,'job':job}
 			return render_to_response('tcc/suspence_register.html', 
 			dict(template.items() + tmp.items()), context_instance=RequestContext(request))

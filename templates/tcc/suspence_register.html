@@ -1,13 +1,14 @@
 <html>
 <head>
-    <title>Suspence Clearence Register</title>
+    <title>Suspence Register</title>
 </head>
 <body>
 
-<div align="center"> Suspence Clearence Register of {{start_date}} to {{end_date}}
+<div align="center"> Suspence Register of {{s_date}} to {{e_date}}
 <table border='1'>
 	<tr>
 		<td>S.No</td>
+		<td>Ref No.</td>
 		<td>Job No </td>
 		<td>Address</td>
 		<td>Bill Amount</td>
@@ -33,7 +34,8 @@
    		 {% if bills.job_no == jobs.job_no %}  	
          <tr>
 		
-            <td>{{forloop.counter}}</td>            
+            <td>{{forloop.counter}}</td>    
+            <td>{{jobs.id}}</td>        
 			<td>{{jobs.job_no}}</td> 
 			<td> {{jobs.client__client__first_name}}  {{jobs.client__client__middle_name}}
 			 {{jobs.client__client__last_name}},  {{jobs.client__client__address}}, 

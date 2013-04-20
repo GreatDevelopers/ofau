@@ -18,63 +18,74 @@
 
 <div align="left">To,<br><br>{% for add in getadd %} {{ add.client__client__first_name}} {{ add.client__client__middle_name}} {{ add.client__client__last_name}} {{ add.client__client__address}}  {{ add.client__client__city}}{% endfor %}
 <br/><br/>
-Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{letter.letter_date}}{% endfor %}</div>
+Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{letter.letter_date}}{% endfor %}</br>
+Site : {% for add in getjob %}{{ add.site}} {% endfor %}
+</div>
 
 <div align= "left">
 	<table border="1" width="100%">
 		<tr>
-			<td>Details</td>
+	<td><b>Details</b></td>
+<td style="border:1px solid #000;"><b>Description</b></td>
+
+<td style="border:1px solid #000;" ><b>Per</b></td>
 			<!--<td>Per. </td>
 			<td>Rate (&#8377;)</td>
 			<td>Amount (&#8377;)</td>-->
-		<td  colspan="2" rowspan="9" valign="top">
-<table width="100%"  style="margin:0px; padding:0px;">
-<tr>
-<td style="border:1px solid #000;">Description</td>
 
-<td style="border:1px solid #000;" >Per</td>
 
-</tr>
 
-		{% for test in getjob %}
-<tr >
-<td style="border:1px solid #ccc;" >
+<!--<td >{% for test in getjob %}{{test.testtotal__unit_price}}<br>{% endfor %}</td>-->
+		<td><b>Total(&#8377;)</b></td>
+		</tr>
+{% for material in getjob %}
+		<tr><td> 
+		   
+			<b>Charges For  </b>{% if material.report_type == 1 %} {{material.clienteditjob__material__name}}{% else %}{{material.suspenceeditjob__field__name}}{% endif %}
+			
+			</td>
 
-		{{test.sample}}
-		{% if test.suspenceeditjob__field__name == "Soil for BC" %}
-		 Bore Hole each upto {{test.suspenceeditjob__other}} m
-		{% elif test.clienteditjob__material__name == "Cubes" %}
+<td >
+
+		{{material.sample}}
+		{% if material.suspenceeditjob__field__name == "Soil for BC" %}
+		 Bore Hole each upto {{material.suspenceeditjob__other}} m depth
+		{% elif material.clienteditjob__material__name == "Cubes" %}
 		set
-		{% elif test.suspenceeditjob__field__name == "Survey" or test.clientjob__material__name == "Structural Design (OHSR)" %}
+		{% elif material.suspenceeditjob__field__name == "Survey" or material.clienteditjob__material__name == "Structural Design (OHSR)" %}
 		works of
-		{% elif test.clienteditjob__material__name == "Mix Design" %}
+		{% elif material.clienteditjob__material__name == "Mix Design" or material.clienteditjob__material__name == "Structural Design(Building)" %}
 		No.
+		
 		{% else %}
 		 sample/s 
 		{% endif %}
 		</td>
 
-<td  style="border:1px solid #ccc;"> {% widthratio test.testtotalperf__unit_price test.sample 1 %} </td>
-<!--<td  style="border:1px solid #ccc;"> {{ test.testtotalperf__unit_price}}</td>--></tr>
-{% endfor %}
-</table>
-<!--<td >{% for test in getjob %}{{test.testtotal__unit_price}}<br>{% endfor %}</td>-->
-	</td>	
-			<td>Total(&#8377;)</td>
-		</tr>
-		<tr><td> 
-		   
-			<b>Charges For  {% for material in getjob %}</b>{% if material.report_type == 1 %} {{material.clienteditjob__material__name}}{% else %}{{material.suspenceeditjob__field__name}}{% endif %}<br>
-			
-			{% endfor%}
+<td > {% widthratio material.testtotalperf__unit_price material.sample 1 %} </td>
+
+			<td align="right" > {{material.testtotalperf__unit_price}}
 			</td>
-			<td align="right" rowspan="2"> {% for test in getjob %}{{test.testtotalperf__unit_price}}<br>{% endfor %}</td>
-		</tr>
-		<tr>
-			
-			<td>Site : {% for add in getjob %}{{ add.site}} {% endfor %}</td>
 			
 		</tr>
+		
+			{% endfor%}
+<tr>
+<td>
+<b>Total</b>
+</td>
+
+<td  colspan="2" >
+</td>
+<td  align="right">
+<b>{{bill.price}}</b>
+</td>
+</tr>
+<!--		<tr >
+			
+			<td colspan="4">Site : {% for add in getjob %}{{ add.site}} {% endfor %}</td>
+		</tr>-->
+</br>
 		{% if bill.trans_total != NULL %}
 		<tr>
 			<td>Transportation Charges</td>
@@ -87,18 +98,22 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 		{% endif %}
 		<tr>
 			<td>Service Tax  @ {{ servicetaxprint }}% </td>
-			<td  align="right">{{ bill.service_tax }}</td>
+<td colspan="2"></td>
+			<td align="right">{{ bill.service_tax }}</td>
 		<tr>
 			<td>Education Cess  @ {{ educationtaxprint }}% </td>
-			<td  align="right">{{ bill.education_tax }}</td>
+<td colspan="2"></td>
+			<td align="right">{{ bill.education_tax }}</td>
 		</tr>
 		<tr>
 			<td>Higher Education Cess  @ {{ highereducationtaxprint }}% </td>
-			<td  align="right">{{ bill.higher_education_tax }}</td>
+<td colspan="2"></td>
+			<td align="right">{{ bill.higher_education_tax }}</td>
 		</tr>
 		<tr>
-				<td>Total (Rupees {{ net_total_eng }} only) </td>
-			<td  align="right">{{ cdftotal }} {{ bill.net_total}}</td>
+				<td><b>G.Total (Rupees {{ net_total_eng }} only)</b> </td>
+<td colspan="2"></td>
+			<td  align="right"><b>{{ cdftotal }} {{ bill.net_total}}</b></td>
 		</tr>	
 	</table>
 	<br/>
@@ -121,7 +136,7 @@ Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{let
 	<td>Gill, Ludhiana</td>
 	</tr>
 	<tr>
-	<td>Online Line Account No.</td>
+	<td>Online Account No.</td>
 	<td>:</td>
 	<td>002110000 50652</td>
 	</tr>
