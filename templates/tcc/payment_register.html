@@ -12,6 +12,7 @@
 		<td>Job No </td>
 		<td>Name & Address</td>
 		<td>Total</td>
+		<td>TDS</td>
 		<td>Service Tax</td>
 		<td>Education Tax</td>
 		<td>Higher Education Tax</td>
@@ -30,6 +31,7 @@
 			 {{jobs.client__client__last_name}},  {{jobs.client__client__address}}, 
 			 {{jobs.client__client__city}}</td>
 			<td>{{bills.price}}</td>
+			<td>{{jobs.tds}}</td>
 			<td>{{bills.service_tax}}</td>
 			<td>{{bills.education_tax}}</td>
 			<td>{{bills.higher_education_tax}}</td>
@@ -46,12 +48,13 @@
 		<tr>
 			 <td><b></b></td>
 			<td><b>  </b></td>
+			<td><b> </b></td>	
 			<td><b> </b></td>
-			<td><b> </b></td>
-			<td><b> {{college_income}} </b></td>
-	         <td><b>{{admin_charge}}</b></td>
-	        <td><b>	{{consultancy_asst}} </b></td>
-	        <td><b> {{development_fund}}</b></td>
+			<td><b> {{price_total}} </b></td>
+			<td><b>{{tds_total}} </b></td>
+	         <td><b>{{service_tax_total}}</b></td>
+	        <td><b>	{{edu_tax_total}} </b></td>
+	        <td><b> {{high_edu_tax_total}}</b></td>
 	        <td><b>{{net_total}} </b></td>
 	</tr>
 </table>
