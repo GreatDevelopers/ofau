@@ -18,7 +18,7 @@
 {% load humanize %}
 <div align="left">Received a sum of Rs.{{bill.balance|intcomma}} (Rupees  {{ net_total_eng }}only) from  <i> {% for clients in client %}{{ clients.client__client__first_name}} {{clients.client__client__middle_name}} {{clients.client__client__last_name}} {{clients.client__client__address}} {{clients.client__client__city}} {% if clients.client__client__company != ""%}
 Agency: {{clients.client__client__company}}
-{% endif %}{% endfor %} by {{ job.pay}}  {{ job.check_number }} {{job.check_dd_date }} on account of {% for mates in mate %}{% if mates.report_type == 1 %} {{mates.clientjob__material__name}}{% if not forloop.last %},{% endif %}{% else %}{{mates.suspencejob__field__name}}{% if not forloop.last %},{% endif %}{% endif %}{% endfor %}.</div>
+{% endif %}{% endfor %} by {{ job.pay}}  {{ job.check_number }} {{job.check_dd_date }} on account of {% for mates in mate %}{% if mates.report_type == 1 %} {{mates.clientjob__material__name}}{% if not forloop.last %},{% endif %}{% elif report_type == 2 %}{{mates.suspencejob__field__name}}{% if not forloop.last %},{% endif %}{% else %}advanced payment{% endif %}{% endfor %}.</div>
 
 
 <div style="position:absolute;right:300px;top:450px;"><b> Cashier</b></div>

@@ -177,12 +177,19 @@ def profile(request):
 
 @login_required
 def non_payment_job(request):
+	id = NonPaymentJob.objects.aggregate(Max('job_no'))
+	maxid =id['job_no__max']
+	if maxid== None :
+		maxid = 1
+	else:
+		maxid = maxid + 1
 	user = UserProfile.objects.get(id=request.GET['id'])
 	if request.method == 'POST':
 		form = NonPaymentJobForm(request.POST)
 		if form.is_valid():
 			profile = form.save(commit=False)
 			profile.client= user
+			profile.job_no = maxid
 			profile.save()
 			form.save_m2m()
 			x = {'form': form,}		
@@ -190,8 +197,8 @@ def non_payment_job(request):
 			tmp.items()), context_instance=RequestContext(request))
 	else:
 		form = NonPaymentJobForm()
-	form = {'form':form}
-	return render_to_response('tcc/new_client.html',dict(form.items() + 
+	form = {'form':form, 'maxid':maxid}
+	return render_to_response('tcc/non_payment_job.html',dict(form.items() + 
 	tmp.items()),context_instance=RequestContext(request))
 	
 
@@ -230,6 +237,26 @@ def previous(request):
 		tmp.items()), context_instance=RequestContext(request))
 	except:
 		return render_to_response("tcc/profile_first.html", tmp, context_instance=RequestContext(request))
+
+'''
+@login_required
+def advanced_payment(request):
+	try : 
+		client =UserProfile.objects.get(id=request.GET['id'])
+		add = Clientadd.objects.aggregate(Max('id'))   
+		addid =add['id__max']
+		if addid == client:
+			pass
+		else:
+			user = request.user
+			m = Clientadd(client = client,user=user)
+			m.save()
+		
+		return render_to_response('tcc/typeofwork.html', 
+		dict(temp.items() + tmp.items()), context_instance=RequestContext(request))
+	except Exception:
+		return render_to_response('tcc/profile_first.html',tmp, context_instance 
+		= RequestContext(request))'''
 
 def material(request):
 	"""
@@ -296,10 +323,55 @@ def select(request):
 	
 	mat = Material.objects.all()
 	material = Report.objects.get(id=request.GET['id'])
-	field_list = Material.objects.all().filter(report_id =material)
-	temp = {'field_list':field_list,'mat':mat}
-	return render_to_response('tcc/tags.html',dict(temp.items() + tmp.items()),
-	context_instance = RequestContext(request))
+	report = material.id
+	if report == 3:
+		if request.method=='POST':
+			form1 = AdvancedForm(request.POST)
+			form2 = BillForm(request.POST)
+			if form1.is_valid and form2.is_valid():
+				def clean_name(self):
+					cleaned_data = self.cleaned_data
+					net_total = cleaned_data.get('net_total', '')
+					balance = cleaned_data.get('net_total', '')
+				profile = form1.save(commit=False)
+				id = Bill.objects.aggregate(Max('job_no'))
+				maxid =id['job_no__max']
+				if maxid== None :
+					maxid = 1
+				else:
+					maxid = maxid + 1
+				profile.job_no = maxid
+				profile.ip = request.META.get('REMOTE_ADDR')
+				cl = Clientadd.objects.aggregate(Max('id'))
+				clientid =cl['id__max']
+				clid = Clientadd.objects.get(id = clientid)
+				profile.client = clid
+				profile.report_type = material
+				profile.save()
+				form1.save_m2m()
+				profile1 = form2.save(commit=False)		
+				profile1.job_no = maxid
+				
+				profile1.save()
+				form2.save_m2m()
+				id = Bill.objects.aggregate(Max('id'))
+				maxid =id['id__max']
+				bill = Bill.objects.get(id=maxid)
+				bal = bill.net_total
+				Bill.objects.filter(id = maxid).update( balance = bill.net_total)
+				temp = {'maxid':maxid}
+				return render_to_response('tcc/advanced_ok.html', dict(temp.items() + 
+				tmp.items()), context_instance=RequestContext(request))
+		else:	
+			form1 = AdvancedForm()
+			form2 = BillForm()
+		return render_to_response('tcc/advanced_job.html', tmp,
+		context_instance=RequestContext(request))
+	else :
+		field_list = Material.objects.all().filter(report_id =material)
+		temp = {'field_list':field_list,'mat':mat}
+		return render_to_response('tcc/tags.html',dict(temp.items() + tmp.items()),
+		context_instance = RequestContext(request))
 
 @login_required
 def add_job(request):
@@ -1031,12 +1103,12 @@ def ta_da(request):
 		form = TadaForm(request.POST)
 		if form.is_valid():
 			cd = form.cleaned_data
-			job =cd['job']
 			test_date =cd['test_date']
-                        end_date =cd['end_date']
+			end_date =cd['end_date']
 			reach_site =cd['reach_site']
 			profile = form.save(commit=False)
-			profile.job = job
+			jobid = Job.objects.get(id=query)
+			profile.job = jobid
 			profile.save()
 			return HttpResponseRedirect(reverse('Automation.tcc.views.tada_view'))
 	else:
@@ -1066,7 +1138,7 @@ def ta_da_bill(request):
 	tada = TaDa.objects.get(job=request.GET['job'],test_date=request.GET['test_date'])
 	job = Job.objects.get(id=request.GET['job'])
 	c = job.id
-	client = Job.objects.filter(id=c).values('client__client__name')
+	client = Job.objects.filter(id=c).values('client__client__first_name')
 	lab_staff = tada.testing_staff_code
         t1=0
         temp = [0,0,0,0,0,0,0,0,0,0]
@@ -1138,11 +1210,12 @@ def clientreport(request):
 	if query:
 		job = Job.objects.filter(job_no = query).values('id', 
 		'client__client__first_name', 'client__client__address', 
-		'client__client__city', 'clientjob__material__name', 
+		'client__client__city', 'clientjob__material__name','report_type', 
 		'suspencejob__field__name', 'site', 'testtotal__unit_price')\
 		.order_by('id').distinct()
 		amt = Job.objects.filter(job_no=query).values('amount__report_type')
-		temp = {'job':job,'query':query,'amt':amt}
+		bill = Bill.objects.filter(job_no=query)
+		temp = {'job':job,'query':query,'amt':amt,'bill':bill}
 	else:	
 		job =[]
 		temp = {'job':job,'query':query,}
@@ -1260,7 +1333,12 @@ def suspence_clearence_report(request):
 	"""
 	suspence = Suspence.objects.get(job=request.GET['job_no'])
 	amount = Amount.objects.get(job=request.GET['job_no'])
-	suspencejob = Suspencejob.objects.get(job=request.GET['job_no'])
+	try:
+		suspencejob = SuspenceJob.objects.get(job=request.GET['job_no'])
+		con_type = suspencejob.field.distribution.name
+	except Exception:
+		suspencejob = ClientJob.objects.get(job=request.GET['job_no'])
+		con_type = suspencejob.material.distribution.name
 	client =Job.objects.get(id=request.GET['job_no'])
 	clientname = Job.objects.filter(id=client.id).values('client__client__first_name',
 	'suspencejob__field__name')
@@ -1313,7 +1391,7 @@ def suspence_clearence_report(request):
 	admin_charge = round(admincharge * balance / 100.00)
 	work_charge = round(workcharge * balance / 100.00)
 	balance_temp = balance - college_income - admin_charge -work_charge
-	con_type = suspencejob.field.distribution.name
+	
 	ratio1 = ratio1(con_type)
 	ratio2 = ratio2(con_type)
 	consultancy_asst = round(ratio1 * balance_temp / 100)
@@ -1329,10 +1407,9 @@ def suspence_clearence_report(request):
 	data = {'transport' : transport, 'net_balance_eng' : net_balance_eng, 
 	'teachers' : staff, 'servicetaxprint' : servicetaxprint, 'highereducationtaxprint' 
 	: highereducationtaxprint, 'educationtaxprint' : educationtaxprint, 'ratio1' 
-	: ratio1, 'job_no' : consultancy.id, 'ratio2' : ratio2, 'other' : temp, 
+	: ratio1, 'job_no' :client.job_no , 'ratio2' : ratio2, 'other' : temp, 
 	'collegeincome' : collegeincome, 'admincharge' : admincharge, 'client' : 
-	client, 'amount' : amount, 'suspence' : sus, 'client' : client, 'consultancy' 
-	: consultancy, 'clientname' : clientname}
+	client, 'amount' : amount, 'suspence' : sus, 'client' : client, 'clientname' : clientname}
 	return render_to_response('tcc/suspence_clearence_report.html', dict(data.items() 
 	+ tmp.items()) , context_instance=RequestContext(request))
 

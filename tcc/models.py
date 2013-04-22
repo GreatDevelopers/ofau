@@ -278,6 +278,7 @@ class Job(models.Model):
           return self.id()
 
 class NonPaymentJob(models.Model):
+	job_no = models.IntegerField(editable =False)
 	client = models.ForeignKey(UserProfile)
 	ref_no =  models.CharField(max_length=100,blank=True)
 	dated = models.DateField( blank=True, null=True)
@@ -309,7 +310,7 @@ class EditJob(models.Model):
 	""" 
 	client = models.ForeignKey(editClientadd)
 	job_no = models.IntegerField(editable =False)
-	sample = models.CharField(max_length=11)
+	sample = models.CharField(max_length=11, default="1")
 	ip = models.CharField(max_length=50)
 	site = models.CharField(max_length=600,blank=True,null=True)
 	type_of_work = models.ForeignKey(Govt)
@@ -333,6 +334,18 @@ class JobForm(forms.ModelForm):
 	class Meta :
 		model = Job
 		exclude= ['client','job_no','report_type','date','ip']
+		
+class AdvancedForm(forms.ModelForm):
+	"""
+	** JobForm For Advanced **
+	
+	JobForm Class define form for Job model.
+	
+	""" 
+	class Meta :
+		model = Job
+		exclude= ['client','job_no','report_type','date','ip',  ]
+		
         
         
 class editJobForm(forms.ModelForm):
@@ -557,6 +570,17 @@ class Bill(models.Model):
 	trans_total = models.IntegerField(blank=True,null=True)
 	trans_net_total = models.IntegerField(blank=True,null=True)
 	balance = models.IntegerField(blank=True,null=True)
+	
+class BillForm(forms.ModelForm):
+	"""
+	** BillForm **
+	
+	TestTotalForm Class define the form for TestTotal model.
+	
+	""" 
+	class Meta :
+		model = Bill
+		
 
 
 class BillPerf(models.Model):
@@ -567,7 +591,7 @@ class BillPerf(models.Model):
 	an amount for a particular performa job.
 	
 	""" 
-	job_no = models.IntegerField(primary_key=True, editable =False)
+	job_no = models.IntegerField( editable =False)
 	education_tax = models.IntegerField(blank=True,null=True)
 	higher_education_tax = models.IntegerField(blank=True,null=True)
 	service_tax = models.IntegerField(blank=True,null=True)
