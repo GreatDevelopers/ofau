@@ -394,7 +394,10 @@ def job_ok_perf(request):
 		trans_value = EditJob.objects.values_list('testtotalperf__rate',flat=True).\
 		filter(job_no=maxid)
 		trans_total = sum(trans_value)
-		trans_net_total = price + trans_total
+		discount_value = EditJob.objects.values_list('discount',flat=True).\
+		filter(job_no=maxid)
+		discount_total = sum(discount_value)
+		trans_net_total = price + trans_total - discount_total
 		service_tax= round(servicetax *  trans_net_total)
 		education_tax = round(educationtax *  trans_net_total)
 		higher_education_tax = round(highereducationtax *  trans_net_total)
@@ -406,19 +409,25 @@ def job_ok_perf(request):
 		m = BillPerf(job_no = job_no, price = price, service_tax=service_tax, 
 		higher_education_tax = higher_education_tax, education_tax = education_tax, 
 		net_total = net_total, balance = 
-		balance,trans_total=trans_total,trans_net_total=trans_net_total)
+		balance,trans_total=trans_total,trans_net_total=trans_net_total,
+		discount_total=discount_total)
 	except Exception:
-		service_tax= round(servicetax *  price)
-		education_tax = round(educationtax *  price)
-		higher_education_tax = round(highereducationtax *  price)
-		net_total =  price + higher_education_tax + education_tax + service_tax
-		bal = Job.objects.values_list('tds',flat=True).\
+		discount_value = EditJob.objects.values_list('discount',flat=True).\
+		filter(job_no=maxid)
+		discount_total = sum(discount_value)
+		trans_net_total = price - discount_total
+		service_tax= round(servicetax *  trans_net_total)
+		education_tax = round(educationtax *  trans_net_total)
+		higher_education_tax = round(highereducationtax *  trans_net_total)
+		net_total =  trans_net_total + higher_education_tax + education_tax + service_tax
+		bal = EditJob.objects.values_list('tds',flat=True).\
 		filter(job_no=maxid)
 		tdstotal = sum(bal)
 		balance = net_total - tdstotal
 		m = BillPerf(job_no = job_no, price = price, service_tax=service_tax, 
 		higher_education_tax = higher_education_tax, education_tax = education_tax, 
-		net_total = net_total, balance = balance)
+		net_total = net_total, balance = balance, discount_total=discount_total,
+		trans_net_total=trans_net_total,)
 	m.save()
 	
 	return HttpResponseRedirect(reverse('Automation.tcc.views_ext.get_document_perf'))
@@ -478,7 +487,8 @@ def billperf(request):
 	job_date = job.date
 	getjob = EditJob.objects.all().filter(job_no=job_no).values(
 	'clienteditjob__material__name','clienteditjob__test__name','date','testtotalperf__unit_price','site',
-	'suspenceeditjob__field__name','suspenceeditjob__other','report_type','sample').distinct()
+	'suspenceeditjob__field__name','suspenceeditjob__other','report_type','sample',
+	'clienteditjob__other_test').distinct()
 	getadd = EditJob.objects.all().filter(id = jobid).values('client__client__first_name', 
 	'client__client__middle_name', 'client__client__last_name',
 	'client__client__address', 'client__client__city', 

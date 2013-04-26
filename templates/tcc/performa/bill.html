@@ -41,7 +41,7 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 {% for material in getjob %}
 		<tr><td> 
 		   
-			<b>Charges For  </b>{% if material.report_type == 1 %} {{material.clienteditjob__material__name}}{% else %}{{material.suspenceeditjob__field__name}}{% endif %}
+			<b>Charges For  </b>{% if material.clienteditjob__other_test != "" %}{{material.clienteditjob__other_test}}{% else %}{% if material.report_type == 1 %} {{material.clienteditjob__material__name}}{% else %}{{material.suspenceeditjob__field__name}}{% endif %}{% endif %}
 			
 			</td>
 
@@ -86,13 +86,26 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 			<td colspan="4">Site : {% for add in getjob %}{{ add.site}} {% endfor %}</td>
 		</tr>-->
 </br>
-		{% if bill.trans_total != NULL %}
+		{% if bill.trans_total != 0 %}
 		<tr>
 			<td>Transportation Charges</td>
 			<td align="right">{{bill.trans_total}}</td>
 		</tr>
 		<tr>
 			<td>Total Amount</td>
+			<td align="right">{{bill.trans_net_total}}</td>
+		</tr>
+		{% endif %}
+		{% if bill.discount_total != 0 %}
+		<tr>
+			<td><b>Discount</b></td>
+			<td colspan="2"></td>
+			<td align="right"><b>{{bill.discount_total}}</b></td>
+		</tr>
+		<tr>
+			<td>Balance Amount</td>
+			<td colspan="2"></td>
+			
 			<td align="right">{{bill.trans_net_total}}</td>
 		</tr>
 		{% endif %}

@@ -101,6 +101,12 @@ class MaterialAdmin(admin.ModelAdmin):
 	list_display = ('lab', 'name','report' )
 	search_fields = ('name',)
 	list_filter = ['name']
+	
+class MatCommentAdmin(admin.ModelAdmin):
+    list_display = ('name', )
+    search_fields = ('name',)
+    list_filter = ['name']
+	
 
 class TestAdmin(admin.ModelAdmin):
 	"""
@@ -161,6 +167,7 @@ admin.site.register(Govt, GovtAdmin)
 admin.site.register(Report, ReportAdmin)
 admin.site.register(Distribution, DistributionAdmin)
 admin.site.register(Material, MaterialAdmin)
+admin.site.register(MatComment, MatCommentAdmin)
 admin.site.register(Test, TestAdmin)
 admin.site.register(Job, JobAdmin)
 admin.site.register(Organisation, OrganisationAdmin)

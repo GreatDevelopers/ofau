@@ -20,75 +20,86 @@
 Agency: {{add.client__client__company}}
 {% endif %}{% endfor %}
 <br/><br/>
-Ref.: Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{letter.letter_date}}{% endfor %}</div>
+Ref.: Your Letter No. {% for letter in getjob %}{{letter.letter_no}}{% if not forloop.last %},{% endif %} {% endfor %} dated {% for letter in getjob %}{{letter.letter_date}}{% if not forloop.last %}, {% endif %}{% endfor %} respectively.</div>
+Site : {% for add in getjob %}{{ add.site}} {% endfor %}
+</div>
 
 <div align= "left">
 	<table border="1" width="100%">
 		<tr>
-			<td>Details</td>
-		<!--	<th>Per. </th>
-			<th>Rate</th>-->
+	<td><b>Details</b></td>
+<td style="border:1px solid #000;"><b>Description</b></td>
 
-		<td  colspan="2" rowspan="8" valign="top">
-<table width="100%"  style="margin:0px; padding:0px;">
-<tr>
-<td style="border:1px solid #000;">Description</td>
+<td style="border:1px solid #000;" ><b>Per</b></td>
+			<!--<td>Per. </td>
+			<td>Rate (&#8377;)</td>
+			<td>Amount (&#8377;)</td>-->
 
-<td style="border:1px solid #000;" >Rate</td>
-</tr>
 
-		{% for test in getjob %}
-<tr >
-<td style="border:1px solid #ccc;" >
 
-		{{test.sample}}
-		{% if test.suspencejob__field__name == "Soil for BC" %}
-		 Bore Hole 
-		{% elif test.clientjob__material__name == "Cubes" %}
+<!--<td >{% for test in getjob %}{{test.testtotal__unit_price}}<br>{% endfor %}</td>-->
+		<td><b>Total(&#8377;)</b></td>
+		</tr>
+{% for material in getjob %}
+		<tr><td> 
+		   
+			<b>Charges For  </b>{% if material.report_type == 1 %}{{material.clientjob__material__matcomment__name}} {{material.clientjob__material__name}}{% else %}{{material.suspencejob__field__matcomment__name}} {{material.suspencejob__field__name}}{% endif %}
+			
+			</td>
+
+<td >
+
+		{{material.sample}}
+		{% if material.suspencejob__field__name == "Soil for BC" %}
+		 Bore Hole each upto {{material.suspencejob__other}} m depth
+		{% elif material.clientjob__material__name == "Cubes" %}
 		set
-		{% elif test.suspencejob__field__name == "Survey" or test.clientjob__material__name == "Structural Design (OHSR)" %}
+		{% elif material.suspencejob__field__name == "Survey" or material.clientjob__material__name == "Structural Design (OHSR)" %}
 		works of
-		{% elif test.clientjob__material__name == "Mix Design" %}
+		{% elif material.clientjob__material__name == "Mix Design" or material.clientjob__material__name == "Structural Design(Building)" %}
 		No.
+		
 		{% else %}
 		 sample/s 
 		{% endif %}
 		</td>
 
-<td  style="border:1px solid #ccc;"> {% widthratio test.testtotal__unit_price test.sample 1 %} </td></tr>
-{% endfor %}
-</table>
-<!--<td >{% for test in getjob %}{{test.testtotal__unit_price}}<br>{% endfor %}</td>-->
-	</td>	
-			<td>Amount</td>
-		</tr>
-		<tr><td> 
-		   
-			<b>Charges For </b>{% for material in getjob %}{% if material.report_type == 1 %} {{material.clientjob__material__name}}{% else %}{{material.suspencejob__field__name}}{% endif %}<br>
-			
-			{% endfor%}
+<td > {% widthratio material.testtotal__unit_price material.sample 1 %} </td>
+
+			<td align="right" > {{material.testtotal__unit_price}}
 			</td>
-		<td align="right" rowspan="2">{{ bill.price|intcomma }}</td>
+			
 		</tr>
-		<tr>
 		
-			
-			<td>Site : {% for add in getjob %}{{ add.site}} {% endfor %}</td>
-			
-		</tr>
+			{% endfor%}
+<tr>
+<td>
+<b>Total</b>
+</td>
+
+<td  colspan="2" >
+</td>
+<td  align="right">
+<b>{{bill.price}}</b>
+</td>
+</tr>
 		<tr>
 			<td>Service Tax:  @ {{ servicetaxprint }}% </td>
+			<td  colspan="2" >
 			<td  align="right">{{ bill.service_tax|intcomma }}</td>
 		<tr>
 			<td>Education Cess  @ {{ educationtaxprint }}% </td>
+			<td  colspan="2" >
 			<td  align="right">{{ bill.education_tax|intcomma }}</td>
 		</tr>
 		<tr>
-			<td>Higher Education Cess  @ {{ highereducationtaxprint }}% </td>
+			<td >Higher Education Cess  @ {{ highereducationtaxprint }}% </td>
+			<td  colspan="2" >
 			<td  align="right">{{ bill.higher_education_tax|intcomma }}</td>
 		</tr>
 		<tr>
 				<td>Total (Rupees {{ net_total_eng }} only) </td>
+				<td  colspan="2" >
 			<td  align="right">{{ cdftotal }} {{ bill.net_total|intcomma}}</td>
 		</tr>	
 	</table>

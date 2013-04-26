@@ -157,6 +157,11 @@ class Lab(models.Model):
 	def get_tags(self):
         	return Tag.objects.get_for_object(self) 
 
+class MatComment(models.Model):
+    name = models.CharField(max_length=300)
+    
+    def __unicode__(self):
+        	return self.name
 
 class Material(models.Model):
 	"""
@@ -169,6 +174,7 @@ class Material(models.Model):
 	lab = models.ForeignKey(Lab)
 	distribution = models.ForeignKey(Distribution)
 	name = models.CharField(max_length=300)
+	matcomment= models.ForeignKey(MatComment)
 	tags = TagField()
 	report = models.ForeignKey(Report)
 	image = models.ImageField(upload_to='logo')
@@ -178,6 +184,8 @@ class Material(models.Model):
 
 	def get_tags(self):
         	return Tag.objects.get_for_object(self) 
+        	
+
 
 
 class Test(models.Model):
@@ -270,16 +278,17 @@ class Job(models.Model):
 	check_number = models.CharField(max_length=15,blank=True)
 	check_dd_date = models.CharField(blank=True, max_length=15)
 	date = models.DateField(auto_now_add=True)
-	letter_no = models.CharField(max_length=15,blank=True)
+	letter_no = models.CharField(max_length=400,blank=True)
 	letter_date = models.DateField( blank=True, null=True)
 	tds = models.IntegerField(default="0")
+	discount = models.IntegerField(default="0")
 
 	def __unicode__(self):
           return self.id()
 
 class NonPaymentJob(models.Model):
 	client = models.ForeignKey(UserProfile)
-	ref_no =  models.CharField(max_length=100,blank=True)
+	ref_no =  models.CharField(max_length=400,blank=True)
 	dated = models.DateField( blank=True, null=True)
 	site = models.CharField(max_length=5000,blank=True,null=True)
 	material_type = models.CharField(max_length=500)
@@ -318,6 +327,7 @@ class EditJob(models.Model):
 	letter_no = models.CharField( max_length=200,blank=True,null=True)
 	letter_date = models.DateField( max_length=200, null=True, blank=True)
 	tds = models.IntegerField(default="0")
+	discount = models.IntegerField(default="0")
 
 	def __unicode__(self):
           return self.id()
@@ -333,6 +343,17 @@ class JobForm(forms.ModelForm):
 	class Meta :
 		model = Job
 		exclude= ['client','job_no','report_type','date','ip']
+		
+class AdvancedForm(forms.ModelForm):
+	"""
+	** JobForm For Advanced **
+	
+	JobForm Class define form for Job model.
+	
+	""" 
+	class Meta :
+		model = Job
+		exclude= ['client','job_no','report_type','date','ip',  ]
         
         
 class editJobForm(forms.ModelForm):
@@ -385,6 +406,7 @@ class ClientEditJob(models.Model):
 	""" 
 	job = models.ForeignKey(EditJob)
 	material = models.ForeignKey(Material)
+	other_test = models.CharField(max_length=400, blank=True )
 	test = models.ManyToManyField(Test,blank=True,null=True)
 	
 	def __unicode__(self):
@@ -554,10 +576,20 @@ class Bill(models.Model):
 	service_tax = models.IntegerField(blank=True,null=True)
 	net_total = models.IntegerField(blank=True,null=True)
 	price = models.IntegerField(blank=True,null=True)
+	discount_total = models.IntegerField(blank=True,null=True)
 	trans_total = models.IntegerField(blank=True,null=True)
 	trans_net_total = models.IntegerField(blank=True,null=True)
 	balance = models.IntegerField(blank=True,null=True)
 
+class BillForm(forms.ModelForm):
+	"""
+	** BillForm **
+	
+	TestTotalForm Class define the form for TestTotal model.
+	
+	""" 
+	class Meta :
+		model = Bill
 
 class BillPerf(models.Model):
 	"""
@@ -567,12 +599,13 @@ class BillPerf(models.Model):
 	an amount for a particular performa job.
 	
 	""" 
-	job_no = models.IntegerField(primary_key=True, editable =False)
+	job_no = models.IntegerField(editable =False)
 	education_tax = models.IntegerField(blank=True,null=True)
 	higher_education_tax = models.IntegerField(blank=True,null=True)
 	service_tax = models.IntegerField(blank=True,null=True)
 	net_total = models.IntegerField(blank=True,null=True)
 	price = models.IntegerField(blank=True,null=True)
+	discount_total = models.IntegerField(blank=True,null=True)
 	trans_total = models.IntegerField(blank=True,null=True)
 	trans_net_total = models.IntegerField(blank=True,null=True)
 	balance = models.IntegerField(blank=True,null=True)
