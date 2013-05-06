@@ -297,7 +297,7 @@ def select(request):
 	mat = Material.objects.all()
 	material = Report.objects.get(id=request.GET['id'])
 	report = material.id
-	if report == 3:
+	if report == 3 or report == 4:
 		if request.method=='POST':
 			form1 = AdvancedForm(request.POST)
 			form2 = BillForm(request.POST)
@@ -832,8 +832,11 @@ def bill(request):
 	getjob = Job.objects.all().filter(job_no=job_no).values(
 	'clientjob__material__name','date','testtotal__unit_price','site','suspencejob__field__name','report_type',
 	'sample','letter_no','letter_date', 'suspencejob__other').distinct()
+
+	testname = Job.objects.all().filter(job_no=job_no).values('clientjob__test__name').distinct()
+
 	gettest = Job.objects.all().filter(job_no=job_no).values(
-	'clientjob__material__test__name','clientjob__material__id','clientjob__material__test__material_id')
+	'clientjob__material__test__name','clientjob__material__id','clientjob__material__test__name')
 	getadd = Job.objects.all().filter(id = jobid).values('client__client__first_name', 
 	'client__client__middle_name', 'client__client__last_name',
 	'client__client__address', 'client__client__city', 'client__client__company',
@@ -849,7 +852,7 @@ def bill(request):
 	template = {'job_no': job_no ,'net_total_eng':net_total_eng,'servicetaxprint'
 	:servicetaxprint,'highereducationtaxprint':highereducationtaxprint,
 	'educationtaxprint':educationtaxprint,'bill':bill, 'job' : job, 'net_total1' : 
-	net_total1, 'getjob' : getjob, 'getadd' : getadd,'job_date':job_date,'gettest':gettest}
+	net_total1, 'getjob' : getjob, 'getadd' : getadd,'job_date':job_date,'gettest':gettest, 'testname':testname}
 	amtid = Amount.objects.aggregate(Max('id'))
 	amtmaxid =amtid['id__max']
 	amt = Amount.objects.get(job_id = jobid)
@@ -1720,7 +1723,8 @@ def payment_register(request):
 			'client__client__first_name','client__client__middle_name',
 			'client__client__last_name','client__client__address', 'client__client__company',
 			'client__client__city', 'client__client__email_address', 'client__client__contact_no',
-			'client__client__pin_code', 'client__client__material',
+			'client__client__pin_code', 'clientjob__material__name', 'suspencejob__field__name',
+			'report_type',
 			'job_no','id').order_by('job_no').distinct()
 			client = Job.objects.all().values_list('job_no',flat=True).\
 			filter(date__range=(start_date,end_date))
@@ -1740,6 +1744,42 @@ def payment_register(request):
 	context_instance=RequestContext(request))
 
 # End Payment Register
+
+# Performa Bill Register
+
+def performa_register(request):
+	if request.method == 'POST':
+		form = DateReport(request.POST)
+		if form.is_valid():
+			cd = form.cleaned_data
+			start_date = cd['start_date']
+			end_date = cd['end_date']
+			dates(start_date, end_date)	
+			
+			job = EditJob.objects.filter(date__range=(start_date,end_date)).values( 'date', 
+			'client__client__first_name','client__client__middle_name',
+			'client__client__last_name','client__client__address', 'client__client__company',
+			'client__client__city', 'client__client__email_address', 'client__client__contact_no',
+			'client__client__pin_code', 'clienteditjob__material__name', 'suspenceeditjob__field__name',
+			'report_type', 'job_no','id').order_by('job_no').distinct()
+			client = EditJob.objects.all().values_list('job_no',flat=True).\
+			filter(date__range=(start_date,end_date))
+			bill = BillPerf.objects.all()
+			
+			net_total_temp = BillPerf.objects.filter(job_no__in=client).aggregate(Sum('net_total'))
+			net_total= net_total_temp['net_total__sum']
+
+			template ={'form': form, 'job':job, 'bill':bill,
+            		'net_total':net_total}
+			return render_to_response('tcc/performa_register.html', 
+			dict(template.items() + tmp.items()), context_instance=RequestContext(request))
+	else:
+		form = DateReport()
+	template ={'form': form}
+	return render_to_response('tcc/client.html', dict(template.items() + tmp.items()), 
+	context_instance=RequestContext(request))
+
+# End Performa Bill Register
 
 def tds_register(request):
 	if request.method == 'POST':

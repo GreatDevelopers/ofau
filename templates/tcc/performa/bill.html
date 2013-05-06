@@ -25,7 +25,7 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 <div align= "left">
 	<table border="1" width="100%">
 		<tr>
-	<td><b>Details</b></td>
+	<td><b>Details</b><BR><b>Charges for following </b></td>
 <td style="border:1px solid #000;"><b>Description</b></td>
 
 <td style="border:1px solid #000;" ><b>Per</b></td>
@@ -41,7 +41,7 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 {% for material in getjob %}
 		<tr><td> 
 		   
-			<b>Charges For  </b>{% if material.clienteditjob__other_test != "" %}{{material.clienteditjob__other_test}}{% else %}{% if material.report_type == 1 %} {{material.clienteditjob__material__name}}{% else %}{{material.suspenceeditjob__field__name}}{% endif %}{% endif %}
+			{% if material.report_type == 1 %} {{material.clienteditjob__material__name}}{% else %}{{material.suspenceeditjob__field__name}}{% endif %}
 			
 			</td>
 
@@ -86,13 +86,15 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 			<td colspan="4">Site : {% for add in getjob %}{{ add.site}} {% endfor %}</td>
 		</tr>-->
 </br>
-		{% if bill.trans_total != 0 %}
+		{% if bill.trans_total != None %}
 		<tr>
 			<td>Transportation Charges</td>
+			<td colspan="2"></td>
 			<td align="right">{{bill.trans_total}}</td>
 		</tr>
 		<tr>
 			<td>Total Amount</td>
+			<td colspan="2"></td>
 			<td align="right">{{bill.trans_net_total}}</td>
 		</tr>
 		{% endif %}
@@ -132,8 +134,9 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 	<br/>
 	<b>Note :</b>
 	<ol>
-	<li>Payment may be made vide D.D./Cash/Online in favour of Director, Guru Nanak dev Engg. College, Ludhiana.</li>
+	<li>Payment may be made vide D.D./Cash/Online in favour of Director, Guru Nanak Dev Engg. College, Ludhiana.</li>
 	<li>The Testing/Work shall be done on Receipt of this payment.</li>
+	<li>Three Labourers for soil testing work to be provided by the Department/Client at each site.</li>
 	<li>Bank Details for Online Payment:</li>
 	<table border="0">
 	<tr><td>Name of Account Holder</td>

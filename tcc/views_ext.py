@@ -244,7 +244,7 @@ def add_perf_other_test(request):
 		field_list = Material.objects.all().filter(report_id = 2)
 		if request.method=='POST':
 			form1 = editJobForm(request.POST)
-			form2 = editClientJobForm(request.POST)
+			form2 = editSuspenceJobForm(request.POST)
 			form3 = TestTotalPerfForm(request.POST)
   			if form1.is_valid and form2.is_valid():
 				def clean_name(self):
@@ -259,9 +259,9 @@ def add_perf_other_test(request):
 				profile = form1.save(commit=False)
 				profile.job_no = maxid
 				profile.ip = request.META.get('REMOTE_ADDR')
-				cl = Clientadd.objects.aggregate(Max('id'))
+				cl = editClientadd.objects.aggregate(Max('id'))
 				clientid =cl['id__max']
-				clid = Clientadd.objects.get(id = clientid)
+				clid = editClientadd.objects.get(id = clientid)
 				profile.client = clid
 				report = Report.objects.get(id=2)
 				profile.report_type = report
@@ -283,7 +283,7 @@ def add_perf_other_test(request):
 				return HttpResponseRedirect(reverse('Automation.tcc.views_ext.job_submit_perf'))
 		else:	
 			form1 = editJobForm()
-			form2 = editClientJobForm()
+			form2 = editSuspenceJobForm()
 			form3= TestTotalPerfForm()
 		temp ={"form1": form1,'field_list':field_list,'query':query}
 		return render_to_response('tcc/performa/add_perf_other.html',dict(temp.items() + 

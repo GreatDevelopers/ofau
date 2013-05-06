@@ -7,23 +7,26 @@
 <div align="center"> Payment Register
 <table border='1' class="fixed">
 	<tr>
-		<td>S.No</td>
-		<td>Receipt No.</td>
-		<td>Job No </td>
-		<td>Name</td> 
+		<th>S.No</th>
+		<th>Receipt No.</th>
+		<th>Job No </th>
+		<th>Date</th>
+		<th>Name</th> 
 
-		<td>Address</td>
-		<td>City</td>
-		<td>Company</td>
-<!--		<td>Material</td>-->
-		<td>Contact No.</td>
-		<td>Email Address</td>
-		<td>Total</td>
-		<td>TDS</td>
-		<td>Service Tax</td>
-		<td>Education Tax</td>
-		<td>Higher Education Tax</td>
-		<td>Net Total</td>
+		<th>Address</th>
+		<th>City</th>
+		<th>Company</th>
+
+		<th>Material</th>
+
+		<th>Contact No.</th>
+		<th>Email Address</th>
+		<th>Total</th>
+		<th>TDS</th>
+		<th>Service Tax</th>
+		<th>Education Tax</th>
+		<th>Higher Education Tax</th>
+		<th>Net Total</th>
 	</tr>
 {% if job %}
     {% for jobs in job %}
@@ -34,12 +37,19 @@
             <td>{{forloop.counter}}</td>           
 			<td>{{jobs.job_no}}</td>
 			<td>{{jobs.id}}</td> 
+			<td>{{jobs.date}}</td>
 			<td>{{jobs.client__client__first_name}}  {{jobs.client__client__middle_name}}
 			 {{jobs.client__client__last_name}}</td>
 			<td>{{jobs.client__client__address}}</td>
 			<td>{{jobs.client__client__city}}</td>
 			<td>{{jobs.client__client__company}}</td>
-<!--			<td>{{jobs.client__client__material}}</td>-->
+			<td>
+			{% if jobs.report_type == 1 %}
+			{{jobs.clientjob__material__name}}
+			{% else %}
+			{{jobs.suspencejob__field__name}}
+			{% endif %}
+			</td>
 			<td>{{jobs.client__client__contact_no}}</td>
 			<td>{{jobs.client__client__email_address}}</td>
 
@@ -61,7 +71,9 @@
 		<tr>
 			 <td><b></b></td>
 			<td><b>  </b></td>
-			<td><b> </b></td>	
+			<td><b> </b></td>
+			<td></td>
+			<td></td>	
 			<td><b> </b></td>
 			<td><b> </b></td>
 			<td><b> </b></td>

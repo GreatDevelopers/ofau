@@ -27,7 +27,7 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 <div align= "left">
 	<table border="1" width="100%">
 		<tr>
-	<td><b>Details</b></td>
+	<td><b>Details</b> <br><b>Charges For  </b></td>
 <td style="border:1px solid #000;"><b>Description</b></td>
 
 <td style="border:1px solid #000;" ><b>Per</b></td>
@@ -43,7 +43,25 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 {% for material in getjob %}
 		<tr><td> 
 		   
-			<b>Charges For  </b>{% if material.report_type == 1 %}{{material.clientjob__material__matcomment__name}} {{material.clientjob__material__name}}{% else %}{{material.suspencejob__field__matcomment__name}} {{material.suspencejob__field__name}}{% endif %}
+			
+	
+		{% if material.clientjob__material__name == "Cubes" or material.clientjob__material__name == "Bricks" or material.clientjob__material__name == "Fine Aggregate" or material.clientjob__material__name == "Pavers" or material.clientjob__material__name == "Steel" or material.clientjob__material__name == "Coarse Aggregate" or material.clientjob__material__name == "Cement" or material.clientjob__material__name == "Tiles" or material.suspencejob__field__name == "Soil for BC" %}
+		Testing of
+		{% elif material.clientjob__material__name == "Structural Design (Building)" or material.clientjob__material__name == "Structural Design (Bridge)" or 		material.clientjob__material__name == "Structural Design (OHSR)" or 			material.clientjob__material__name == "Structural Design (Treatment Plant)" %}
+		Preparation of
+		{% endif %}
+	{% if material.report_type == 1 %} 
+		{{material.clientjob__material__name }} (
+	{% for tests in testname %}
+		{{tests.clientjob__test__name}}
+		{% if not forloop.last %},
+		{% else %} )
+		{% endif %}
+
+	{% endfor %}
+	{% else %} 
+		{{material.suspencejob__field__name}}
+	{% endif %}
 			
 			</td>
 
