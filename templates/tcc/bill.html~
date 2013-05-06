@@ -75,9 +75,28 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 		{% endif %}
 		</td>
 
+<<<<<<< HEAD
 <td > {% widthratio material.testtotal__unit_price material.sample 1 %} </td>
 
 			<td align="right" > {{material.testtotal__unit_price}}
+=======
+<td  style="border:1px solid #ccc;"> {% widthratio test.testtotal__unit_price test.sample 1 %} </td></tr>
+{% endfor %}
+</table>
+<!--<td >{% for test in getjob %}{{test.testtotal__unit_price}}<br>{% endfor %}</td>-->
+	</td>	
+			<td>Amount</td>
+		</tr>
+		<tr><td> 
+		   
+<<<<<<< Updated upstream
+			<b>Charges For </b>{% for material in getjob %}{% if material.report_type == 1 %} {{material.clientjob__material__name}}{% else %}{{material.suspencejob__field__name}}{% endif %}<br>
+=======
+			<b>Charges For  {% for material in getjob %}{% if material.clientjob__material__name == "Mix Design" %} Preparation of {% else %}Testing/Checking of {% endif %}</b>{% if material.report_type == 1 %} {{material.clientjob__material__name}}{% else %}{{material.suspencejob__field__name}}{% endif %}<br>
+>>>>>>> Stashed changes
+			
+			{% endfor%}
+>>>>>>> ed7415b018af473df78b64e1621e7503f9f8a988
 			</td>
 			
 		</tr>

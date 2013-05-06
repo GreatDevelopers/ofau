@@ -34,9 +34,15 @@
 	<tr>
 		<td>{{client.id}}
 		<td>{{client.client__client__first_name}} from {{client.client__client__address_1}},{{client.client__client__city}}</td>
-		<td> {{client.clientjob__material__name}}</td>	
+		<td> {% if client.report_type == 3 %} Advanced Payment
+		{% else %}{{client.clientjob__material__name}}{% endif %}</td>	
 		<td>{{client.site}}</td>
-		<td>{{client.testtotal__unit_price|intcomma}}</td>
+		<td> {% if client.report_type == 3 %}{% for bills in bill %}{{bills.balance|intcomma}}{% endfor %}
+		{% else %}{{client.testtotal__unit_price|intcomma}}{% endif %}</td>
+		 {% if client.report_type == 3 %}
+		 <td></td>
+		 <td></td>
+		 {% else %}
 		{% for job in amt %}
 		{% if job.amount__report_type == "Suspence" %}
 			<td><b><center><a href="/automation/tcc/s_report/?id={{client.id}}" target="window">SUSPENCE REPORT</a> 
@@ -47,6 +53,7 @@
 	{% endfor %}
 		
 		<td><a href="/automation/tcc/bill/?id={{client.id}}">Get Bill</a></td>
+		{% endif %}
 		<td><a href="/automation/tcc/receipt/?id={{client.id}}">Get Receipt</a></td>
     </tr>
 	{% endfor %}
