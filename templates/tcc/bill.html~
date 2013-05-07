@@ -27,7 +27,7 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 <div align= "left">
 	<table border="1" width="100%">
 		<tr>
-	<td><b>Details</b> <br><b>Charges For  </b></td>
+	<td><b>Charges For Following </b></td>
 <td style="border:1px solid #000;"><b>Description</b></td>
 
 <td style="border:1px solid #000;" ><b>Per</b></td>
@@ -43,18 +43,24 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 {% for material in getjob %}
 		<tr><td> 
 		   
-			
+
+	{% if material.report_type == 1 %}
+		{{material.clientjob__material__name }} -
+		{% for tests in testname %}
+			{% if material.clientjob__material__id == tests.clientjob__test__material %}
+				 
 	
-		{% if material.clientjob__material__name == "Cubes" or material.clientjob__material__name == "Bricks" or material.clientjob__material__name == "Fine Aggregate" or material.clientjob__material__name == "Pavers" or material.clientjob__material__name == "Steel" or material.clientjob__material__name == "Coarse Aggregate" or material.clientjob__material__name == "Cement" or material.clientjob__material__name == "Tiles" or material.suspencejob__field__name == "Soil for BC" %}
-		testing of
-		{% elif material.clientjob__material__name == "Structural Design (Building)" or material.clientjob__material__name == "Structural Design (Bridge)" or 		material.clientjob__material__name == "Structural Design (OHSR)" or 			material.clientjob__material__name == "Structural Design (Treatment Plant)" %}
-		preparation of
-		{% endif %}
-	{% if material.report_type == 1 %} 				
-		{{material.clientjob__material__name}}
+					{{tests.clientjob__test__name}}
+					{% if not forloop.last %},
+						{% else %} 
+					{% endif %}
+
+			{% endif %}
+		{% endfor %}
 	{% else %} 
 		{{material.suspencejob__field__name}}
 	{% endif %}
+
 			
 			</td>
 
@@ -75,28 +81,9 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 		{% endif %}
 		</td>
 
-<<<<<<< HEAD
 <td > {% widthratio material.testtotal__unit_price material.sample 1 %} </td>
 
 			<td align="right" > {{material.testtotal__unit_price}}
-=======
-<td  style="border:1px solid #ccc;"> {% widthratio test.testtotal__unit_price test.sample 1 %} </td></tr>
-{% endfor %}
-</table>
-<!--<td >{% for test in getjob %}{{test.testtotal__unit_price}}<br>{% endfor %}</td>-->
-	</td>	
-			<td>Amount</td>
-		</tr>
-		<tr><td> 
-		   
-<<<<<<< Updated upstream
-			<b>Charges For </b>{% for material in getjob %}{% if material.report_type == 1 %} {{material.clientjob__material__name}}{% else %}{{material.suspencejob__field__name}}{% endif %}<br>
-=======
-			<b>Charges For  {% for material in getjob %}{% if material.clientjob__material__name == "Mix Design" %} Preparation of {% else %}Testing/Checking of {% endif %}</b>{% if material.report_type == 1 %} {{material.clientjob__material__name}}{% else %}{{material.suspencejob__field__name}}{% endif %}<br>
->>>>>>> Stashed changes
-			
-			{% endfor%}
->>>>>>> ed7415b018af473df78b64e1621e7503f9f8a988
 			</td>
 			
 		</tr>
