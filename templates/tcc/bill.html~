@@ -21,10 +21,11 @@ Agency: {{add.client__client__company}}
 {% endif %}{% endfor %}
 <br/><br/>
 Ref.: Your Letter No. {% for letter in getjob %}
-{% if letter.letter_no != "" %}{{letter.letter_no}}{% endif %}
+{% if letter.letter_no != "" %}{{letter.letter_no}}{% if not forloop.last %},{% endif %}{% endif %}
 
  {% endfor %} dated {% for letter in getjob %}
- {% if letter.letter_date != None %}{{letter.letter_date}}{% endif %}{% endfor %} respectively.</div>
+ {% if letter.letter_date != None %}{{letter.letter_date}}{% if not forloop.last %},{% endif %}
+ {% endif %}{% endfor %} respectively.</div>
 Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 </div>
 
