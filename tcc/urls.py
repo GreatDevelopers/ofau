@@ -80,4 +80,5 @@ urlpatterns += patterns('Automation.tcc.views_ext',
     (r'^performabill/$', 'get_performa_bill'),
     (r'^get_document_perf/$', 'get_document_perf'),
     (r'^otherperftest/$', 'add_perf_other_test'),
+    (r'^perfmap/$', 'perf_distance'),
    )

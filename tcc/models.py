@@ -669,8 +669,7 @@ class Distance(models.Model):
 	""" 
     	job =models.IntegerField(editable =False)
     	sandy = models.DecimalField(max_digits=10, decimal_places=3)
-
-
+    	
 class DistanceForm(ModelForm):
 	"""
 	** DistanceForm **
@@ -680,6 +679,31 @@ class DistanceForm(ModelForm):
 	""" 
 	class Meta :
 		model = Distance
+		exclude= ['job']
+	
+	def __unicode__(self):
+        	return self.id
+
+class Distanceperf(models.Model):
+	"""
+	** Distance **
+	
+	Distance Class define all fields required to submit detail about a site and 
+	its distance for a prticular Job_id.
+	
+	""" 
+    	job =models.IntegerField(editable =False)
+    	sandy = models.DecimalField(max_digits=10, decimal_places=3)
+    	
+class DistanceperfForm(ModelForm):
+	"""
+	** DistanceForm **
+	
+	DistanceForm Class define form for distance model.
+	
+	""" 
+	class Meta :
+		model = Distanceperf
 		exclude= ['job']
 	
 	def __unicode__(self):

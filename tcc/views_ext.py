@@ -40,6 +40,33 @@ def material_site():
 
 tmp = material_site()
 
+def perf_distance(request):
+	"""
+	** distance **
+
+	Distance Function is for calculation of distance of the site on the map. 
+	This displays a form fo filling the site.
+	"""
+	mee = EditJob.objects.aggregate(Max('id'))
+	jobid =mee['id__max']
+	if jobid== None :
+		jobid = 1
+	else:
+		jobid = jobid +1
+	if request.method =='POST':
+		form = DistanceperfForm(request.POST)
+  		if form.is_valid():
+			cd = form.cleaned_data
+			sandy = cd['sandy']
+			profile = form.save(commit=False)
+			profile.job = jobid
+			profile.save()
+			return render_to_response('tcc/map_ok.html',tmp, context_instance = 
+			RequestContext(request))
+	else:
+  		form = DistanceperfForm()
+	return render_to_response('tcc/siteinmap.html', {"form": form,}, 
+	context_instance=RequestContext(request))
 
 @login_required
 def perfselectfield(request):
@@ -158,7 +185,7 @@ def add_perf(request):
 				report = Report.objects.get(id=2)
 				profile.report_type = report
 				profile.save()
-        			form1.save_m2m()
+				form1.save_m2m()
 				profile1 = form2.save(commit=False)	
 				profile1.job_no = maxid	
 				profile1.field = material
@@ -278,6 +305,17 @@ def add_perf_other_test(request):
 				form2.save_m2m()
 				profile2 = form3.save(commit=False)
 				profile2.job = client
+				dist =  Distanceperf.objects.aggregate(Max('id'))
+				distid =dist['id__max']
+				site = Distanceperf.objects.get(id=distid)
+				distance = 2*site.sandy
+				if distance < 100:
+					rate = 1000
+				elif distance == 0:
+					rate = 0
+				else :
+					rate = 10*distance
+				profile2.rate = rate
 				profile2.save()
 				form3.save_m2m()
 				return HttpResponseRedirect(reverse('Automation.tcc.views_ext.job_submit_perf'))
@@ -341,9 +379,9 @@ def add_suspence_perf(request):
 	clients = EditJob.objects.get(id=jobmaxid)
 	price = unit_price*int(clients.sample)
 	job = clients
-	dist =  Distance.objects.aggregate(Max('id'))
+	dist =  Distanceperf.objects.aggregate(Max('id'))
 	distid =dist['id__max']
-	site = Distance.objects.get(id=distid)
+	site = Distanceperf.objects.get(id=distid)
 	distance = 2*site.sandy
 	report_type = "Suspence" 
 	if distance < 100:

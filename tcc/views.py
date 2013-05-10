@@ -581,6 +581,17 @@ def add_job_other_test(request):
 				form2.save_m2m()
 				profile2 = form3.save(commit=False)
 				profile2.job = client
+				dist =  Distance.objects.aggregate(Max('id'))
+				distid =dist['id__max']
+				site = Distance.objects.get(id=distid)
+				distance = 2*site.sandy
+				if distance < 100:
+					rate = 1000
+				elif distance == 0:
+					rate = 0
+				else :
+					rate = 10*distance
+				profile2.rate = rate
 				profile2.save()
 				form3.save_m2m()
 				return HttpResponseRedirect(reverse('Automation.tcc.views.gen_report_other'))
