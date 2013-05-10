@@ -177,7 +177,7 @@ class Material(models.Model):
 	matcomment= models.ForeignKey(MatComment)
 	tags = TagField()
 	report = models.ForeignKey(Report)
-	image = models.ImageField(upload_to='logo')
+	image = models.ImageField(upload_to='logo', blank='True', null='True')
 
 	def __unicode__(self):
         	return self.name
