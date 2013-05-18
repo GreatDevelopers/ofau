@@ -543,8 +543,13 @@ def billperf(request):
 	:servicetaxprint,'highereducationtaxprint':highereducationtaxprint,
 	'educationtaxprint':educationtaxprint,'bill':bill, 'job':job, 'net_total1' : 
 	net_total1, 'getjob' : getjob, 'getadd' : getadd,'job_date':job_date}
-	return render_to_response('tcc/performa/bill.html', dict(template.items() + 
-	tmp.items()) , context_instance=RequestContext(request))
+	try:
+		query =request.GET.get('q', '')
+		return render_to_response('tcc/performa/bill.html', dict(template.items() + 
+		tmp.items()) , context_instance=RequestContext(request))
+	except Exception:
+		return render_to_response('tcc/performa/p_bill.html', dict(template.items() + 
+		tmp.items()) , context_instance=RequestContext(request))
 		
 	
 

@@ -8,8 +8,7 @@
 <table border='1' class="fixed">
 	<tr>
 		<th>S.No</th>
-		<th>Receipt No.</th>
-		<th>Job No </th>
+		<th>Performa Bill No. </th>
 		<th>Date</th>
 		<th>Name</th> 
 
@@ -34,9 +33,9 @@
    		 {% if bills.job_no == jobs.job_no %}  	
          <tr>
 		
-            <td>{{forloop.counter}}</td>           
+            <td>{{forloop.parentloop.counter}}</td>           
 			<td>{{jobs.job_no}}</td>
-			<td>{{jobs.id}}</td> 
+		
 			<td>{{jobs.date}}</td>
 			<td>{{jobs.client__client__first_name}}  {{jobs.client__client__middle_name}}
 			 {{jobs.client__client__last_name}}</td>

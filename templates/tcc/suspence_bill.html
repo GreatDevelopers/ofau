@@ -20,9 +20,9 @@
 Agency: {{add.client__client__company}}
 {% endif %}{% endfor %}
 <br/><br/>
-Your Letter No. {% for letter in getjob %}{{letter.letter_no}}{% if not forloop.last %},{% endif %} {% endfor %} dated {% for letter in getjob %}{{letter.letter_date}}{% if not forloop.last %}, {% endif %}{% endfor %} respectively.
+Ref : Your Letter No. {% for letter in getjob %}{{letter.letter_no}}{% if not forloop.last %},{% endif %} {% endfor %} dated {% for letter in getjob %}{{letter.letter_date}}{% if not forloop.last %}, {% endif %}{% endfor %} respectively.
 </div>
-
+Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 <div align= "left">
 	<table border="1" width="100%">
 		<tr>
@@ -59,7 +59,7 @@ Your Letter No. {% for letter in getjob %}{{letter.letter_no}}{% if not forloop.
 		set/s
 		{% elif material.suspencejob__field__name == "Survey" or material.clientjob__material__name == "Structural Design (OHSR)" %}
 		work/s
-		{% elif material.clientjob__material__name == "Mix Design" or material.clientjob__material__name == "Structural Design(Building)" %}
+		{% elif material.clientjob__material__name == "Mix Design" or material.clientjob__material__name == "Structural Design(Building)" or material.suspencejob__field__name == "Hammer" %}
 		No.
 		
 		{% else %}
