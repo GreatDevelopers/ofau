@@ -177,7 +177,7 @@ class Material(models.Model):
 	matcomment= models.ForeignKey(MatComment)
 	tags = TagField()
 	report = models.ForeignKey(Report)
-	image = models.ImageField(upload_to='logo')
+	image = models.ImageField(upload_to='logo', blank='True', null='True')
 
 	def __unicode__(self):
         	return self.name
@@ -692,7 +692,7 @@ class Distanceperf(models.Model):
 	its distance for a prticular Job_id.
 	
 	""" 
-    	job =models.ForeignKey(EditJob)
+    	job =models.IntegerField(editable =False)
     	sandy = models.DecimalField(max_digits=10, decimal_places=3)
     	
 class DistanceperfForm(ModelForm):

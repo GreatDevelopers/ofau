@@ -198,7 +198,7 @@ def non_payment_job(request):
 	else:
 		form = NonPaymentJobForm()
 	form = {'form':form, 'maxid':maxid}
-	return render_to_response('tcc/new_client.html',dict(form.items() + 
+	return render_to_response('tcc/non_payment_job.html',dict(form.items() + 
 	tmp.items()),context_instance=RequestContext(request))
 	
 
@@ -295,17 +295,24 @@ def selectfield(request):
 	"""
 	try : 
 		client =UserProfile.objects.get(id=request.GET['id'])
-		add = Clientadd.objects.aggregate(Max('id'))   
-		addid =add['id__max']
-		if addid == client:
-			pass
+		user = request.user
+		jobno = request.GET.get('job','')
+		if jobno =='':
+			id = Clientadd.objects.aggregate(Max('job_no'))
+			maxid =id['job_no__max']
+			if maxid== None :
+				maxid = 1
+			else:
+				maxid = maxid + 1
 		else:
-			user = request.user
-			m = Clientadd(client = client,user=user)
-			m.save()
+			maxid = jobno
+		m = Clientadd(client = client,user=user,job_no=maxid)
+		m.save()
+		client = Clientadd.objects.aggregate(Max('id'))
+		client =client['id__max']
 		report = Report.objects.all()
 		mat = Material.objects.all()
-		temp = {'report':report,'mat':mat}
+		temp = {'report':report,'mat':mat,'client':client}
 		return render_to_response('tcc/typeofwork.html', 
 		dict(temp.items() + tmp.items()), context_instance=RequestContext(request))
 	except Exception:
@@ -323,6 +330,8 @@ def select(request):
 	
 	mat = Material.objects.all()
 	material = Report.objects.get(id=request.GET['id'])
+	client = Clientadd.objects.get(id=request.GET['client'])
+	clid = client.id
 	report = material.id
 	if report == 3 or report == 4:
 		if request.method=='POST':
@@ -342,10 +351,7 @@ def select(request):
 					maxid = maxid + 1
 				profile.job_no = maxid
 				profile.ip = request.META.get('REMOTE_ADDR')
-				cl = Clientadd.objects.aggregate(Max('id'))
-				clientid =cl['id__max']
-				clid = Clientadd.objects.get(id = clientid)
-				profile.client = clid
+				profile.client = client
 				profile.report_type = material
 				profile.save()
 				form1.save_m2m()
@@ -369,7 +375,7 @@ def select(request):
 		context_instance=RequestContext(request))
 	else :
 		field_list = Material.objects.all().filter(report_id =material)
-		temp = {'field_list':field_list,'mat':mat}
+		temp = {'field_list':field_list,'mat':mat,'clid':clid}
 		return render_to_response('tcc/tags.html',dict(temp.items() + tmp.items()),
 		context_instance = RequestContext(request))
 
@@ -383,12 +389,9 @@ def add_job(request):
 	that there data get stored in different tables one after the other.
 	"""
 	query =request.GET.get('q', '')
-	id = Bill.objects.aggregate(Max('job_no'))
-	maxid =id['job_no__max']
-	if maxid== None :
-		maxid = 1
-	else:
-		maxid = maxid + 1
+	client = Clientadd.objects.get(id=request.GET['client'])
+	clid = client.id
+	maxid = client.job_no
 	material =Material.objects.get(id=request.GET['q'])
 	test = Test.objects.all().filter(material_id = query)
 	if material.report.name == "LAB":
@@ -407,10 +410,7 @@ def add_job(request):
 				profile = form1.save(commit=False)
 				profile.job_no = maxid
 				profile.ip = request.META.get('REMOTE_ADDR')
-				cl = Clientadd.objects.aggregate(Max('id'))
-				clientid =cl['id__max']
-				clid = Clientadd.objects.get(id = clientid)
-				profile.client = clid
+				profile.client = client
 				report = Report.objects.get(id=1)
 				profile.report_type = report
 				profile.save()
@@ -420,8 +420,8 @@ def add_job(request):
 				profile1.material = material
 				jbmx = Job.objects.aggregate(Max('id'))
 				jobmax =jbmx['id__max']
-				client = Job.objects.get(id =jobmax)
-				profile1.job = client
+				job = Job.objects.get(id =jobmax)
+				profile1.job = job
 				profile1.save()
 				form2.save_m2m()
 				if profile.report_type == "2":
@@ -432,7 +432,7 @@ def add_job(request):
 			form1 = JobForm()
 			form2 = ClientJobForm()
 		temp = {"form1": 
-		form1,"test":test,'field_list':field_list,'query':query}
+		form1,"test":test,'field_list':field_list,'query':query,'clid':clid}
 		return render_to_response('tcc/add_job.html', dict(temp.items() + 
 		tmp.items()), context_instance=RequestContext(request))
 	else :
@@ -451,10 +451,7 @@ def add_job(request):
 				profile = form1.save(commit=False)
 				profile.job_no = maxid
 				profile.ip = request.META.get('REMOTE_ADDR')
-				cl = Clientadd.objects.aggregate(Max('id'))
-				clientid =cl['id__max']
-				clid = Clientadd.objects.get(id = clientid)
-				profile.client = clid
+				profile.client = client
 				report = Report.objects.get(id=2)
 				profile.report_type = report
 				profile.save()
@@ -581,6 +578,17 @@ def add_job_other_test(request):
 				form2.save_m2m()
 				profile2 = form3.save(commit=False)
 				profile2.job = client
+				dist =  Distance.objects.aggregate(Max('id'))
+				distid =dist['id__max']
+				site = Distance.objects.get(id=distid)
+				distance = 2*site.sandy
+				if distance < 100:
+					rate = 1000
+				elif distance == 0:
+					rate = 0
+				else :
+					rate = 10*distance
+				profile2.rate = rate
 				profile2.save()
 				form3.save_m2m()
 				return HttpResponseRedirect(reverse('Automation.tcc.views.gen_report_other'))
@@ -742,11 +750,12 @@ def job_submit(request):
 	jobmaxid = job['id__max']
 	client = Job.objects.get(id=jobmaxid)
 	value = client.report_type_id
+	jobno = client.job_no
 	add = Clientadd.objects.aggregate(Max('id'))    # this is in case one clicks on adding more material into a job
 	addid =add['id__max']
 	more = Clientadd.objects.get(id=addid)
 	moremat = more.client_id
-	temp = {'clients':clients,'value':value,'moremat':moremat}
+	temp = {'clients':clients,'value':value,'moremat':moremat,'jobno':jobno}
 	return render_to_response('tcc/job_submit.html',dict(temp.items() + 
 	tmp.items()), context_instance=RequestContext(request))
 	
@@ -857,7 +866,8 @@ def bill(request):
 	job_no = job.job_no
 	job_date =job.date
 	getjob = Job.objects.all().filter(job_no=job_no).values(
-	'clientjob__material__name','date','testtotal__unit_price','site','suspencejob__field__name','report_type',
+	'clientjob__material__name','date','testtotal__unit_price','site','suspencejob__field__name',
+	'report_type', 'clientjob__material__matcomment_id','suspencejob__field__matcomment_id'
 	'sample','letter_no','letter_date', 'suspencejob__other','clientjob__material__id').distinct()
 	testname = Job.objects.all().filter(job_no=job_no).values('clientjob__test__name',
 	'clientjob__test__material' ).distinct()
@@ -870,6 +880,7 @@ def bill(request):
 	'client__client__state','site',).distinct()
 	from Automation.tcc.variable import *
 	bill = Bill.objects.get(job_no=job_no)
+	matcomment= MatComment.objects.all()
 	servicetaxprint = servicetaxprint
 	educationtaxprint = educationtaxprint
 	highereducationtaxprint = highereducationtaxprint
@@ -879,7 +890,8 @@ def bill(request):
 	template = {'job_no': job_no ,'net_total_eng':net_total_eng,'servicetaxprint'
 	:servicetaxprint,'highereducationtaxprint':highereducationtaxprint,
 	'educationtaxprint':educationtaxprint,'bill':bill, 'job' : job, 'net_total1' : 
-	net_total1, 'getjob' : getjob, 'getadd' : getadd,'job_date':job_date,'gettest':gettest, 'testname':testname}
+	net_total1, 'getjob' : getjob, 'getadd' : getadd,'job_date':job_date,'gettest':gettest,
+	'testname':testname,'matcomment':matcomment}
 	amtid = Amount.objects.aggregate(Max('id'))
 	amtmaxid =amtid['id__max']
 	amt = Amount.objects.get(job_id = jobid)

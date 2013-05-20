@@ -50,6 +50,11 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 		   
 
 	{% if material.report_type == 1 %}
+		{% for comments in matcomment %}
+			{% if comments.id == material.clientjob__material__matcomment_id %}
+			{{comments.name}}
+			{% endif %}
+		{% endfor %}	
 		{{material.clientjob__material__name }} :
 		{% for tests in testname %}
 			{% if material.clientjob__material__id == tests.clientjob__test__material %}
@@ -63,6 +68,11 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 			{% endif %}
 		{% endfor %}
 	{% else %} 
+		{% for comments in matcomment %}
+			{% if comments.id == material.suspencejob__field__matcomment_id %}
+			{{comments.name}}
+			{% endif %}
+		{% endfor %}	
 		{{material.suspencejob__field__name}}
 	{% endif %}
 

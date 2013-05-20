@@ -15,7 +15,7 @@
 this.options[this.selectedIndex].value;">
 	<option value="">Select Work</option>
 {% for reports in report %}
-  <option value="{{ LOCAL_URL }}/automation/tcc/select/?id={{reports.id}}">{{reports.name}}</option>
+  <option value="{{ LOCAL_URL }}/automation/tcc/select/?id={{reports.id}}&client={{client}}">{{reports.name}}</option>
 	{% endfor %}
 </select></td>
  </table>

@@ -50,6 +50,11 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 		   
 
 	{% if material.report_type == 1 %}
+		{% for comments in matcomment %}
+			{% if comments.id == material.clientjob__material__matcomment_id %}
+			{{comments.name}}
+			{% endif %}
+		{% endfor %}	
 		{{material.clientjob__material__name }} :
 		{% for tests in testname %}
 			{% if material.clientjob__material__id == tests.clientjob__test__material %}
@@ -75,9 +80,9 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 		{% if material.suspencejob__field__name == "Soil for BC" %}
 		 Bore Hole each upto {{material.suspencejob__other}} m depth
 		{% elif material.clientjob__material__name == "Cubes" %}
-		set
+		set/s
 		{% elif material.suspencejob__field__name == "Survey" or material.clientjob__material__name == "Structural Design (OHSR)" %}
-		works of
+		work/s 
 		{% elif material.clientjob__material__name == "Mix Design" or material.clientjob__material__name == "Structural Design(Building)" %}
 		No.
 		

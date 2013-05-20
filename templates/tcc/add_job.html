@@ -27,7 +27,7 @@
 			this.options[this.selectedIndex].value;">
 	 			<option value="">Select type</option>
 				{% for reports in report %}
-  					<option value="/automation/tcc/select/?id={{reports.id}}">
+  					<option value="/automation/tcc/select/?id={{reports.id}}&client={{clid}}">
   					{{reports.name}}</option>
 				{% endfor %}</select></td>
 				</tr>
@@ -38,7 +38,7 @@
  			this.options[this.selectedIndex].value;">
 			<option value="">Select Material</option>
 				{% for field in field_list %}
-  					<option value="/automation/tcc/save/?q={{field.id}}">
+  					<option value="/automation/tcc/save/?q={{field.id}}&client={{clid}}">
   					{{field.name}} </option>
 				{% endfor %}
 			</select></td>
