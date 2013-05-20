@@ -43,9 +43,19 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 		<tr><td> 
 		   
 			{% if material.report_type == 1 %} 
+				{% for comments in matcomment %}
+					{% if comments.id == material.clientjob__material__matcomment_id %}
+						{{comments.name}}
+					{% endif %}
+				{% endfor %}
 				{{material.clientjob__material__name}}
 			{% else %} 
 				{{material.suspencejob__field__name}}
+				{% for comments in matcomment %}
+					{% if comments.id == material.suspencejob__field__matcomment_id %}
+						{{comments.name}}
+					{% endif %}
+				{% endfor %}
 			{% endif %}
 			
 			</td>
