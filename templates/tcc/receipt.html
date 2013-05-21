@@ -21,9 +21,19 @@ Agency: {{clients.client__client__company}}
 {% endif %}{% endfor %} by {{ job.pay}}  {{ job.check_number }}, {{job.check_dd_date }} on account of 
 {% for mates in mate %}
 {% if mates.report_type == 1 %} 
+	{% for comments in matcomment %}
+			{% if comments.id == mates.clientjob__material__matcomment_id %}
+			{{comments.name|lower }}
+			{% endif %}
+		{% endfor %}
 	{{mates.clientjob__material__name}}
 	{% if not forloop.last %},{% endif %}
 {% elif mates.report_type == 2 %}
+	{% for comments in matcomment %}
+			{% if comments.id == mates.suspencejob__field__matcomment_id %}
+			{{comments.name|lower }}
+			{% endif %}
+		{% endfor %}
 	{{mates.suspencejob__field__name}}
 	{% if not forloop.last %},{% endif %}	
 {% elif mates.report_type == 3  %}Advance Adjust

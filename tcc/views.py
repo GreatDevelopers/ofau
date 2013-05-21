@@ -966,12 +966,14 @@ def receipt_report(request):
 	'client__client__city','client__client__company')
 	mate = Job.objects.all().filter(job_no=job_no).values(
 	'clientjob__material__name','suspencejob__field__name',
-	'report_type','date').distinct()
+	'report_type','date','clientjob__material__matcomment_id',
+	'suspencejob__field__matcomment_id').distinct()
 	bill = Bill.objects.get(job_no=job_no)
+	matcomment= MatComment.objects.all()
 	balance = bill.balance
 	net_total_eng = num2eng(balance)
 	template = {'mate':mate, 'net_total_eng':net_total_eng,'client':
-	client,'bill':bill,'job':job,'job_date':job_date}
+	client,'bill':bill,'job':job,'job_date':job_date,'matcomment':matcomment}
 	return render_to_response('tcc/receipt.html',  dict(template.\
 	items() + tmp.items()), context_instance = RequestContext(request))
 

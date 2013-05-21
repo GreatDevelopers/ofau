@@ -966,8 +966,10 @@ def receipt_report(request):
 	'client__client__city','client__client__company')
 	mate = Job.objects.all().filter(job_no=job_no).values(
 	'clientjob__material__name','suspencejob__field__name',
-	'report_type','date').distinct()
+	'report_type','date','clientjob__material__matcomment_id',
+	'suspencejob__field__matcomment_id').distinct()
 	bill = Bill.objects.get(job_no=job_no)
+	matcomment= MatComment.objects.all()
 	balance = bill.balance
 	net_total_eng = num2eng(balance)
 	template = {'mate':mate, 'net_total_eng':net_total_eng,'client':
@@ -1854,7 +1856,7 @@ def suspence_register(request):
 			'report_type','client__client__city','job_no', 'id', 
 			'clientjob__material__name', 'suspencejob__field__name', 
 			'pay', 'tds','check_number', 'check_dd_date','amount__unit_price').\
-			order_by('job_no').distinct()
+			order_by('id').distinct()
 			client = Job.objects.all().values_list('job_no',flat=True).\
 			filter(date__range=(start_date,end_date)).\
 			filter(amount__report_type="Suspence")
