@@ -36,13 +36,13 @@
    		 {% if bills.job_no == jobs.job_no %}  	
          <tr>
 		
-            <td>{{forloop.counter}}</td>    
+            <td>{{forloop.parentloop.counter}}</td>    
             <td>{{jobs.id}}</td>        
 			<td>{{jobs.job_no}}</td> 
 			<td> {{jobs.client__client__first_name}}  {{jobs.client__client__middle_name}}
 			 {{jobs.client__client__last_name}},  {{jobs.client__client__address}}, 
 			 {{jobs.client__client__city}}</td>
-			 <td>{{jobs.amount__unit_price}}</td>
+			 <td>{{jobs.testtotal__unit_price}}</td>
 			<td> {{ bills.price }}</td>
 			<td>{{bills.service_tax}}</td>
 			<td>{{bills.education_tax}}</td>

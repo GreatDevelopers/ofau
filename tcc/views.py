@@ -553,8 +553,7 @@ def add_job_other_test(request):
 				profile2.job = client
 				profile2.save()
 				form3.save_m2m()
-				return HttpResponseRedirect(reverse('Automation.tcc.\
-				views.gen_report_other'))
+				return HttpResponseRedirect(reverse('Automation.tcc.views.gen_report_other'))
 		else:	
 			form1 = JobForm()
 			form2 = ClientJobForm()
@@ -613,8 +612,7 @@ def add_job_other_test(request):
 				profile2.rate = rate
 				profile2.save()
 				form3.save_m2m()
-				return HttpResponseRedirect(reverse('Automation.tcc.\
-				views.gen_report_other'))
+				return HttpResponseRedirect(reverse('Automation.tcc.views.gen_report_other'))
 		else:	
 			form1 = JobForm()
 			form2 = SuspenceJobForm()
@@ -1855,7 +1853,7 @@ def suspence_register(request):
 			'client__client__last_name','client__client__address', 
 			'report_type','client__client__city','job_no', 'id', 
 			'clientjob__material__name', 'suspencejob__field__name', 
-			'pay', 'tds','check_number', 'check_dd_date','amount__unit_price').\
+			'pay', 'tds','check_number', 'check_dd_date','testtotal__unit_price').\
 			order_by('id').distinct()
 			client = Job.objects.all().values_list('job_no',flat=True).\
 			filter(date__range=(start_date,end_date)).\
