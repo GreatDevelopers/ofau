@@ -11,12 +11,14 @@
 		<td>Ref No.</td>
 		<td>Job No </td>
 		<td>Address</td>
+		<td>Amount</td>
 		<td>Bill Amount</td>
 		<td>Service Tax</td>
 		<td>Edu. Cess
 		<td>H. Edu. Cess</td>
 		<td>Total Amount</td>
 		<td>TDS</td>
+		<td>Transportation</td>
 		<td>Received Amount</td>
 		<td>Type of Material</td>
 		<td>Receipt No.</td>
@@ -40,12 +42,14 @@
 			<td> {{jobs.client__client__first_name}}  {{jobs.client__client__middle_name}}
 			 {{jobs.client__client__last_name}},  {{jobs.client__client__address}}, 
 			 {{jobs.client__client__city}}</td>
+			 <td>{{jobs.amount__unit_price}}</td>
 			<td> {{ bills.price }}</td>
 			<td>{{bills.service_tax}}</td>
 			<td>{{bills.education_tax}}</td>
 			<td>{{bills.higher_education_tax}}</td>
 			<td>{{bills.net_total}}</td>
             <td></td>
+            <td>{{bills.trans_total}}</td>
 			<td>{{bills.balance}} </td>
 			<td>{% if jobs.report_type == 1 %} {{jobs.clientjob__material__name}}
 			{% else %}{{jobs.suspencejob__field__name}}{% endif %}</td>
