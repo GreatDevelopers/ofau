@@ -1048,6 +1048,8 @@ def rep(request):
 	client = TestTotal.objects.all().get(job_id =query)
 	amount = Amount.objects.all().get(job_id =query)
 	user = Job.objects.all().get(id=query)
+	job = user.job_no
+	bill = Bill.objects.all().get(job_no=job)
 	name = Job.objects.all().filter(id=query).values(\
 	'client__client__first_name', 'client__client__middle_name', 
 	'client__client__last_name','client__client__address',
@@ -1074,7 +1076,7 @@ def rep(request):
 	'educationtaxprint':educationtaxprint,'client': client,'amount':
 	amount,'con_type':con_type, 'ratio1':ratio1, 'ratio2':ratio2, 
 	'collegeincome':collegeincome, 'admincharge' : admincharge, 'user'
-	:user, 'name':name, 'mat':mat, 'staff':staff}
+	:user, 'name':name, 'mat':mat, 'staff':staff,'bill':bill}
 	return render_to_response('tcc/report.html', dict(template.items() + 
 	tmp.items()), context_instance = RequestContext(request))
 	
@@ -1287,7 +1289,7 @@ def clientreport(request):
 		'client__client__first_name', 'client__client__address', 
 		'client__client__city', 'clientjob__material__name',
 		'report_type', 'suspencejob__field__name', 'site', 
-		'testtotal__unit_price').order_by('id').distinct()
+		'testtotal__unit_price','amount__report_type').order_by('id').distinct()
 		amt = Job.objects.filter(job_no=query).values(\
 		'amount__report_type')
 		bill = Bill.objects.filter(job_no=query)

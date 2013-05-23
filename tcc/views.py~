@@ -1287,7 +1287,7 @@ def clientreport(request):
 		'client__client__first_name', 'client__client__address', 
 		'client__client__city', 'clientjob__material__name',
 		'report_type', 'suspencejob__field__name', 'site', 
-		'testtotal__unit_price').order_by('id').distinct()
+		'testtotal__unit_price','amount__report_type').order_by('id').distinct()
 		amt = Job.objects.filter(job_no=query).values(\
 		'amount__report_type')
 		bill = Bill.objects.filter(job_no=query)

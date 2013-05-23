@@ -76,7 +76,28 @@ Agency: {{names.client__client__company}}
 <div style="right: 50px;top: 800px;float: right;margin-top: 10px;">DEAN TESTING AND CONSULTANCY</div>
 <div align="left">
 Account Clerk (Consultancy)</div>
-
+<br><br><br>
+<table border="1" width="100%">
+<tr>
+			<td>Service Tax:  @ {{ servicetaxprint }}% </td>
+			
+			<td  align="right">{{ bill.service_tax|intcomma }}</td>
+		<tr>
+			<td>Education Cess  @ {{ educationtaxprint }}% </td>
+			
+			<td  align="right">{{ bill.education_tax|intcomma }}</td>
+		</tr>
+		<tr>
+			<td >Higher Education Cess  @ {{ highereducationtaxprint }}% </td>
+			
+			<td  align="right">{{ bill.higher_education_tax|intcomma }}</td>
+		</tr>
+		<tr>
+				<td>Total </td>
+				
+			<td  align="right">{{ bill.net_total|intcomma}}</td>
+		</tr>	
+	</table>
 </body>
 </html>
 

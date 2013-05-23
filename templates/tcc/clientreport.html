@@ -43,14 +43,14 @@
 		 <td></td>
 		 <td></td>
 		 {% else %}
-		{% for job in amt %}
-		{% if job.amount__report_type == "Suspence" %}
-			<td><b><center><a href="/automation/tcc/s_report/?id={{client.id}}" target="window">SUSPENCE REPORT</a> 
+		
+		{% if client.amount__report_type == "Suspence" %}
+			<td><b><center><a href="/automation/tcc/s_report/?id={{client.id}}" target="window">SUSPENCE REPORT.{{forloop.counter}}</a> 
 			</td>
 		{% else %}
-			<td><b><center><a href="/automation/tcc/report/?id={{client.id}}" target="window">GENERAL REPORT</a> </td>
+			<td><b><center><a href="/automation/tcc/report/?id={{client.id}}" target="window">GENERAL REPORT.{{forloop.counter}}</a> </td>
 		{% endif %}
-	{% endfor %}
+	
 		
 		<td><a href="/automation/tcc/bill/?id={{client.id}}">Get Bill</a></td>
 		{% endif %}
