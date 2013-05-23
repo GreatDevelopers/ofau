@@ -484,8 +484,7 @@ def add_job(request):
 				profile1.test = sel_test
 				profile1.save()
 				form2.save_m2m()
-				return HttpResponseRedirect(reverse('Automation.tcc.\
-				views.add_suspence'))
+				return HttpResponseRedirect(reverse('Automation.tcc.views.add_suspence'))
 		else:	
 			form1 = JobForm()
 			form2 = SuspenceJobForm()
