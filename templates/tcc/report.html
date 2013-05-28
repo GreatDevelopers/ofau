@@ -78,6 +78,7 @@ Agency: {{names.client__client__company}}
 Account Clerk (Consultancy)</div>
 <br><br><br>
 <table border="1" width="100%">
+{% if user.id == job.id %}
 <tr>
 			<td>Service Tax:  @ {{ servicetaxprint }}% </td>
 			
@@ -98,6 +99,7 @@ Account Clerk (Consultancy)</div>
 			<td  align="right">{{ bill.net_total|intcomma}}</td>
 		</tr>	
 	</table>
+{% endif %}
 </body>
 </html>
 
