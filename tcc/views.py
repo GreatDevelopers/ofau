@@ -2144,7 +2144,7 @@ def lab_report(request):
 			job = Job.objects.filter(suspencejob__field__name=material).\
 			filter(date__range=(start_date,end_date))
 		client = Job.objects.filter(id__in=job).values('job_no', 'date', 
-		'client__client__first_name', 'amount__unit_price')
+		'client__client__first_name', 'client__client__address', 'amount__unit_price')
 		total_temp = Amount.objects.all().filter(job__in=job).\
 		aggregate(Sum('unit_price'))
 		total= total_temp['unit_price__sum']

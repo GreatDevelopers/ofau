@@ -10,6 +10,7 @@
 		<td><b>Receipt No.</b></td>
 		<td><b>Date</b></td>
 		<td><b>Name of Parties</b></td>
+<!--		<td><b>Address</b></td>-->
 		<td><b>Amount</b></td>
 		
 	</tr>
@@ -19,7 +20,8 @@
          <tr>
 			<td>{{ clients.job_no }}</td>
 			<td> {{ clients.date }}</td>
-			<td> {{clients.client__client__first_name}}</td>
+			<td> {{clients.client__client__first_name}}</td>			
+<!--			<td> {{clients.client__client__address}}</td>-->
 			<td>{{clients.amount__unit_price}}</td>
 		  
 		
