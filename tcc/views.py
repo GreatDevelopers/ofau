@@ -963,8 +963,8 @@ def receipt_report(request):
 	'client__client__city','client__client__company')
 	mate = Job.objects.all().filter(job_no=job_no).values(
 	'clientjob__material__name','suspencejob__field__name',
-	'report_type','date','clientjob__material__matcomment_id',
-	'suspencejob__field__matcomment_id').distinct()
+	'report_type','date','clientjob__material__matcomment_id',).\
+	distinct()
 	bill = Bill.objects.get(job_no=job_no)
 	matcomment= MatComment.objects.all()
 	balance = bill.balance
@@ -1008,7 +1008,9 @@ def s_report(request):
 	getjob = Job.objects.all().filter(job_no=job_no).values(
 	'clientjob__material__name','testtotal__unit_price','site',
 	'suspencejob__field__name','report_type','sample','pay',
-	'check_number','check_dd_date').distinct()
+	'check_number','check_dd_date','clientjob__material__matcomment_id',
+	'suspencejob__field__matcomment_id').distinct()
+	matcomment= MatComment.objects.all()
 	getadd = Job.objects.all().filter(id = jobid).values(
 	'client__client__first_name', 'client__client__middle_name', 
 	'client__client__last_name','client__client__address', 
@@ -1026,7 +1028,8 @@ def s_report(request):
 	'net_total_eng':net_total_eng,'highereducationtaxprint' : 
 	highereducationtaxprint,'educationtaxprint':educationtaxprint,
 	'bill':bill, 'job' : job, 'jobid':jobid,'getjob' : getjob, 
-	'getadd' : getadd,'tdstotal':tdstotal,'job_date':job_date}
+	'getadd' : getadd,'tdstotal':tdstotal,'job_date':job_date,'matcomment':
+	matcomment}
 	return render_to_response('tcc/suspence_report.html',dict(template.\
 	items() + tmp.items()), context_instance = RequestContext(request))
 	
@@ -1067,7 +1070,9 @@ def rep(request):
 	'client__client__first_name', 'client__client__middle_name', 
 	'client__client__last_name','client__client__address',
 	'client__client__city','client__client__company','pay',
-	'check_number','check_dd_date') 
+	'check_number','check_dd_date','clientjob__material__matcomment_id',
+	'suspencejob__field__name') 
+	matcomment= MatComment.objects.all()
 	try:
 		use = ClientJob.objects.all().get(job_id=query)
 		mat = use.material.name
@@ -1089,7 +1094,8 @@ def rep(request):
 	'educationtaxprint':educationtaxprint,'client': client,'amount':
 	amount,'con_type':con_type, 'ratio1':ratio1, 'ratio2':ratio2, 
 	'collegeincome':collegeincome, 'admincharge' : admincharge, 'user'
-	:user, 'name':name, 'mat':mat, 'staff':staff,'bill':bill,'job':job}
+	:user, 'name':name, 'mat':mat, 'staff':staff,'bill':bill,'job':job,
+	'matcomment':matcomment}
 	return render_to_response('tcc/report.html', dict(template.items() + 
 	tmp.items()), context_instance = RequestContext(request))
 	
