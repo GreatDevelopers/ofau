@@ -21,7 +21,7 @@ A sum of Rs. {{bill.balance}}/- ( Rupees {{ net_total_eng }} only ) has been dep
 			{% endif %}
 		{% endfor %}
 		{{job.clientjob__material__name}}
-		{% if not forloop.last %},{% endif %}	{% endif %}{% endfor %}.
+		{% if not forloop.last %},{% endif %}	.
 	{% else %}
 		{% for comments in matcomment %}
 			{% if comments.id == mates.suspencejob__field__matcomment_id %}
