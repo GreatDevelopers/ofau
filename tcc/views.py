@@ -5,52 +5,7 @@ This file is used to create the views for the software.
 It is the interface between the user interface, urls and database.
 """
 
-#::::::::::::::IMPORT THE HEADER FILE HERE::::::::::::::::::::#
-from django.http import HttpResponseRedirect,HttpResponse
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
-from django.core.urlresolvers import reverse
-from django.db.models import Max ,Q, Sum
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.sessions.models import Session
-from django.shortcuts import render
-from django.db.models import F
-from django import template
-from tagging.models import Tag, TaggedItem
-from Automation.tcc.choices import *
-from Automation.tcc.models import *
-from Automation.tcc.functions import *
-from Automation.tcc.forms import *
-from Automation.tcc.convert_function import *
-from django.core.mail import send_mail          
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
-
-#:::::::::::::::DEFINE THE FUNCTIONS HERE:::::::::::::::::::::#
-
-def material_site():
-	"""
-	This function is to be used through out the functions in the file. 
-	The	objects defined ere like the college name and the software 
-	name is to be used by nearly all the templates of the software.
-	"""
-	material = Material.objects.all().filter(report=1)
-	field = Material.objects.all().filter(report=2)
-	title = Department.objects.get(id=1)	
-	address = get_object_or_404(Organisation, pk='1')
-	report = Report.objects.all()
-	work = Govt.objects.all()
-	payment = Payment.objects.all()
-	template = {'material':material, 'field':field, 'title':title, 
-	'address':address, 'report':report, 'work':work, 'payment':payment}
-	return template
-
-tmp = material_site()
-
-job = Job.objects.aggregate(Max('id'))
-jobmaxid = job['id__max']
+from Automation.tcc.header import *
 
 def index1(request):
 	'''
@@ -136,8 +91,6 @@ def edit_profile(request):
 		return render_to_response('tcc/client.html',dict(x.items() + 
 		tmp.items()), context_instance = RequestContext(request))
 	
-
-   			
 @login_required
 def profile(request):
 	"""
@@ -228,7 +181,6 @@ def non_payment_job(request):
 	return render_to_response('tcc/non_payment_job.html',dict(form.\
 	items() + tmp.items()),context_instance=RequestContext(request))
 	
-
 @login_required
 def performa(request):
 	"""
@@ -237,7 +189,6 @@ def performa(request):
 	Gives the detailed view of profile filled by client. Just the data 
 	is extracted from UserProfile table.
 	"""
-
 	user = User.objects.get(id=request.GET['id'])
 	try :
 		perf = UserProfile.objects.filter(user_id=user)
@@ -308,15 +259,13 @@ def rate(request):
 	previously) from the url and based on that material, the tests 
 	are listed.
 	"""
-	
 	lab = Lab.objects.all().order_by('code')
-	mat = Material.objects.get(id=request.GET['id'])
+	mate = Material.objects.get(id=request.GET['id'])
 	test = Test.objects.filter(material_id = mat)
-	temp = {'lab':lab,'test':test,'mat':mat,}
+	temp = {'lab':lab,'test':test,'mate':mate,}
 	return render_to_response('tcc/test.html', dict(temp.items() + 
 	tmp.items()),context_instance=RequestContext(request))
 	
-
 @login_required
 def selectfield(request):
 	"""
@@ -333,7 +282,7 @@ def selectfield(request):
 		user = request.user
 		jobno = request.GET.get('job','')
 		if jobno =='':
-			id = Clientadd.objects.aggregate(Max('job_no'))
+			id = Bill.objects.aggregate(Max('job_no'))
 			maxid =id['job_no__max']
 			if maxid== None :
 				maxid = 1
@@ -345,9 +294,7 @@ def selectfield(request):
 		m.save()
 		client = Clientadd.objects.aggregate(Max('id'))
 		client =client['id__max']
-		report = Report.objects.all()
-		mat = Material.objects.all()
-		temp = {'report':report,'mat':mat,'client':client}
+		temp = {'client':client}
 		return render_to_response('tcc/typeofwork.html', 
 		dict(temp.items() + tmp.items()), context_instance=
 		RequestContext(request))
@@ -366,8 +313,6 @@ def select(request):
 	advances payment, then the form for the same is opened to be
 	filled.
 	"""	
-	
-	mat = Material.objects.all()
 	material = Report.objects.get(id=request.GET['id'])
 	client = Clientadd.objects.get(id=request.GET['client'])
 	clid = client.id
@@ -396,7 +341,6 @@ def select(request):
 				form1.save_m2m()
 				profile1 = form2.save(commit=False)		
 				profile1.job_no = maxid
-				
 				profile1.save()
 				form2.save_m2m()
 				id = Bill.objects.aggregate(Max('id'))
@@ -416,7 +360,7 @@ def select(request):
 		context_instance=RequestContext(request))
 	else :
 		field_list = Material.objects.all().filter(report_id =material)
-		temp = {'field_list':field_list,'mat':mat,'clid':clid}
+		temp = {'field_list':field_list, 'clid':clid}
 		return render_to_response('tcc/tags.html',dict(temp.items() + 
 		tmp.items()),context_instance = RequestContext(request))
 
@@ -656,9 +600,8 @@ def add_suspence(request):
 	calculated here. The rate for the distance calculated is also
 	calculated here and the same is put in the suspence table.
 	"""
-
-	mee = SuspenceJob.objects.aggregate(Max('id'))
-	minid =mee['id__max']
+	susmax = SuspenceJob.objects.aggregate(Max('id'))
+	minid =susmax['id__max']
 	client = SuspenceJob.objects.get(id=minid)
 	value = SuspenceJob.objects.values_list('test').filter(id=minid)
 	values = Test.objects.get(id = value)
@@ -832,7 +775,6 @@ def job_ok(request):
 	factors on which it depend, like tranportation charges, discount,
 	tds amount etc.
 	"""
-
 	material =request.GET.get('id', '')
 	id = Job.objects.aggregate(Max('job_no'))
 	maxid =id['job_no__max']
@@ -916,7 +858,6 @@ def get_documents(request):
 		return render_to_response('tcc/client_job_ok.html',dict(temp.\
 		items() + tmp.items()), context_instance=RequestContext(request))
 		
-	
 @login_required
 def bill(request):
 	"""
@@ -926,7 +867,6 @@ def bill(request):
 	tested are defined. There are 2 deifferent templates for Gneral
 	report and supence works.
 	"""
-
 	try :
 		job =Job.objects.get(id=request.GET['id'])
 	except Exception:
@@ -1024,7 +964,6 @@ def additional(request):
 	job_no = job.job_no
 	from Automation.tcc.variable import *
 	bill = Bill.objects.get(job_no=job_no)
-	
 	template = {'job_no': job_no ,'bill':bill,'servicetaxprint' : servicetaxprint,
 	'highereducationtaxprint' : highereducationtaxprint,'educationtaxprint'
 	:educationtaxprint}
@@ -1039,7 +978,6 @@ def s_report(request):
 	This shows the suspence voucher in HTML format. All the taxes, 
 	amount, materials tested are defined.
 	"""
-
 	try :
 		job =Job.objects.get(id=request.GET['id'])
 	except Exception:
@@ -1054,7 +992,6 @@ def s_report(request):
 	'suspencejob__field__name','report_type','sample','pay',
 	'check_number','check_dd_date','clientjob__material__matcomment_id',
 	'suspencejob__field__matcomment_id').distinct()
-	matcomment= MatComment.objects.all()
 	getadd = Job.objects.all().filter(id = jobid).values(
 	'client__client__first_name', 'client__client__middle_name', 
 	'client__client__last_name','client__client__address', 
@@ -1062,7 +999,6 @@ def s_report(request):
 	'letter_date','client__client__company').distinct()
 	from Automation.tcc.variable import *
 	bill = Bill.objects.get(job_no=job_no)
-	
 	bal = Job.objects.values_list('tds',flat=True).filter(job_no=job_no)
 	tdstotal = sum(bal)
 	net_total1 = bill.balance
@@ -1072,8 +1008,7 @@ def s_report(request):
 	'net_total_eng':net_total_eng,'highereducationtaxprint' : 
 	highereducationtaxprint,'educationtaxprint':educationtaxprint,
 	'bill':bill, 'job' : job, 'jobid':jobid,'getjob' : getjob, 
-	'getadd' : getadd,'tdstotal':tdstotal,'job_date':job_date,'matcomment':
-	matcomment}
+	'getadd' : getadd,'tdstotal':tdstotal,'job_date':job_date,}
 	return render_to_response('tcc/suspence_report.html',dict(template.\
 	items() + tmp.items()), context_instance = RequestContext(request))
 	
@@ -1116,15 +1051,14 @@ def rep(request):
 	'client__client__city','client__client__company','pay',
 	'check_number','check_dd_date','clientjob__material__matcomment_id',
 	'suspencejob__field__name') 
-	matcomment= MatComment.objects.all()
 	try:
 		use = ClientJob.objects.all().get(job_id=query)
-		mat = use.material.name
+		mate = use.material.name
 		lab = use.material.lab_id
 		con_type = use.material.distribution.name
 	except Exception:
 		use = SuspenceJob.objects.all().get(job_id=query)
-		mat = use.field.name
+		mate = use.field.name
 		lab = use.field.lab_id
 		con_type = use.field.distribution.name
 	staff = Staff.objects.all().filter(lab_id = lab)
@@ -1138,12 +1072,11 @@ def rep(request):
 	'educationtaxprint':educationtaxprint,'client': client,'amount':
 	amount,'con_type':con_type, 'ratio1':ratio1, 'ratio2':ratio2, 
 	'collegeincome':collegeincome, 'admincharge' : admincharge, 'user'
-	:user, 'name':name, 'mat':mat, 'staff':staff,'bill':bill,'job':job,
-	'matcomment':matcomment}
+	:user, 'name':name, 'mate':mate, 'staff':staff,'bill':bill,'job':job,
+	'jobid':jobid}
 	return render_to_response('tcc/report.html', dict(template.items() + 
 	tmp.items()), context_instance = RequestContext(request))
 	
-
 def transport(request):
 	"""
 	** transport **
@@ -1188,7 +1121,10 @@ def transport_bill(request):
 	Transport Bill Function generates transport Bill
 	"""
 	transport_old = Transport.objects.get(job_no=request.GET['job_no'])
-	client = ClientJob.objects.get(job_no=request.GET['job_no'])
+	job = Job.objects.get(job_no=request.GET['job_no'])
+	client = Job.objects.filter(job_no =
+	job.job_no).values('client__client__first_name',
+	'client__client__middle_name', 'client__client__last_name')
 	kilometer = transport_old.kilometer
 	temp = [0,0,0,0,0,0,0,0,0,0]
 	range = kilometer.split(',')
@@ -1196,7 +1132,7 @@ def transport_bill(request):
 	while i < len(range):
 		temp[i] = range[i]
 		i+=1
-	rate = transport_old.rate
+	rate = transport_old.vehicle.rate
 	amount1 = int(temp[0])*rate
 	amount2 = int(temp[1])*rate
 	amount3 = int(temp[2])*rate
@@ -1214,12 +1150,7 @@ def transport_bill(request):
 	Transport.objects.filter(job_no = transport_old.job_no).update(\
 	total = total, amounts = all_amounts )
 	transport = Transport.objects.get(job_no=transport_old.job_no)
-	title = get_object_or_404(Variable, pk='1')
-	sub_title = get_object_or_404(Variable, pk='2')
-	sign = get_object_or_404(Variable, pk='3')
-	vehical_no = get_object_or_404(Variable, pk='4')
-	template ={'transport':transport, 'title':title, 'sub_title':
-	sub_title, 'vehical_no':vehical_no, 'client':client, 'sign':sign}
+	template ={'transport':transport, 'rate':rate, 'client':client, }
 	return render_to_response('tcc/transportbill.html',dict(template.\
 	items() + tmp.items()) , context_instance=RequestContext(request))
 

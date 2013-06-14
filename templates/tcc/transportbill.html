@@ -1,10 +1,12 @@
 <html>
 <head><title>Transport Bill</title></head>
-<body><center><h3>TRANSPORT BILL<br>({{ sub_title.name}})</h3><br>{{ title.name }}</center>
+<body><center><h3>TRANSPORT BILL<br>({{ address}})</h3><br>{{ title.name }}</center>
 <br/>
 <div align="left"> Bill No.: {{transport.bill_no }}</div>
 <div align="right"> Dated : {{ transport.date }}</div>
-<div align="left">Name : {{client.name_and_address}}</div> 
+<div align="left">Name : {% for clients in client %}
+			{{clients.client__client__first_name}} {{clients.client__client__middle_name}} 
+			{{clients.client__client__last_name}}{% endfor %}</div> 
 <br/><br/><br/>
 
 <div align="left"></div>
@@ -18,7 +20,7 @@
 	<tr align="center">
 		<td >{{transport.test_date}}</td>
 		<td >{{transport.kilometer}}</td >
-		<td>{{transport.rate}}</td>
+		<td>{{rate}}</td>
 		<td>{{transport.total}}.00</td>
 	</tr>
 </table>

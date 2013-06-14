@@ -35,8 +35,15 @@
 	<tr>
 		<td>{{client.id}}
 		<td>{{client.client__client__first_name}} from {{client.client__client__address_1}},{{client.client__client__city}}</td>
-		<td> {% if client.report_type == 3 %} Advanced Payment
-		{% else %}{{client.clientjob__material__name}}{% endif %}</td>	
+		<td>
+		{% if client.report_type == 3 %}
+			Advanced Payment
+		{% elif client.report_type == 2 %}
+			{{client.suspencejob__field__name}}
+		{% else %}
+			{{client.clientjob__material__name}}
+		{% endif %}
+		</td>	
 		<td>{{client.site}}</td>
 		<td> {% if client.report_type == 3 %}{% for bills in bill %}{{bills.balance|intcomma}}{% endfor %}
 		{% else %}{{client.testtotal__unit_price|intcomma}}{% endif %}</td>
