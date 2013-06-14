@@ -1,0 +1,21 @@
+Alias /media/ /usr/local/lib/python2.7/dist-packages/django/contrib/admin/media/
+
+<Directory /usr/local/lib/python2.7/dist-packages/django/contrib/admin/media/>
+Options Indexes
+Order deny,allow
+Allow from all
+</Directory>
+
+Alias /static/ /home/sandy/Music/auto/test/Automation/static/
+
+<Directory /home/sandy/Music/auto/test/Automation/static/>
+Order deny,allow
+Allow from all
+</Directory>
+
+WSGIScriptAlias /automation /home/sandy/Music/auto/test/Automation/apache/django.wsgi
+<Directory /home/sandy/Music/auto/test/Automation/apache/>
+Order allow,deny
+Allow from all
+</Directory>
+
