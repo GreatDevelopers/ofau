@@ -9,17 +9,8 @@
 </head>
 
 {% block content %}
-<script type="text/javascript" >
-    function showfield(name){
-    if(name=='cheque' || name=='dd')document.getElementById('div1').style.display="block";
-    else document.getElementById('div1').style.display='none';
-    }
-    function hidefield() {
-    document.getElementById('div1').style.display='none';
-    }
-    
-    </script>
-<body onload = "hidefield()">
+
+<body>
 <h2 class="changeBlue">Add Work</h2>
  <table>
  
@@ -51,16 +42,7 @@
 {% endfor %}
 </select></td></tr>
 	
-<tr><td><label for="id_pay">Mode of Payment:</label></td><td>
-<select name="pay" id="pay" onchange="showfield(this.options[this.selectedIndex].value)">
-<option value="cash">Cash</option>
-<option value="online">Online</option>
-<option value="cheque" >Cheque</option>
-<option value="dd" >DD</option>
-</select></td></tr> </table>
-<div id="div1">Enter Cheque/DD No. : <input type="text" name="check_number" /> </br>Enter Cheque/DD Date : <input type="text" name="check_dd_date" id="id_cheque/dd_date" /> </div>
-
-       
+</table>
         <input type="submit" value="Submit">
     </form>
 </html>

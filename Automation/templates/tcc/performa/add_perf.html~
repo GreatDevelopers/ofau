@@ -10,7 +10,7 @@
 {% block content %}
 
 <body >
-<h1>Add Performa Lab Work</h1>
+<h2>Add Performa Lab Work</h2>
  <table>
  
 <br>

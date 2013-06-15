@@ -261,7 +261,7 @@ def rate(request):
 	"""
 	lab = Lab.objects.all().order_by('code')
 	mate = Material.objects.get(id=request.GET['id'])
-	test = Test.objects.filter(material_id = mat)
+	test = Test.objects.filter(material_id = mate)
 	temp = {'lab':lab,'test':test,'mate':mate,}
 	return render_to_response('tcc/test.html', dict(temp.items() + 
 	tmp.items()),context_instance=RequestContext(request))
