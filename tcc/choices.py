@@ -16,6 +16,7 @@ STATES_CHOICES = (
     ('Assam', _('Assam')),
     ('Bihar', _('Bihar')),
     ('Chhattisgarh', _('Chhattisgarh')),
+    ('Delhi', _('Delhi')),
     ('Goa', _('Goa')),
     ('Gujarat', _('Gujarat')),
     ('Haryana', _('Haryana')),

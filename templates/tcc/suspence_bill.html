@@ -48,14 +48,36 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 						{{comments.name}}
 					{% endif %}
 				{% endfor %}
-				{{material.clientjob__material__name}}
+				{{material.clientjob__material__name}} :
+				{% for tests in testname %}
+			{% if material.clientjob__material__id == tests.clientjob__test__material %}
+				 
+	
+					{{tests.clientjob__test__name}}
+					{% if not forloop.last %},
+						{% else %} 
+					{% endif %}
+
+			{% endif %}
+		{% endfor %}
 			{% else %} 
 				{% for comments in matcomment %}
 					{% if comments.id == material.suspencejob__field__matcomment_id %}
 						{{comments.name}}
 					{% endif %}
 				{% endfor %}
-				{{material.suspencejob__field__name}}
+				{{material.suspencejob__field__name}} :
+			{% for tests in testname %}
+			{% if material.suspencejob__field__id == tests.suspencejob__test__material %}
+				 
+	
+					{{tests.suspencejob__test__name}}
+					{% if not forloop.last %},
+						{% else %} 
+					{% endif %}
+
+			{% endif %}
+		{% endfor %}
 				
 			{% endif %}
 			

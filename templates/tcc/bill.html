@@ -73,7 +73,18 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 			{{comments.name}}
 			{% endif %}
 		{% endfor %}	
-		{{material.suspencejob__field__name}}
+		{{material.suspencejob__field__name}} :
+		{% for tests in testname %}
+			{% if material.suspencejob__field__id == tests.suspencejob__test__material %}
+				 
+	
+					{{tests.suspencejob__test__name}}
+					{% if not forloop.last %},
+						{% else %} 
+					{% endif %}
+
+			{% endif %}
+		{% endfor %}
 	{% endif %}
 
 			

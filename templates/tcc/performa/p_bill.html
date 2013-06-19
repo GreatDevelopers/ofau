@@ -41,7 +41,14 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 {% for material in getjob %}
 		<tr><td> 
 		   
-			{% if material.report_type == 1 %} {{material.clienteditjob__material__name}}{% else %}{{material.suspenceeditjob__field__name}}{% endif %}
+			{% if material.report_type == 1 %} 
+				{{material.clienteditjob__material__name}}
+				{% if material.clienteditjob__other_test != "" %}
+					: {{material.clienteditjob__other_test}}
+				{% endif %}
+			{% else %}
+				{{material.suspenceeditjob__field__name}}
+			{% endif %}
 			
 			</td>
 
@@ -52,13 +59,13 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 		 Bore Hole each upto {{material.suspenceeditjob__other}} m depth
 		{% elif material.clienteditjob__material__name == "Cubes" %}
 		set
-		{% elif material.suspenceeditjob__field__name == "Survey" or material.clienteditjob__material__name == "Structural Design (OHSR)" %}
-		works of
-		{% elif material.clienteditjob__material__name == "Mix Design" or material.clienteditjob__material__name == "Structural Design(Building)" or material.suspenceeditjob__field__name == "Hammer" %}
+		{% elif material.suspenceeditjob__field__name == "Survey" or material.clienteditjob__material__name == "Structural Design (OHSR)" or material.clienteditjob__material__name == "Structural Design"%}
+		work/s 
+		{% elif material.clienteditjob__material__name == "Mix Design" or material.clienteditjob__material__name == "Structural Design(Building)" or material.suspenceeditjob__field__name == "Hammer"  %}
 		No./s
 		
 		{% else %}
-		 sample/s 
+		 sample/s
 		{% endif %}
 		</td>
 

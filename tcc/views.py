@@ -881,9 +881,10 @@ def bill(request):
 	'suspencejob__field__name','report_type', 
 	'clientjob__material__matcomment_id','suspencejob__field__matcomment_id',
 	'sample','letter_no','letter_date', 'suspencejob__other',
-	'clientjob__material__id').distinct()
+	'clientjob__material__id','suspencejob__field__id').distinct()
 	testname = Job.objects.all().filter(job_no=job_no).values(
-	'clientjob__test__name','clientjob__test__material' ).distinct()
+	'clientjob__test__name','clientjob__test__material',
+	'suspencejob__test__name','suspencejob__test__material' ).distinct()
 	gettest = Job.objects.all().filter(job_no=job_no).values(
 	'clientjob__material__test__name','clientjob__material__id',
 	'clientjob__material__test__name')
@@ -960,13 +961,19 @@ def additional(request):
 	This functions displays the additional information that describes
 	all the taxes information.
 	"""
-	job =Job.objects.get(id=request.GET['id'])
-	job_no = job.job_no
+	
 	from Automation.tcc.variable import *
+	try :
+		job =Job.objects.get(id=request.GET['id'])
+	except Exception :
+		id = Job.objects.aggregate(Max('id'))
+		maxid =id['id__max']
+		job = Job.objects.get(id = maxid)
+	job_no = job.job_no
 	bill = Bill.objects.get(job_no=job_no)
-	template = {'job_no': job_no ,'bill':bill,'servicetaxprint' : servicetaxprint,
+	template = {'job':job,'job_no': job_no ,'bill':bill,'servicetaxprint' : servicetaxprint,
 	'highereducationtaxprint' : highereducationtaxprint,'educationtaxprint'
-	:educationtaxprint}
+	:educationtaxprint,}
 	return render_to_response('tcc/additional.html',dict(template.items() + tmp.items()), 
 	context_instance = RequestContext(request))
 		

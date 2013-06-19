@@ -54,7 +54,9 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 		set
 		{% elif material.suspenceeditjob__field__name == "Survey" or material.clienteditjob__material__name == "Structural Design (OHSR)" %}
 		works of
-		{% elif material.clienteditjob__material__name == "Mix Design" or material.clienteditjob__material__name == "Structural Design(Building)" or material.suspenceeditjob__field__name == "Hammer" %}
+		{% elif material.clienteditjob__material__name == "Mix Design" or material.clienteditjob__material__name == "Structural Design(Building)" or 
+material.clienteditjob__material__name == "Structural Design"
+or material.suspenceeditjob__field__name == "Hammer" %}
 		No./s
 		
 		{% else %}
