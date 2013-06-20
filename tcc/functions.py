@@ -3,6 +3,7 @@
 
 This file is defines some important functions that are then called views.py file.  
 """
+from Automation.tcc.header import *
 
 #:::::::::::::::::::::::CONSTANTS:::::::::::::::::::::::::::::::::::#
 individual_ratio1 = 60
@@ -105,6 +106,8 @@ def months(month):
 	else :
 		month =1
 	return month
+	
+
 	
 
 	

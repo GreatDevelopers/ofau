@@ -884,7 +884,7 @@ def bill(request):
 	'clientjob__material__id','suspencejob__field__id').distinct()
 	testname = Job.objects.all().filter(job_no=job_no).values(
 	'clientjob__test__name','clientjob__test__material',
-	'suspencejob__test__name','suspencejob__test__material' ).distinct()
+	'suspencejob__test__material','suspencejob__test__name' ).distinct()
 	gettest = Job.objects.all().filter(job_no=job_no).values(
 	'clientjob__material__test__name','clientjob__material__id',
 	'clientjob__material__test__name')
@@ -1374,6 +1374,28 @@ def search(request):
 	return render_to_response("tcc/search.html", dict(temp.items() + 
 	tmp.items()),context_instance=RequestContext(request))
 
+def other_charge(request):
+	client = Job.objects.get(id=request.GET['job_no'])
+	job = Job.objects.filter(id=client.id).values('client__client__first_name',
+	'client__client__middle_name','client__client__last_name',
+	'client__client__address','client__client__city')
+	transport = Transport.objects.get(job_no=client.job_no)
+	amount = Amount.objects.get(job=request.GET['job_no'])
+	suspence = Suspence.objects.get(job=request.GET['job_no'])
+	tada = TaDa.objects.get(job=request.GET['job_no'])
+	tada_sum = tada.tada_amount
+	total = tada_sum + suspence.labour_charge + suspence.car_taxi_charge
+	+ suspence.boring_charge_external + transport.total
+	total_temp =tada_sum+suspence.labour_charge+suspence.car_taxi_charge
+	+ suspence.boring_charge_external
+	other =suspence.labour_charge+suspence.car_taxi_charge
+	+ suspence.boring_charge_external + transport.total
+	temp = {'transport' : transport, 'client' :client, 'amount': amount, 	'suspence':suspence,'tada_sum':tada_sum,'total_temp': total_temp, 
+	'total' :total, 'other':other,'job':job}
+	return render_to_response('tcc/other_charge_report.html', 
+	dict(temp.items() + 
+tmp.items()), context_instance=RequestContext(request))
+	
 def suspence_clearence_report(request):
 	"""
 	** suspence_clearance_report **
@@ -1382,6 +1404,7 @@ def suspence_clearence_report(request):
 	clearing it. Here the split function splits out the staff code 
 	entry to fetch its name from the tables.
 	"""
+	
 	suspence = Suspence.objects.get(job=request.GET['job_no'])
 	amount = Amount.objects.get(job=request.GET['job_no'])
 	try:
@@ -1437,14 +1460,116 @@ def suspence_clearence_report(request):
 	amounts3) | Q(code=amounts4) | Q(code=amounts5) | Q(code=amounts6) 
 	| Q(code=amounts7)| Q(code=amounts8)| Q(code=amounts9) | Q(code=
 	amounts10)).order_by('id')
-	temp = suspence.labour_charge + suspence.rate + suspence.\
-	boring_charge_external
-	+ suspence.car_taxi_charge
-	balance= amount.unit_price - (temp + suspence.boring_charge_internal)
 	from Automation.tcc.variable import *
+	balance = amount.unit_price
 	college_income = round(collegeincome * balance / 100.00)
 	admin_charge = round(admincharge * balance / 100.00)
+	balance_temp = balance - college_income - admin_charge -work_charge
+	ratio1 = ratio1(con_type)
+	ratio2 = ratio2(con_type)
+	consultancy_asst = round(ratio1 * balance_temp / 100)
+	development_fund = round(ratio2 * balance_temp / 100)
+	net_total1 = amount.unit_price
+	net_balance_eng = num2eng(net_total1)
+	retrieve()
+	Amount.objects.filter(job = client).update( college_income = 
+	college_income, admin_charge = admin_charge, consultancy_asst = 
+	consultancy_asst, development_fund = development_fund )
+	data = {'transport' : transport, 'net_balance_eng' : 
+	net_balance_eng, 'teachers' : staff, 'servicetaxprint' : 
+	servicetaxprint, 'highereducationtaxprint':highereducationtaxprint, 
+	'educationtaxprint' : educationtaxprint, 'ratio1' : ratio1, 
+	'job_no' :client.job_no , 'ratio2' : ratio2, 'other' : tempr, 
+	'collegeincome' : collegeincome, 'admincharge' : admincharge, 
+	'client' : client, 'amount' : amount, 'suspence' : suspence, 'client' : 
+	client, 'clientname' : clientname}
+	return render_to_response('tcc/suspence_clearence_report.html', 
+	dict(data.items() + tmp.items()) , context_instance=
+	RequestContext(request))
+	
+def suspence_clearence_report_transport(request):
+	"""
+	** suspence_clearance_report **
+
+	This function generates the report for the suspence job after 
+	clearing it. Here the split function splits out the staff code 
+	entry to fetch its name from the tables.
+	"""
+	
+	suspence = Suspence.objects.get(job=request.GET['job_no'])
+	amount = Amount.objects.get(job=request.GET['job_no'])
+	try:
+		suspencejob = SuspenceJob.objects.get(job=request.GET['job_no'])
+		con_type = suspencejob.field.distribution.name
+	except Exception:
+		suspencejob = ClientJob.objects.get(job=request.GET['job_no'])
+		con_type = suspencejob.material.distribution.name
+	client =Job.objects.get(id=request.GET['job_no'])
+	clientname = Job.objects.filter(id=client.id).values(\
+	'client__client__first_name',
+	'suspencejob__field__name')
+	lab_staff = suspence.lab_testing_staff
+        t1=0
+        temp = [0,0,0,0,0,0,0,0,0,0]
+	range = lab_staff.split(',')
+	i=0
+	while i < len(range):
+		temp[i] = range[i]
+		i+=1
+	amount1 = temp[0]
+	amount2 = temp[1]
+	amount3 = temp[2]
+	amount4 = temp[3]
+	amount5 = temp[4]
+	amount6 = temp[5]
+	amount7 = temp[6]
+	amount8 = temp[7]
+	amount9 = temp[8]
+	amount10 = temp[9]
+	
+	field_staff = suspence.field_testing_staff
+	temp = [0,0,0,0,0,0,0,0,0,0]
+	range = field_staff.split(',')
+	i=0
+	while i < len(range):
+		temp[i] = range[i]
+		i+=1
+	amounts1 = temp[0]
+	amounts2 = temp[1]
+	amounts3 = temp[2]
+	amounts4 = temp[3]
+	amounts5 = temp[4]
+	amounts6 = temp[5]
+	amounts7 = temp[6]
+	amounts8 = temp[7]
+	amounts9 = temp[8]
+	amounts10 = temp[9]
+	staff =Staff.objects.all().filter(Q(code=amount1)|Q(code=amount2) 
+	| Q(code=amount3) | Q(code=amount4) | Q(code=amount5) | Q(code=
+	amount6) | Q(code=amount7)| Q(code=amount8)| Q(code=amount9) | \
+	Q(code=amount10)| Q(code=amounts1)| Q(code=amounts2) | Q(code=
+	amounts3) | Q(code=amounts4) | Q(code=amounts5) | Q(code=amounts6) 
+	| Q(code=amounts7)| Q(code=amounts8)| Q(code=amounts9) | Q(code=
+	amounts10)).order_by('id')
+	try :
+		transport=Tranport.objects.get(job=request.GET['job_no'])
+		tempr = suspence.labour_charge+transport.total+suspence.\
+		boring_charge_external+suspence.car_taxi_charge
+	except Exception :
+		tempr = suspence.labour_charge + suspence.rate + suspence.\
+		boring_charge_external + suspence.car_taxi_charge
+	try :
+		tada = TaDa.objects.get(job=request.GET['job_no'])
+		balance= amount.unit_price - (tada.tada_amount + tempr + suspence.boring_charge_internal)
+		tada_sum = tada.tada_amount
+	except Exception :
+		tada =[]
+		balance= amount.unit_price - (tempr + suspence.boring_charge_internal)
+		tada_sum =0
+	from Automation.tcc.variable import *
 	work_charge = round(workcharge * balance / 100.00)
+	college_income = round(collegeincome * balance / 100.00)
+	admin_charge = round(admincharge * balance / 100.00)
 	balance_temp = balance - college_income - admin_charge -work_charge
 	ratio1 = ratio1(con_type)
 	ratio2 = ratio2(con_type)
@@ -1458,19 +1583,19 @@ def suspence_clearence_report(request):
 	Amount.objects.filter(job = client).update( college_income = 
 	college_income, admin_charge = admin_charge, consultancy_asst = 
 	consultancy_asst, development_fund = development_fund )
-	sus = Suspence.objects.get(job=request.GET['job_no'])
 	data = {'transport' : transport, 'net_balance_eng' : 
 	net_balance_eng, 'teachers' : staff, 'servicetaxprint' : 
 	servicetaxprint, 'highereducationtaxprint':highereducationtaxprint, 
 	'educationtaxprint' : educationtaxprint, 'ratio1' : ratio1, 
-	'job_no' :client.job_no , 'ratio2' : ratio2, 'other' : temp, 
+	'job_no' :client.job_no , 'ratio2' : ratio2, 'other' : tempr, 
 	'collegeincome' : collegeincome, 'admincharge' : admincharge, 
-	'client' : client, 'amount' : amount, 'suspence' : sus, 'client' : 
-	client, 'clientname' : clientname}
-	return render_to_response('tcc/suspence_clearence_report.html', 
+	'client' : client, 'amount' : amount, 'suspence' : suspence, 'client' : 
+	client, 'clientname' : clientname, 'tada_sum':tada_sum}
+	return render_to_response('tcc/suspence_clearence_report_tranport.html',
 	dict(data.items() + tmp.items()) , context_instance=
 	RequestContext(request))
 	
+			
 def prevwork(request):
 	"""
 	** prevwork **

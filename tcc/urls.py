@@ -39,6 +39,8 @@ urlpatterns = patterns('Automation.tcc.views',
     (r'^suspenceclearance/$', 'suspence_clearance'),
     (r'^search/$', 'search'),
     (r'^suspenceclearencereport/$', 'suspence_clearence_report'),
+    (r'^suspenceclearencereporttrans/$', 'suspence_clearence_report_transport'),
+    (r'^othercharge/$', 'other_charge'),
     (r'^tada/$', 'ta_da'),
     (r'^tadabill/$', 'ta_da_bill'),
     (r'^tada_view/$', 'tada_view'),
@@ -52,7 +54,7 @@ urlpatterns = patterns('Automation.tcc.views',
     (r'^s_report/$', 's_report'),
     (r'^additional/$', 'additional'),
     (r'^nonpayment/$', 'non_payment_job'),
-  
+      
 )
 
 urlpatterns += patterns('Automation.tcc.registers',
