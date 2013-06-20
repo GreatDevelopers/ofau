@@ -1392,7 +1392,7 @@ def other_charge(request):
 	+ suspence.boring_charge_external + transport.total
 	temp = {'transport' : transport, 'client' :client, 'amount': amount, 	'suspence':suspence,'tada_sum':tada_sum,'total_temp': total_temp, 
 	'total' :total, 'other':other,'job':job}
-	return render_to_response('automation/other_charge_report.html', 
+	return render_to_response('tcc/other_charge_report.html', 
 	dict(temp.items() + 
 tmp.items()), context_instance=RequestContext(request))
 	

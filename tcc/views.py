@@ -1461,6 +1461,7 @@ def suspence_clearence_report(request):
 	| Q(code=amounts7)| Q(code=amounts8)| Q(code=amounts9) | Q(code=
 	amounts10)).order_by('id')
 	from Automation.tcc.variable import *
+	if 
 	balance = amount.unit_price
 	college_income = round(collegeincome * balance / 100.00)
 	admin_charge = round(admincharge * balance / 100.00)
@@ -1591,7 +1592,7 @@ def suspence_clearence_report_transport(request):
 	'collegeincome' : collegeincome, 'admincharge' : admincharge, 
 	'client' : client, 'amount' : amount, 'suspence' : suspence, 'client' : 
 	client, 'clientname' : clientname, 'tada_sum':tada_sum}
-	return render_to_response('tcc/suspence_clearence_report_tranport.html',
+	return render_to_response('tcc/suspence_clearence_report_transport.html',
 	dict(data.items() + tmp.items()) , context_instance=
 	RequestContext(request))
 	
