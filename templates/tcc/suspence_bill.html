@@ -48,11 +48,9 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 						{{comments.name}}
 					{% endif %}
 				{% endfor %}
-<<<<<<< Updated upstream
-				{{material.clientjob__material__name}} :
-=======
+
 				{{material.clientjob__material__name}}
->>>>>>> Stashed changes
+
 				{% for tests in testname %}
 			{% if material.clientjob__material__id == tests.clientjob__test__material %}
 				 
@@ -70,13 +68,10 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 						{{comments.name}}
 					{% endif %}
 				{% endfor %}
-<<<<<<< Updated upstream
-				{{material.suspencejob__field__name}} :
-			{% for tests in testname %}
-=======
+
 				{{material.suspencejob__field__name}}
 				{% for tests in testname %}
->>>>>>> Stashed changes
+
 			{% if material.suspencejob__field__id == tests.suspencejob__test__material %}
 				 
 	
@@ -87,10 +82,7 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 
 			{% endif %}
 		{% endfor %}
-<<<<<<< Updated upstream
-				
-=======
->>>>>>> Stashed changes
+
 			{% endif %}
 			
 			</td>
