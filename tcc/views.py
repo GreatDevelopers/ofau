@@ -1461,7 +1461,6 @@ def suspence_clearence_report(request):
 	| Q(code=amounts7)| Q(code=amounts8)| Q(code=amounts9) | Q(code=
 	amounts10)).order_by('id')
 	from Automation.tcc.variable import *
-	if 
 	balance = amount.unit_price
 	college_income = round(collegeincome * balance / 100.00)
 	admin_charge = round(admincharge * balance / 100.00)
