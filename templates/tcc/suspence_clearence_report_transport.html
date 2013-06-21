@@ -1,5 +1,9 @@
 <html>
 <head><title>Suspence Clearence Report</title></head>
+<div style="font-size:24px" align='center'><b>{{address.name}}</b></div>
+<div style="font-size:24px" align='center'>{{title.name}}</div><br>
+<body>
+<br>
 <body>
 <br/>
 <div style='position:absolute;left:7px;top:55px;'>Voucher No : ____________ </div> 
@@ -10,11 +14,14 @@
 <br/> <br/><br/><br/>
 <div style='position:absolute;left:7px;top:125px;'>
 Received a sum of Rs. {{amount.unit_price }}/- ( {{ net_balance_eng }} only ) <br/><br/>
-Vide {{client.pay}} {{client.check_number}}, {{client.check_dd_date}} from : {{ clientname.client__client__first_name}} <br/>
+Vide {{client.pay}} {{client.check_number}}, {{client.check_dd_date}} from : {% for clients in clientname %}
+{{ clients.client__client__first_name}} {{ clients.client__client__middle_name}} {{ clients.client__client__last_name}}
+{{ clients.client__client__address}}, {{ clients.client__client__city}} 
+{% endfor %}<br/>
 Vide bill No. : GNDEC/TCC/B/{{client.job_no}}    Dated : {{ client.date }}<br/>
 On account of : {{ clientname.suspencejob__field__name }} Vide Receipt No. : {{client.job_no }}	Dated: {{ client.date }} <br><br>
-Nature of Consultancy :{{ consultancy.type }},  Ratio {{ ratio1 }}:{{ ratio2 }} </div>
-<br/><br/><br/><br/><br><br><br><br />
+Nature of Consultancy :{{ con_type }},  Ratio {{ ratio1 }}:{{ ratio2 }} </div>
+<br/><br/><br/><br/>
 <div>
 <table border='1' width='100%'>
 <tr>

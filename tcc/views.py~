@@ -1415,8 +1415,9 @@ def suspence_clearence_report(request):
 		con_type = suspencejob.material.distribution.name
 	client =Job.objects.get(id=request.GET['job_no'])
 	clientname = Job.objects.filter(id=client.id).values(\
-	'client__client__first_name',
-	'suspencejob__field__name')
+	'client__client__first_name','client__client__middle_name',
+	'client__client__last_name','client__client__address',
+	'client__client__city',	'suspencejob__field__name')
 	lab_staff = suspence.lab_testing_staff
         t1=0
         temp = [0,0,0,0,0,0,0,0,0,0]
@@ -1461,11 +1462,10 @@ def suspence_clearence_report(request):
 	| Q(code=amounts7)| Q(code=amounts8)| Q(code=amounts9) | Q(code=
 	amounts10)).order_by('id')
 	from Automation.tcc.variable import *
-	if 
 	balance = amount.unit_price
 	college_income = round(collegeincome * balance / 100.00)
 	admin_charge = round(admincharge * balance / 100.00)
-	balance_temp = balance - college_income - admin_charge -work_charge
+	balance_temp = balance - college_income - admin_charge 
 	ratio1 = ratio1(con_type)
 	ratio2 = ratio2(con_type)
 	consultancy_asst = round(ratio1 * balance_temp / 100)
@@ -1480,10 +1480,9 @@ def suspence_clearence_report(request):
 	net_balance_eng, 'teachers' : staff, 'servicetaxprint' : 
 	servicetaxprint, 'highereducationtaxprint':highereducationtaxprint, 
 	'educationtaxprint' : educationtaxprint, 'ratio1' : ratio1, 
-	'job_no' :client.job_no , 'ratio2' : ratio2, 'other' : tempr, 
-	'collegeincome' : collegeincome, 'admincharge' : admincharge, 
-	'client' : client, 'amount' : amount, 'suspence' : suspence, 'client' : 
-	client, 'clientname' : clientname}
+	'job_no' :client.job_no , 'ratio2' : ratio2, 'collegeincome' : collegeincome,
+	 'admincharge' : admincharge, 'client' : client, 'amount' : amount, 
+	 'suspence' : suspence, 'clientname' : clientname,'con_type':con_type}
 	return render_to_response('tcc/suspence_clearence_report.html', 
 	dict(data.items() + tmp.items()) , context_instance=
 	RequestContext(request))
@@ -1507,8 +1506,9 @@ def suspence_clearence_report_transport(request):
 		con_type = suspencejob.material.distribution.name
 	client =Job.objects.get(id=request.GET['job_no'])
 	clientname = Job.objects.filter(id=client.id).values(\
-	'client__client__first_name',
-	'suspencejob__field__name')
+	'client__client__first_name','client__client__middle_name',
+	'client__client__last_name','client__client__address',
+	'client__client__city',	'suspencejob__field__name')
 	lab_staff = suspence.lab_testing_staff
         t1=0
         temp = [0,0,0,0,0,0,0,0,0,0]
@@ -1590,8 +1590,8 @@ def suspence_clearence_report_transport(request):
 	'educationtaxprint' : educationtaxprint, 'ratio1' : ratio1, 
 	'job_no' :client.job_no , 'ratio2' : ratio2, 'other' : tempr, 
 	'collegeincome' : collegeincome, 'admincharge' : admincharge, 
-	'client' : client, 'amount' : amount, 'suspence' : suspence, 'client' : 
-	client, 'clientname' : clientname, 'tada_sum':tada_sum}
+	'client' : client, 'amount' : amount, 'suspence' : suspence, 
+	'clientname' : clientname, 'tada_sum':tada_sum,'con_type',:con_type}
 	return render_to_response('tcc/suspence_clearence_report_transport.html',
 	dict(data.items() + tmp.items()) , context_instance=
 	RequestContext(request))
