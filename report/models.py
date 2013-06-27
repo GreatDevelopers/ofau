@@ -45,14 +45,14 @@ Report Type Cube_Test
 class Cube(models.Model):
 	ip_address = models.IPAddressField() 
 	Report_id = models.ForeignKey(Report)
-    	S_No = models.CharField(max_length=255,blank=True, default=1) 
+#    	S_No = models.CharField(max_length=255,blank=True, default=1) 
     	Description = models.CharField(max_length=150, help_text="")
     	Breaking_load = models.CharField(max_length=150)
     	Mix = models.CharField(max_length=255,blank=True) 
     	Comp_strength = models.CharField(max_length=150, blank=True)
     
     	def __unicode__(self):
-        	return self.S_No + " (" + str(self.Report_id) + ")"
+        	return self.Description + " (" + str(self.Report_id) + ")"
 
 """
 Report Type Cheical_Analysis
@@ -60,16 +60,95 @@ Report Type Cheical_Analysis
 class Chem_analysis(models.Model):
 	ip_address = models.IPAddressField()
 	Report_id = models.ForeignKey(Report)
-    	s_no = models.CharField(max_length=255,blank=True, default=1)
+#    	s_no = models.CharField(max_length=255,blank=True, default=1)
     	description = models.CharField(max_length=255,blank=True)
     	result = models.CharField(max_length=255,blank=True)
     
     	def __unicode__(self):
-        	return self.s_no + "(" + str(self.Report_id) + ")"
+        	return self.description + "(" + str(self.Report_id) + ")"
 
 """
 Report Of Steel Samples
 """
+class Steel(models.Model):
+	ip_address = models.IPAddressField()		
+	Report_id = models.ForeignKey(Report)
+#	S_No = models.CharField(max_length=255,blank=True, default=1)  
+	Description_of_Test = models.CharField(max_length=255,blank=True)
+	Acceptable_limit_as_per = models.CharField(max_length=255,blank=True)
+	Result_1 = models.CharField(max_length=255,blank=True)
+	Result_2 = models.CharField(max_length=255,blank=True)
+	Result_3 = models.CharField(max_length=255,blank=True)
+	
+	def __unicode__(self):
+		return self.Description + "(" + str(self.Report_id) + ")"
+
+
+class MS_steel_plate(models.Model):
+	ip_address = models.IPAddressField()		
+	Report_id = models.ForeignKey(Report)
+	Mech_Prop = models.CharField(max_length=255,blank=True, default=1)  
+	Proof_stress = models.CharField(max_length=255,blank=True)
+	Ultimate_tensile_stress = models.CharField(max_length=255,blank=True)
+	Elongation = models.CharField(max_length=255,blank=True)
+	
+	def __unicode__(self):
+		return self.Mech_Prop + "(" + str(self.Report_id) + ")"
+
+class MS_1786_fe_415(models.Model):
+	ip_address = models.IPAddressField()		
+	Report_id = models.ForeignKey(Report)
+	Mech_Prop = models.CharField(max_length=255,blank=True, default=1)  
+	Proof_stress = models.CharField(max_length=255,blank=True)
+	Ultimate_tensile_stress = models.CharField(max_length=255,blank=True)
+	Elongation = models.CharField(max_length=255,blank=True)
+	
+	def __unicode__(self):
+		return self.Mech_Prop + "(" + str(self.Report_id) + ")"
+
+class MS_1786_fe_500(models.Model):
+	ip_address = models.IPAddressField()		
+	Report_id = models.ForeignKey(Report)
+	Mech_Prop = models.CharField(max_length=255,blank=True, default=1)  
+	Proof_stress = models.CharField(max_length=255,blank=True)
+	Ultimate_tensile_stress = models.CharField(max_length=255,blank=True)
+	Elongation = models.CharField(max_length=255,blank=True)
+	Bend_Rebend_test = models.CharField(max_length=255,blank=True)
+	Unit_wt = models.CharField(max_length=255,blank=True)	
+	def __unicode__(self):
+		return self.Mech_Prop + "(" + str(self.Report_id) + ")"
+
+
+class IS_432_MS_grade_1_a_20mm_dia(models.Model):
+	ip_address = models.IPAddressField()		
+	Report_id = models.ForeignKey(Report)
+	Mech_Prop = models.CharField(max_length=255,blank=True, default=1)  
+	Proof_stress = models.CharField(max_length=255,blank=True)
+	Ultimate_tensile_stress = models.CharField(max_length=255,blank=True)
+	Elongation = models.CharField(max_length=255,blank=True)
+	Bend_Rebend_test = models.CharField(max_length=255,blank=True)
+#	Unit_wt = models.CharField(max_length=255,blank=True)	
+	def __unicode__(self):
+		return self.Mech_Prop + "(" + str(self.Report_id) + ")"
+
+class IS_2062_2006(models.Model):
+	ip_address = models.IPAddressField()		
+	Report_id = models.ForeignKey(Report)
+	Chemical_test = models.CharField(max_length=255,blank=True, default=1)  
+	Carbon = models.CharField(max_length=255,blank=True)
+	Sulphur = models.CharField(max_length=255,blank=True)
+	Phosphorous = models.CharField(max_length=255,blank=True)
+	Silicon = models.CharField(max_length=255,blank=True)
+	Manganese = models.CharField(max_length=255,blank=True)	
+	def __unicode__(self):
+		return self.Chemical_Test + "(" + str(self.Report_id) + ")"
+
+
+
+
+
+
+'''
 class Steel(models.Model):
 	ip_address = models.IPAddressField()		
 	Report_id = models.ForeignKey(Report)
@@ -83,19 +162,33 @@ class Steel(models.Model):
 	def __unicode__(self):
 		return self.S_No + "(" + str(self.Report_id) + ")"
 
+class Steel(models.Model):
+	ip_address = models.IPAddressField()		
+	Report_id = models.ForeignKey(Report)
+	S_No = models.CharField(max_length=255,blank=True, default=1)  
+	Description_of_Test = models.CharField(max_length=255,blank=True)
+	Acceptable_limit_as_per = models.CharField(max_length=255,blank=True)
+	Result_1 = models.CharField(max_length=255,blank=True)
+	Result_2 = models.CharField(max_length=255,blank=True)
+	Result_3 = models.CharField(max_length=255,blank=True)
+	
+	def __unicode__(self):
+		return self.S_No + "(" + str(self.Report_id) + ")"
+'''
+
 """
 Report of Ground Water
 """
 class Ground_Water(models.Model):
 	ip_address = models.IPAddressField()
 	Report_id = models.ForeignKey(Report)
-	S_No = models.CharField(max_length=255,blank=True, default=1)		
+#	S_No = models.CharField(max_length=255,blank=True, default=1)		
 	Result_1 = models.CharField(max_length=255,blank=True)
 	Result_2 = models.CharField(max_length=255,blank=True)
 	Result_3 = models.CharField(max_length=255,blank=True)
 
 	def __unicode__(self):
-		return self.S_No + "(" + str(self.Report_id) + ")"
+		return self.Result_1 + "(" + str(self.Report_id) + ")"
 
 """
 Report of Concrete Paver
@@ -103,13 +196,13 @@ Report of Concrete Paver
 class Concrete_Paver(models.Model):
 	ip_address = models.IPAddressField()
 	Report_id = models.ForeignKey(Report)
-	S_No = models.CharField(max_length=255,blank=True, default=1)		
+#	S_No = models.CharField(max_length=255,blank=True, default=1)		
 	Description = models.CharField(max_length=255,blank=True)
 	Thickness = models.CharField(max_length=255,blank=True)
 	Comp_Strength_MPa = models.CharField(max_length=255,blank=True)
 	 
 	def __unicode__(self):
-		return self.S_No + "(" + str(self.Report_id) + ")"
+		return self.Description + "(" + str(self.Report_id) + ")"
 
 """
 Report of Interlock_Tiles
@@ -117,13 +210,13 @@ Report of Interlock_Tiles
 class Interlock_Tiles(models.Model):
 	ip_address = models.IPAddressField()
 	Report_id = models.ForeignKey(Report)
-	S_No = models.CharField(max_length=255,blank=True, default=1)		
+#	S_No = models.CharField(max_length=255,blank=True, default=1)		
 	Description = models.CharField(max_length=255,blank=True)
 	Thickness = models.CharField(max_length=255,blank=True)
 	Comp_Strength_MPa = models.CharField(max_length=255,blank=True)
 	 
 	def __unicode__(self):
-		return self.S_No + "(" + str(self.Report_id) + ")"
+		return self.Description + "(" + str(self.Report_id) + ")"
 
 """
 Report of PC Samples
@@ -131,12 +224,12 @@ Report of PC Samples
 class PC(models.Model):
 	ip_address = models.IPAddressField()
 	Report_id = models.ForeignKey(Report)
-	S_No = models.CharField(max_length=255,blank=True, default=1)		
+#	S_No = models.CharField(max_length=255,blank=True, default=1)		
 	Description = models.CharField(max_length=255,blank=True)
 	Bitumen_Content = models.CharField(max_length=255,blank=True)
 	 
 	def __unicode__(self):
-		return self.S_No + "(" + str(self.Report_id) + ")"
+		return self.Description + "(" + str(self.Report_id) + ")"
   
 """
 Report of Rebound Hammer Testing
@@ -144,14 +237,14 @@ Report of Rebound Hammer Testing
 class Rebound_Hammer_Testing(models.Model):
 	ip_address = models.IPAddressField()
 	Report_id = models.ForeignKey(Report)
-	S_No = models.CharField(max_length=255,blank=True)		
+#	S_No = models.CharField(max_length=255,blank=True)		
 	Location = models.CharField(max_length=255,blank=True)
 	Striking_Angle = models.CharField(max_length=255,blank=True)
 	Average_Rebound_No = models.CharField(max_length=255,blank=True)
 	Comp_Strength_MPa = models.CharField(max_length=255,blank=True)
  	 
 	def __unicode__(self):
-		return self.S_No + "(" + str(self.Report_id) + ")"
+		return self.Location + "(" + str(self.Report_id) + ")"
 
 """
 Report of Brick Sample
@@ -159,14 +252,14 @@ Report of Brick Sample
 class Brick(models.Model):
 	ip_address = models.IPAddressField()
 	Report_id = models.ForeignKey(Report)
-	S_No = models.CharField(max_length=255,blank=True)		
+#	S_No = models.CharField(max_length=255,blank=True)		
 	Comp_Strength = models.CharField(max_length=255,blank=True)
 	Water_Absorption = models.CharField(max_length=255,blank=True)
 	Efflorescence = models.CharField(max_length=255,blank=True)
 	Dimension_Test = models.CharField(max_length=255,blank=True)
  	 
 	def __unicode__(self):
-		return self.S_No + "(" + str(self.Report_id) + ")"
+		return self.Comp_Strength + "(" + str(self.Report_id) + ")"
 
 """
 Report of WATER/WASTE WATER
@@ -403,7 +496,7 @@ Model for ADMIXTURE
 class Admixture(models.Model):
 	ip_address = models.IPAddressField()
 	Report_id = models.ForeignKey(Report)
-	S_No = models.CharField(max_length=100,blank=True)
+#	S_No = models.CharField(max_length=100,blank=True)
 	Physical_state = models.CharField(max_length=100,blank=True)	
 	Specific_Gravity = models.CharField(max_length=100,blank=True)	
 	PH_Value = models.CharField(max_length=100,blank=True)	
@@ -413,7 +506,7 @@ class Admixture(models.Model):
 	Control_Mix = models.CharField(max_length=100,blank=True)	
 
 	def __unicode__(self):
-	        return self.S_No + "(" + str(self.Report_id) + ")"
+	        return self.Physical+_state + "(" + str(self.Report_id) + ")"
 """
 ###########################
 # Model for Cement Report #
@@ -430,8 +523,8 @@ class Cement_PPC(models.Model):
 	Fineness = models.CharField(max_length=100,blank=True)
 	Unaerated_Cement_Le = models.CharField(max_length=100,blank=True) 	#for Le-chat expansion(MM)
 	After_7_Days_Areation_Le = models.CharField(max_length=100,blank=True)
-	Unaerated_Cement_Automation = models.CharField(max_length=100,blank=True)	#for Automation Clave expansion(%)
-	After_7_Days_Areation_Automation = models.CharField(max_length=100,blank=True)	
+#	Unaerated_Cement_Automation = models.CharField(max_length=100,blank=True)	#for Automation Clave expansion(%)
+#	After_7_Days_Areation_Automation = models.CharField(max_length=100,blank=True)	
 	Consistency = models.CharField(max_length=100,blank=True)	
 	Hours_72 = models.CharField(max_length=100,blank=True) 			#Compressive Strength(MPa)	
 	Hours_168 = models.CharField(max_length=100,blank=True)	
@@ -451,8 +544,8 @@ class Cement_OPC_33(models.Model):
 	Fineness = models.CharField(max_length=100,blank=True)
 	Unaerated_Cement_Le = models.CharField(max_length=100,blank=True) 	#for Le-chat expansion(MM)
 	After_7_Days_Areation_Le = models.CharField(max_length=100,blank=True)
-	Unaerated_Cement_Automation = models.CharField(max_length=100,blank=True)	#for Automation Clave expansion(%)
-	After_7_Days_Areation_Automation = models.CharField(max_length=100,blank=True)	
+#	Unaerated_Cement_Automation = models.CharField(max_length=100,blank=True)	#for Automation Clave expansion(%)
+#	After_7_Days_Areation_Automation = models.CharField(max_length=100,blank=True)	
 	Consistency = models.CharField(max_length=100,blank=True)	
 	Hours_72 = models.CharField(max_length=100,blank=True) 			#Compressive Strength(MPa)	
 	Hours_168 = models.CharField(max_length=100,blank=True)	
@@ -473,8 +566,8 @@ class Cement_OPC_43(models.Model):
 	Fineness = models.CharField(max_length=100,blank=True)
 	Unaerated_Cement_Le = models.CharField(max_length=100,blank=True) 	#for Le-chat expansion(MM)
 	After_7_Days_Areation_Le = models.CharField(max_length=100,blank=True)
-	Unaerated_Cement_Automation = models.CharField(max_length=100,blank=True)	#for Automation Clave expansion(%)
-	After_7_Days_Areation_Automation = models.CharField(max_length=100,blank=True)	
+#	Unaerated_Cement_Automation = models.CharField(max_length=100,blank=True)	#for Automation Clave expansion(%)
+#	After_7_Days_Areation_Automation = models.CharField(max_length=100,blank=True)	
 	Consistency = models.CharField(max_length=100,blank=True)	
 	Hours_72 = models.CharField(max_length=100,blank=True) 			#Compressive Strength(MPa)	
 	Hours_168 = models.CharField(max_length=100,blank=True)	
@@ -495,8 +588,8 @@ class Cement_OPC_53(models.Model):
 	Fineness = models.CharField(max_length=100,blank=True)
 	Unaerated_Cement_Le = models.CharField(max_length=100,blank=True) 	#for Le-chat expansion(MM)
 	After_7_Days_Areation_Le = models.CharField(max_length=100,blank=True)
-	Unaerated_Cement_Automation = models.CharField(max_length=100,blank=True)	#for Automation Clave expansion(%)
-	After_7_Days_Areation_Automation = models.CharField(max_length=100,blank=True)	
+#	Unaerated_Cement_Automation = models.CharField(max_length=100,blank=True)	#for Automation Clave expansion(%)
+#	After_7_Days_Areation_Automation = models.CharField(max_length=100,blank=True)	
 	Consistency = models.CharField(max_length=100,blank=True)	
 	Hours_72 = models.CharField(max_length=100,blank=True) 			#Compressive Strength(MPa)	
 	Hours_168 = models.CharField(max_length=100,blank=True)	
@@ -510,3 +603,54 @@ Model to store pdf/image
 class Report(models.Model): 
 	file = models.FileField(upload_to='uploads/documents') 
 
+class Soil_Sample(models.Model):
+	ip_address = models.IPAddressField()
+	Report_id = models.ForeignKey(Report)
+	Max_Dry_Density = models.CharField(max_length=100,blank=True)		 
+	Optimum_Moisture_Content= models.CharField(max_length=100,blank=True)
+	Liquid_limit = models.CharField(max_length=100,blank=True)
+	Plastic_limit = models.CharField(max_length=100,blank=True) 	
+	Cohesion_Intercept = models.CharField(max_length=100,blank=True)
+	Angle_of_Shearing_Resistence = models.CharField(max_length=100,blank=True)
+
+	def __unicode__(self):
+	        return self.Initial_Time + "(" + str(self.Report_id) + ")"	
+ 
+
+class Drinking_water(models.Model):
+        ip_address = models.IPAddressField()
+        Report_id = models.ForeignKey(Report)
+        Color_Hazen_Units = models.CharField(max_length=100,blank=True)
+        pH = models.CharField(max_length=100,blank=True) 	
+        Turbidity = models.CharField(max_length=100,blank=True)
+        TDS = models.CharField(max_length=100,blank=True)	
+        Odour = models.CharField(max_length=100,blank=True)	
+        Total_hardness = models.CharField(max_length=100,blank=True)
+        Calcium = models.CharField(max_length=100,blank=True) 				
+        Magnesium = models.CharField(max_length=100,blank=True)	
+        Chlorides = models.CharField(max_length=100,blank=True)
+        Odour = models.CharField(max_length=100,blank=True)	
+        Iron = models.CharField(max_length=100,blank=True)	
+        Sulphates = models.CharField(max_length=100,blank=True) 			
+        Nitrates = models.CharField(max_length=100,blank=True)	
+        Arsenic = models.CharField(max_length=100,blank=True)
+        Flurides = models.CharField(max_length=100,blank=True)
+        Copper = models.CharField(max_length=100,blank=True)	
+        Total_Califorms = models.CharField(max_length=100,blank=True)	
+        E_Coli = models.CharField(max_length=100,blank=True) 				
+        Alkalinity = models.CharField(max_length=100,blank=True)	
+        Phenolic_compounds = models.CharField(max_length=100,blank=True)
+        Copper = models.CharField(max_length=100,blank=True)	
+        Mercury  = models.CharField(max_length=100,blank=True)	
+        Cadmium = models.CharField(max_length=100,blank=True) 				
+        Lead = models.CharField(max_length=100,blank=True)	
+        Zinc = models.CharField(max_length=100,blank=True)
+        Mercury  = models.CharField(max_length=100,blank=True)	
+        Chromium = models.CharField(max_length=100,blank=True) 				
+        Aluminium = models.CharField(max_length=100,blank=True)	
+        Boron = models.CharField(max_length=100,blank=True)
+        Cyanide = models.CharField(max_length=100,blank=True)	
+        Manganese = models.CharField(max_length=100,blank=True)
+                                                                                                                                                                                                                                                                                        
+        def __unicode__(self):
+                return self.pH + "(" + str(self.Report_id) + ")"

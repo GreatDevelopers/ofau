@@ -596,8 +596,8 @@ def edit_work(request):
 				profile = jform.save(commit=False)
 				profile.client_id = job.client_id
 				id = Job.objects.aggregate(Max('job_no'))
-				maxid =id['job_no__max']
-				if maxid== None :
+				maxid = id['job_no__max']
+				if maxid == None :
 					maxid = 1
 				else:
 					maxid = maxid + 1

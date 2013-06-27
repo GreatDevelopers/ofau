@@ -7,7 +7,7 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from Automation.report.models import *
 from Automation.report.forms import *
-from Automation.report.views import *
+#from Automation.report.views import *
 from django.core.context_processors import csrf
 
 """

@@ -6,12 +6,12 @@ This view is defined to produce pdf output
 For Pisa library
 """
 import cStringIO as StringIO
-#import ho.pisa as pisa
+import ho.pisa as pisa
 from django.template.loader import get_template, render_to_string
 from django.template import Context
 from django.http import HttpResponseRedirect
 from cgi import escape
-from Automation.report.views import *
+#from Automation.report.views import *
 import logging
 """
 For Reportlab

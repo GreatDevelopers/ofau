@@ -2,6 +2,15 @@
 {% load i18n %}
 <html>
 {% block report %}
+<style>
+body{counter-reset:section ;}
+hp:after
+{
+	
+	counter-increment:section; 
+	content:" " counter(section) ;
+	}
+	</style>
 <body>
 	<table align="center" border="1">
 		<tr>
@@ -17,7 +26,7 @@
 	{% for test in mixture %}
 	
 		<tr>	
-			<td>{{test.S_No}}</td>
+			<td><hp></hp></td>
 			<td>{{test.Physical_state}}</td>	
 			<td>{{test.Specific_Gravity}}</td>
 			<td>{{test.PH_Value}}</td>

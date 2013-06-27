@@ -207,13 +207,14 @@ $(document).ready(function() {
 	</div>
     {% endfor %}
 
-    {{ Soil_ohsr_formset.management_form }}
-    {% for form in Soil_ohsr_formset.forms %}
+    {{ Soil_Ohsr_formset.management_form }}
+    {% for form in Soil_Ohsr_formset.forms %}
     <div class="item">
 		{{ form.as_p }}
 		<p style=""><a class="delete" href="#">Delete</a></p>  
 	</div>
     {% endfor %}
+
 
     {{ soil_building_formset.management_form }}
     {% for form in soil_building_formset.forms %}
@@ -273,6 +274,52 @@ $(document).ready(function() {
     {% endfor %}
 
 
+    {{ ms_Steel_plate_formset.management_form }}
+    {% for form in ms_Steel_plate_formset.forms %}
+    <div class="item">
+                {{ form.as_p }}
+                <p style=""><a class="delete" href="#">Delete</a></p>
+        </div>
+    {% endfor %}
+
+    {{ Fe_415_formset.management_form }}
+    {% for form in Fe_415_formset.forms %}
+    <div class="item">
+                {{ form.as_p }}
+                <p style=""><a class="delete" href="#">Delete</a></p>
+        </div>
+    {% endfor %}
+
+    {{ Fe_500_formset.management_form }}
+    {% for form in Fe_500_formset.forms %}
+    <div class="item">
+                {{ form.as_p }}
+                <p style=""><a class="delete" href="#">Delete</a></p>
+        </div>
+    {% endfor %}
+
+    {{IS_432_MS_Grade_1_a_20mm_formset.management_form }}
+    {% for form in IS_432_MS_Grade_1_a_20mm_formset.forms %}
+    <div class="item">
+                {{ form.as_p }}
+                <p style=""><a class="delete" href="#">Delete</a></p>
+        </div>
+    {% endfor %}
+
+    {{IS_2062_2006_formset.management_form }}
+    {% for form in IS_2062_2006_formset.forms %}
+    <div class="item">
+                {{ form.as_p }}
+                <p style=""><a class="delete" href="#">Delete</a></p>
+        </div>
+    {% endfor %}
+
+
+
+
+
+
+
     {{ concrete_formset.management_form }}
     {% for form in concrete_formset.forms %}
     <div class="item">
@@ -313,6 +360,22 @@ $(document).ready(function() {
         </div>
     {% endfor %}
 
+	{{ soil_sample_formset.management_form }}
+    {% for form in soil_sample_formset.forms %}
+    <div class="item">
+                {{ form.as_p }}
+                <p style=""><a class="delete" href="#">Delete</a></p>
+        </div>
+    {% endfor %}
+
+    {{ drink_water_formset.management_form }}
+        {% for form in drink_water_formset.forms %}
+        <div class="item">
+                {{ form.as_p }}
+                 <p style=""><a class="delete" href="#">Delete</a></p>
+            </div>
+            {% endfor %}
+    
     <p><a id="add" href="#">Add Row</a></p>
 
     <input type="submit" value=" Submit " />

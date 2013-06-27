@@ -1676,3 +1676,9 @@ def registered_user(request):
 	return render_to_response("tcc/registered_user.html", dict(temp.items() + 
 	tmp.items()),context_instance=RequestContext(request))
 
+def registered_user(request):
+	user_list=UserProfile.objects.all()
+	temp = {'user_list': user_list}
+	return render_to_response("tcc/registered_user.html", dict(temp.items() + 
+	tmp.items()),context_instance=RequestContext(request))
+

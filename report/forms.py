@@ -116,6 +116,38 @@ class SteelForm(ModelForm):
 		model =Steel
 		exclude = ('Report_id','ip_address')
 
+
+"""MS_steel_plate"""
+class MS_steel_plateForm(ModelForm):
+	class Meta:
+		model = MS_steel_plate
+		exclude = ('Report_id','ip_address')
+
+"""MS_1786_fe_415"""
+class MS_1786_fe_415Form(ModelForm):
+	class Meta:
+		model = MS_1786_fe_415
+		exclude = ('Report_id','ip_address')
+
+"""IS_432_MS_grade_1_a_20mm_dia"""
+class IS_432_MS_grade_1_a_20mm_diaForm(ModelForm):
+	class Meta:
+		model = IS_432_MS_grade_1_a_20mm_dia
+		exclude = ('Report_id','ip_address')
+
+"""IS_2062_2006"""
+class IS_2062_2006Form(ModelForm):
+	class Meta:
+		model = IS_2062_2006
+		exclude = ('Report_id','ip_address')
+
+"""MS_1786_fe_500"""
+class MS_1786_fe_500Form(ModelForm):
+	class Meta:
+		model = MS_1786_fe_500
+		exclude = ('Report_id','ip_address')
+
+
 """Concrete Paver"""
 class Concrete_PaverForm(ModelForm):
 	class Meta:
@@ -144,4 +176,15 @@ class Rebound_Hammer_TestingForm(ModelForm):
 class Ground_WaterForm(ModelForm):
 	class Meta:
 		model = Ground_Water
+		exclude = ('Report_id','ip_address')
+
+"""Soil Sample"""
+class Soil_SampleForm(ModelForm):
+	class Meta:
+		model = Soil_Sample
+		exclude = ('Report_id','ip_address')
+"""Drinking Water"""		
+class Drinking_waterForm(ModelForm):
+	class Meta :
+		model = Drinking_water
 		exclude = ('Report_id','ip_address')

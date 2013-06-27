@@ -3,9 +3,21 @@
 <html>
 {% block report %}
 <style>
-
+body{counter-reset:section ;}
+hp:after
+{
+	
+	counter-increment:section; 
+	content:" " counter(section) ;
+	}
+	.Margin {
+	text-align:center;
+	}
 .Margin {
 text-align:center;
+}
+.counter{
+counter-increment:"Section" counter(section)".";
 }
 
 </style>
@@ -23,13 +35,16 @@ text-align:center;
 		</tr>
 	{% for test in cubee %}
 	
-		<tr >	
-			<td class="Margin">{{test.S_No}}</td>
-			<td class="Margin">{{test.Description}}</td>
+		
+		<!--        <th class="Margin">{{test.S_No}}</th>
+		    -->   <tr>                 
+		        <td class="Margin"><hp></hp></td></td>			
+		        <td class="Margin">{{test.Description}}</td>
 			<td class="Margin">{{test.Breaking_load}}</td>	
 			<td class="Margin">{{test.Mix}}</td>
 			<td class="Margin">{{test.Comp_strength}}</td>		
-		</tr>	
+		</tr>
+			
 	{% endfor  %}
 {% endif %}
 	</table>	

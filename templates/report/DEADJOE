@@ -80,3 +80,168 @@ EMAIL
 OPC
 
 *** File '(Unnamed)'
+
+*** These modified files were found in JOE when it aborted on Mon Apr  1 14:47:56 2013
+*** JOE was aborted because the terminal closed
+
+*** File '(Unnamed)'
+email
+EMAIL
+OPC
+Steel
+Steel
+Ground
+reciept
+receipt
+sandy
+result_cube
+
+*** File '(Unnamed)'
+header.html
+header.html
+header.html
+header.html
+header.html
+header.html
+header.html
+header.html
+header.html
+header.html
+header.html
+
+*** These modified files were found in JOE when it aborted on Wed Apr  3 21:00:55 2013
+*** JOE was aborted because the terminal closed
+
+*** These modified files were found in JOE when it aborted on Wed Apr  3 21:01:00 2013
+*** JOE was aborted because the terminal closed
+
+*** File '(Unnamed)'
+email
+EMAIL
+OPC
+Steel
+Steel
+Ground
+reciept
+receipt
+sandy
+result_cube
+
+*** File '(Unnamed)'
+header.html
+cube.html
+header.
+header.html
+views.py
+header.html
+header.html
+header.html
+search
+search.html
+search.html
+
+*** These modified files were found in JOE when it aborted on Fri Apr  5 04:08:08 2013
+*** JOE was aborted because the terminal closed
+
+*** File '(Unnamed)'
+email
+EMAIL
+OPC
+Steel
+Steel
+Ground
+reciept
+receipt
+sandy
+result_cube
+
+*** File '(Unnamed)'
+header.html
+header.html
+header.html
+header.html
+header.html
+header.html
+header.html
+header.html
+header.html
+header.html
+cube.html
+cube.html
+cube.html
+cube.html
+cube.html
+cube.html
+cube.html
+
+*** These modified files were found in JOE when it aborted on Wed Jun 26 16:03:39 2013
+*** JOE was aborted by UNIX signal 15
+
+*** File 'steel.html'
+{% extends "report/header.html" %}
+{% load i18n %}
+<html>
+{% block report %}
+<style>
+body{counter-reset:section ;}
+hp:after
+{
+	
+	counter-increment:section; 
+	content:" " counter(section) ;
+	}
+	</style>
+<body>
+{% if st %}
+
+	
+	<table align="center" border="1">
+		<tr>
+			<th>S.No</th>
+			<th>Description</th>
+			<th>Acceptable Limit</th>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+	{% for test in st %}
+	
+		<tr>	
+			<td><hp></hp></td>
+			<td>{{test.Description_of_Test}}</td>
+			<td>{{test.Acceptable_limit_as_per}}</td>	
+			<td>{{test.Result_1}}</td>
+			<td>{{test.Result_2}}</td>
+			<td>{{test.Result_3}}</td>		
+		</tr>	
+	{% endfor  %}
+{% endif %}
+	</table>	
+</body>
+{% endblock %}
+</html>
+
+*** File '(Unnamed)'
+email
+EMAIL
+OPC
+Steel
+Steel
+Ground
+reciept
+receipt
+sandy
+result_cube
+
+*** File '(Unnamed)'
+steel.html
+steel.html
+brick.html
+chemical_analysis.html
+admixture.html
+pc.html
+models.py
+brick.html
+chemical_analysis.html
+admixture.html
+steel.html

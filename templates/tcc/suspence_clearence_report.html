@@ -5,13 +5,13 @@
 
 <body>
 <br/>
-<div style='position:absolute;left:7px;top:55px;'>Voucher No : ____________ </div> 
-<div style='position:absolute;right:7px;top:55px;'>Main/Mat. No :<u>{{ job_no }}</u> </div>
-<div style='position:absolute;left:7px;top:75px;'>Dated : ____________ </div>
-<div style='position:absolute;right:7px;top:75px;'>Dated : ____________ </div>
-<div style='position:absolute;left:7px;top:105px;'>Director,</div>
+<div style='position:absolute;left:7px;top:75px;'>Voucher No : ____________ </div> 
+<div style='position:absolute;right:7px;top:75px;'>Main/Mat. No :<u>{{ job_no }}</u> </div>
+<div style='position:absolute;left:7px;top:95px;'>Dated : ____________ </div>
+<div style='position:absolute;right:7px;top:95px;'>Dated : ____________ </div>
+<div style='position:absolute;left:7px;top:125px;'>Director,</div>
 <br/> <br/><br/><br/>
-<div style='position:absolute;left:7px;top:125px;'>
+<div style='position:absolute;left:7px;top:145px;'>
 Received a sum of Rs. {{amount.unit_price }}/- ( {{ net_balance_eng }} only ) <br/><br/>
 Vide {{client.pay}} {{client.check_number}}, {{client.check_dd_date}} from : 
 {% for clients in clientname %}
@@ -20,7 +20,7 @@ Vide {{client.pay}} {{client.check_number}}, {{client.check_dd_date}} from :
 {% endfor %}<br/>
 Vide bill No. : GNDEC/TCC/B/{{client.job_no}}    Dated : {{ client.date }}<br/>
 On account of : {{ clientname.suspencejob__field__name }} Vide Receipt No. : {{client.job_no }}	Dated: {{ client.date }} <br><br>
-Nature of Consultancy :{{ con_type }},  Ratio {{ ratio1 }}:{{ ratio2 }} </div>
+Nature of Consultancy :{{ con_type }},  Ratio {{ ratio1 }}:{{ ratio2 }} </div><br>
 <br/><br/><br/><br/><br><div>
 <table border='1' width='100%'>
 <tr>
@@ -69,14 +69,14 @@ Nature of Consultancy :{{ con_type }},  Ratio {{ ratio1 }}:{{ ratio2 }} </div>
 
 	<td>{{suspence.lab_testing_staff}}</td>
 </tr>
-</table>
+</table><br>
 THE WORK HAS BEEN EXECUTED BY ABOVE PERSONS AS MENTIONED ABOVE. </div>
 <br>
 <div align= 'left'>Voucher No : ____________ </div> 
 <div align= 'left'>Dated : ____________ 
-<div style="margin-right: 100px;float: right;margin-top: 50px;">DEAN TESTING AND CONSULTANCY</div>
+<div style="margin-right: 60px;float: right;margin-top: 50px;">DEAN TESTING AND CONSULTANCY</div>
 <div align="left" style="margin-top: 50px;">
-Account Clerk (Consultancy)</div>
+Account Clerk (Consultancy)</div><br>
 <table border='1' >
 <tr>
 	<TD>Code</TD>
