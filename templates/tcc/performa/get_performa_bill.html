@@ -27,7 +27,7 @@
 		<th>Amount</th>
 		
 		<th>Performa Bill</th>
-		
+		<th>Bill</th>
 	</tr>
 	{% for client in job %}
 	<tr>
@@ -38,7 +38,7 @@
 		<td>{{client.testtotalperf__unit_price}}</td>
 		
 		<td><a href="/automation/tcc/billperf/?id={{client.id}}&q=2">Get Performa Bill</a></td>
-		
+		<td><a href="/automation/tcc/billperf/?id={{client.id}}&q=1">Get Bill</a></td>
 	{% endfor %}
 
 

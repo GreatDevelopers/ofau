@@ -7,6 +7,7 @@ It is the interface between the user interface, urls and database.
 
 from Automation.tcc.header import *
 
+
 def index1(request):
 	'''
 	** index1 **
@@ -1668,4 +1669,10 @@ def contact(request):
 	else:
 		return render_to_response('contact/contact2.html', dict(temp.\
 		items()+tmp.items()), context_instance=RequestContext(request))
+		
+def registered_user(request):
+	user_list=UserProfile.objects.all()
+	temp = {'user_list': user_list}
+	return render_to_response("tcc/registered_user.html", dict(temp.items() + 
+	tmp.items()),context_instance=RequestContext(request))
 

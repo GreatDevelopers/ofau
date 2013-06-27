@@ -510,7 +510,7 @@ def billperf(request):
 	'educationtaxprint':educationtaxprint,'bill':bill, 'job':job, 'net_total1' : 
 	net_total1, 'getjob' : getjob, 'getadd' : getadd,'job_date':job_date}
 	query =request.GET.get('q', '')
-	if query == 1 :
+	if query =="1" :
 		return render_to_response('tcc/performa/bill.html', dict(template.items() + 
 		tmp.items()) , context_instance=RequestContext(request))
 	else:
@@ -523,14 +523,20 @@ def search_job(request):
 	"""
 	** search_job **
 
-	Search Job function searches the performa job, for which one wants to get information about or want to confirm that job.
+	Search Job function searches the performa job, for which one wants 
+	to get information about or want to confirm that job.
 	"""
 	query =request.GET.get('q', '')
 	if query:
-		job = EditJob.objects.filter(job_no = query).values('id','client__client__first_name','client__client__address','client__client__city','clienteditjob__material__name','suspenceeditjob__field__name','site','testtotalperf__unit_price')
+		job = EditJob.objects.filter(job_no = query).values
+		('id','client__client__first_name','client__client__address',
+		'client__client__city','clienteditjob__material__name',
+		'suspenceeditjob__field__name','site','testtotalperf__unit_price')
 	else:	
 		job =[]	
-	return render_to_response('tcc/performa/searchjob.html',{'job':job,'query':query},context_instance=RequestContext(request))
+	temp = {'job':job,'query':query}
+	return render_to_response('tcc/performa/searchjob.html',dict(temp.items() + 
+	tmp.items()),context_instance=RequestContext(request))
 
 
 
@@ -545,10 +551,12 @@ def edit_work(request):
 	job = EditJob.objects.get(id = query)
 	try :
 		clientjob = ClientEditJob.objects.get(job =query)
-    		if request.method == "POST":
+		testtotal = TestTotal.objects.get(job=query)
+		if request.method == "POST":
 			jform = JobForm(request.POST)
 			sform = ClientjobForm(request.POST)
-			if jform.is_valid() and sform.is_valid():
+			tform = TestTotalForm(request.POST)
+			if jform.is_valid() and sform.is_valid() and tform.is_valid():
 				profile = jform.save(commit=False)
 				profile.client_id = job.client_id
 				id = Job.objects.aggregate(Max('job_no'))
@@ -561,26 +569,29 @@ def edit_work(request):
 				profile.report_type_id =1
 				profile.save()
 				test = request.POST.getlist('test')
-       				prof = sform.save(commit=False)
+				prof = sform.save(commit=False)
 				getmax = Job.objects.aggregate(Max('id'))
 				getjob =getmax['id__max']
 				getj=Job.objects.get(id=getjob)
 				prof.job = getj
 				prof.save()
 				sform.save_m2m()
-				if profile.report_type == "1":
-					return HttpResponseRedirect(reverse('Automation.tcc.views.add_suspence'))
-				else :
-					return HttpResponseRedirect(reverse('Automation.tcc.views.gen_report'))
+				tform.save()
+				return HttpResponseRedirect(reverse('Automation.tcc.views.gen_report'))
 		else:	
 			jform = JobForm(instance=job)
 			sform = ClientjobForm(instance=clientjob)
-		return render_to_response('tcc/performa/edit_job.html', {'jform': jform,'sform':sform}, context_instance=RequestContext(request))
+			tform = TestTotalForm(instance=testtotal)
+			temp = {'jform':jform,'sform':sform,'tform':tform}
+		return render_to_response('tcc/performa/edit_job.html', 
+		 dict(temp.items() + tmp.items()), context_instance
+		=RequestContext(request))
 	except Exception :
 		suspencejob = SuspenceEditJob.objects.get(job = query)
 		if request.method == "POST":
 			jform = JobForm(request.POST)
-        	sform = SuspencejobForm(request.POST)
+        	sform = SuspenceJobForm(request.POST)
+        	tform = TestTotalForm(request.POST)
         	if jform.is_valid() and sform.is_valid():
 				profile = jform.save(commit=False)
 				profile.client_id = job.client_id
@@ -598,8 +609,13 @@ def edit_work(request):
 				prof.job = profile.id
 				prof.save()
 				sform.save_m2m()
+				tform.save()
 				return HttpResponseRedirect(reverse('Automation.tcc.views.add_suspence'))
-        	else:	
+		else:	
 			jform = JobForm(instance=job)
-			sform = SuspencejobForm(instance=suspencejob)
-		return render_to_response('tcc/performa/edit_job.html', {'jform': jform,'sform':sform},context_instance=RequestContext(request))
+			sform = SuspenceJobForm(instance=suspencejob)
+			tform = TestTotalForm(instance=testtotal)
+			temp = {'jform':jform,'sform':sform,'tform':tform}
+		return render_to_response('tcc/performa/edit_job.html', dict(temp.items() + 
+		tmp.items()) ,context_instance=RequestContext(request))
+		

@@ -54,7 +54,7 @@ urlpatterns = patterns('Automation.tcc.views',
     (r'^s_report/$', 's_report'),
     (r'^additional/$', 'additional'),
     (r'^nonpayment/$', 'non_payment_job'),
-      
+    (r'^registered_user/$', 'registered_user'),  
 )
 
 urlpatterns += patterns('Automation.tcc.registers',

@@ -54,7 +54,7 @@ class UserProfile(models.Model):
 	state = models.CharField(max_length=30,choices=STATES_CHOICES,
 	default='Punjab')
 	website = models.URLField(blank=True, null=True)
-	email_address = models.EmailField(blank=True, null=True)
+	email_address = models.EmailField(max_length=70, blank=True, null=True)
 	contact_no = models.CharField(max_length=500)
 	type_of_organisation = models.CharField(max_length=20, choices = 
 	ORGANISATION_CHOICES)
@@ -397,19 +397,6 @@ class ClientJob(models.Model):
 	def __unicode__(self):
           return self.id()
 
-
-class ClientJobForm(forms.ModelForm):
-	"""
-	** ClientJobForm **
-	
-	ClientJobForm Class define the form for ClientJob model.
-	
-	""" 
-	class Meta :
-		model = ClientJob
-		exclude= ['job','material']
-
-
 class ClientEditJob(models.Model):
 	"""
 	** ClientEditJob **
@@ -442,15 +429,7 @@ class ClientjobForm(forms.ModelForm):
 		model = ClientJob
 		exclude= ['job']
 
-	def __init__(self,*args, **kwargs):
-		super(ClientjobForm,self).__init__(*args,**kwargs)
-		try:
-			material = kwargs['instance'].material
-		except KeyError:
-			material = 1 	
-		self.fields['test'].queryset=Test.objects.filter(material_id
-		=material)
-
+	
 
 class editClientJobForm(forms.ModelForm):
 	"""
@@ -546,9 +525,8 @@ class TestTotalForm(forms.ModelForm):
 	""" 
 	class Meta :
 		model = TestTotal
-		exclude= ['job','balance']
-
-
+		exclude= ['job',]
+		
 class TestTotalPerf(models.Model):
 	"""
 	** TestTotalPerf **
