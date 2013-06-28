@@ -532,8 +532,8 @@ def search_job(request):
 		('id','client__client__first_name','client__client__address',
 		'client__client__city','clienteditjob__material__name',
 		'suspenceeditjob__field__name','site','testtotalperf__unit_price')
-	else:	
-		job =[]	
+	else :
+		job=[]
 	temp = {'job':job,'query':query}
 	return render_to_response('tcc/performa/searchjob.html',dict(temp.items() + 
 	tmp.items()),context_instance=RequestContext(request))
@@ -551,7 +551,7 @@ def edit_work(request):
 	job = EditJob.objects.get(id = query)
 	try :
 		clientjob = ClientEditJob.objects.get(job =query)
-		testtotal = TestTotal.objects.get(job=query)
+		testtotal = TestTotalPerf.objects.get(job=query)
 		if request.method == "POST":
 			jform = JobForm(request.POST)
 			sform = ClientjobForm(request.POST)
@@ -584,10 +584,11 @@ def edit_work(request):
 			tform = TestTotalForm(instance=testtotal)
 			temp = {'jform':jform,'sform':sform,'tform':tform}
 		return render_to_response('tcc/performa/edit_job.html', 
-		 dict(temp.items() + tmp.items()), context_instance
+		dict(temp.items() + tmp.items()), context_instance
 		=RequestContext(request))
 	except Exception :
 		suspencejob = SuspenceEditJob.objects.get(job = query)
+		testtotal = TestTotalPerf.objects.get(job=query)
 		if request.method == "POST":
 			jform = JobForm(request.POST)
         	sform = SuspenceJobForm(request.POST)

@@ -419,9 +419,8 @@ def add_job(request):
 		else:	
 			form1 = JobForm()
 			form2 = ClientJobForm()
-		temp = {"form1": 
-		form1,"test":test,'field_list':field_list,'query':query,'clid'
-		:clid}
+		temp = {"form1":form1,"test":test,'field_list':field_list,'query':query,
+		'clid':clid}
 		return render_to_response('tcc/add_job.html', dict(temp.items() + 
 		tmp.items()), context_instance=RequestContext(request))
 	else :

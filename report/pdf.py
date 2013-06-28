@@ -6,7 +6,7 @@ This view is defined to produce pdf output
 For Pisa library
 """
 import cStringIO as StringIO
-import ho.pisa as pisa
+#import ho.pisa as pisa
 from django.template.loader import get_template, render_to_string
 from django.template import Context
 from django.http import HttpResponseRedirect
@@ -16,12 +16,12 @@ import logging
 """
 For Reportlab
 """
-
+"""
 from reportlab.graphics.shapes import Drawing,colors
 from reportlab.graphics.widgets.markers import makeMarker
 from reportlab.graphics.charts.barcharts import VerticalBarChart
 from reportlab.graphics.charts.lineplots import LinePlot
-
+"""
 """
 Reportlab view
 """

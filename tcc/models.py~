@@ -429,7 +429,11 @@ class ClientjobForm(forms.ModelForm):
 		model = ClientJob
 		exclude= ['job']
 
-	
+	def __init__(self,*args, **kwargs):
+		super(ClientjobForm,self).__init__(*args,**kwargs)
+		material = kwargs['instance'].material
+		self.fields['test'].queryset=Test.objects.filter(material_id
+		=material)	
 
 class editClientJobForm(forms.ModelForm):
 	"""
@@ -525,9 +529,8 @@ class TestTotalForm(forms.ModelForm):
 	""" 
 	class Meta :
 		model = TestTotal
-		exclude= ['job','balance']
-
-
+		exclude= ['job',]
+		
 class TestTotalPerf(models.Model):
 	"""
 	** TestTotalPerf **

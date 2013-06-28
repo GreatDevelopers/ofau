@@ -412,7 +412,17 @@ class ClientEditJob(models.Model):
 	
 	def __unicode__(self):
           return self.id()
+
+class ClientJobForm(forms.ModelForm):
+	"""
+	** ClientJobForm **
 	
+	ClientJobForm Class define the form for ClientJob model.
+	
+	""" 
+	class Meta :
+		model = ClientJob
+		exclude= ['job','material']	
 
 class ClientjobForm(forms.ModelForm):
 	"""
@@ -429,7 +439,11 @@ class ClientjobForm(forms.ModelForm):
 		model = ClientJob
 		exclude= ['job']
 
-	
+	def __init__(self,*args, **kwargs):
+		super(ClientjobForm,self).__init__(*args,**kwargs)
+		material = kwargs['instance'].material
+		self.fields['test'].queryset=Test.objects.filter(material_id
+		=material)	
 
 class editClientJobForm(forms.ModelForm):
 	"""
