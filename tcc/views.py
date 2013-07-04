@@ -1342,14 +1342,36 @@ def suspence_clearance(request):
 	temp ={'form': form,'query':query,'sus':sus}
 	return render_to_response('tcc/suspenceclear.html', dict(temp.items() + 
 	tmp.items()), context_instance=RequestContext(request))
+	
+def search_new(request):
+	"""
+	** search **
+	Here's the new search.
+	The function get_query is defined in funcions.py file
+	"""
+    query_string = ''
+    found_entries = None
+    if ('q' in request.GET) and request.GET['q'].strip():
+        query_string = request.GET['q']
+        
+        entry_query = get_query(query_string, ['first_name', 'middle_name',
+        'last_name', 'address','city'])
 
+        
+        found_entries = UserProfile.objects.filter(entry_query).order_by('date')
+	temp ={ 'query_string': query_string, 'found_entries': found_entries }
+    return render_to_response('tcc/search_results.html',
+    dict(temp.items() + tmp.items()), context_instance=
+    RequestContext(request))
+                          
 @login_required
 def search(request):
 	"""
 	** search **
 
 	Search Function is used to search a client using his/her name, 
-	type of work and address. The 'icontain' keyword is used which 
+	type of work and address. The 'icontain' keyword is used 
+	which 
 	fetches all the rows that contain the query. THen the data related 
 	to that client that is required is also enlisted.
 	"""

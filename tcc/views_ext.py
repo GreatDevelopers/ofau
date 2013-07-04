@@ -528,7 +528,7 @@ def search_job(request):
 	"""
 	query =request.GET.get('q', '')
 	if query:
-		job = EditJob.objects.filter(job_no = query).values
+		job = EditJob.objects.all().filter(job_no=query).values
 		('id','client__client__first_name','client__client__address',
 		'client__client__city','clienteditjob__material__name',
 		'suspenceeditjob__field__name','site','testtotalperf__unit_price')
@@ -556,7 +556,7 @@ def edit_work(request):
 			jform = JobForm(request.POST)
 			sform = ClientjobForm(request.POST)
 			tform = TestTotalForm(request.POST)
-			if jform.is_valid() and sform.is_valid() and tform.is_valid():
+			if jform.is_valid() and sform.is_valid():
 				profile = jform.save(commit=False)
 				profile.client_id = job.client_id
 				id = Job.objects.aggregate(Max('job_no'))
@@ -582,7 +582,7 @@ def edit_work(request):
 			jform = JobForm(instance=job)
 			sform = ClientjobForm(instance=clientjob)
 			tform = TestTotalForm(instance=testtotal)
-			temp = {'jform':jform,'sform':sform,'tform':tform}
+		temp = {'jform':jform,'sform':sform,'tform':tform}
 		return render_to_response('tcc/performa/edit_job.html', 
 		dict(temp.items() + tmp.items()), context_instance
 		=RequestContext(request))
@@ -591,9 +591,9 @@ def edit_work(request):
 		testtotal = TestTotalPerf.objects.get(job=query)
 		if request.method == "POST":
 			jform = JobForm(request.POST)
-        	sform = SuspenceJobForm(request.POST)
-        	tform = TestTotalForm(request.POST)
-        	if jform.is_valid() and sform.is_valid():
+			sform = SuspenceJobForm(request.POST)
+			tform = TestTotalForm(request.POST)
+			if jform.is_valid() and sform.is_valid():
 				profile = jform.save(commit=False)
 				profile.client_id = job.client_id
 				id = Job.objects.aggregate(Max('job_no'))
@@ -603,6 +603,7 @@ def edit_work(request):
 				else:
 					maxid = maxid + 1
 				profile.job_no = maxid
+				profile.report_type_id =2
 				profile.save()
 				prof = sform.save(commit=False)
 				sel_test = get_object_or_404(Test, pk=request.POST.get('test'))
@@ -616,7 +617,7 @@ def edit_work(request):
 			jform = JobForm(instance=job)
 			sform = SuspenceJobForm(instance=suspencejob)
 			tform = TestTotalForm(instance=testtotal)
-			temp = {'jform':jform,'sform':sform,'tform':tform}
+		temp = {'jform':jform,'sform':sform,'tform':tform}
 		return render_to_response('tcc/performa/edit_job.html', dict(temp.items() + 
 		tmp.items()) ,context_instance=RequestContext(request))
 		
