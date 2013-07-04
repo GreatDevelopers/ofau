@@ -1,0 +1,36 @@
+{% extends "report/header.html" %}
+{% load i18n %}
+<html>
+{% block report %}
+body{counter-reset:section ;}
+hp:after
+{
+	
+	counter-increment:section; 
+	content:" " counter(section) ;
+	}
+	</style>
+<body>
+{% if st %}
+
+
+        <table align="center" border="1">
+                <tr>
+                        <th>S.No</th>
+                        <th>Description</th>
+                        <th>Bitumen Content</th>
+                </tr>
+        {% for test in st %}
+
+                <tr>
+                        <td><hp></hp></td>
+                        <td>{{test.Description}}</td>
+                        <td>{{test.Bitumen_Content}}</td>
+                </tr>
+        {% endfor  %}
+{% endif %}
+        </table>
+</body>
+{% endblock %}
+</html>
+

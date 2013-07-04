@@ -1,0 +1,41 @@
+{% extends base_template|default:"base.html" %}
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+{% block content %}
+	
+
+ <body>
+	 <center><h2 style= "color:Grey; "> Registered Clients</h2></center>
+{% if user_list %}
+   <table>
+    <tr><th><center>Client Id</center></th>
+    <th><center>First Name</center></th>
+    <th><center>Last Name</center></th>
+    <th><center>Address</center></th>
+    <th><center>Contact</center></th>
+    <th><center>Email</center></th>
+    
+{% for registered_user in user_list %}
+        <tr><td><center>{{registered_user.id}}</center></td>
+        <td><center>{{registered_user.first_name}}</center></td>
+        <td><center>{{registered_user.last_name}}</center></td>
+        <td><center>{{registered_user.address}}</center></td>
+        <td><center>{{registered_user.contact_no}}</center></td>
+         <td><center>{{registered_user.email_address}}</center></td></tr>
+      
+      {% endfor %}  
+        
+    </table>
+    
+     
+    
+{% else %}
+    <p>No data is available.</p>
+    
+{% endif %}
+ 
+   
+ </body>
+ </html>
+{% endblock %}
