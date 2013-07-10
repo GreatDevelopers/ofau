@@ -888,7 +888,6 @@ class Bankdetails(models.Model):
 	accountcode = models.CharField(max_length=50)
 	address = models.CharField(max_length=150)
 
-
 class BankdetailsForm(ModelForm):
 	"""
 	** BankdetailsForm **
@@ -898,7 +897,6 @@ class BankdetailsForm(ModelForm):
 	""" 
 	class Meta :
 		model = Bankdetails
-
 
 class LabReport(forms.Form):
 	"""
@@ -911,3 +909,19 @@ class LabReport(forms.Form):
 	start_date= forms.DateField()
 	end_date= forms.DateField()
 	material = forms.ModelChoiceField(queryset=Material.objects.all())
+	
+class SelStaff(models.Model):
+	 staff = models.ManyToManyField(Staff,blank=True,null=True)
+	
+class SelStaffForm(ModelForm):
+	"""
+	** SelStaffForm **
+	
+	SelStaffForm Class define form for SelStaff model.
+	
+	""" 
+	staff = forms.ModelMultipleChoiceField(queryset=Staff.objects.all(), 
+	required=False, widget=forms.CheckboxSelectMultiple)
+	
+	class Meta :
+		model = SelStaff

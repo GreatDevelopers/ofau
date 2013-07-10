@@ -1700,3 +1700,23 @@ def registered_user(request):
 	return render_to_response("tcc/registered_user.html", dict(temp.items() + 
 	tmp.items()),context_instance=RequestContext(request))
 
+def letter_staff(request):
+	if request.method == 'POST':
+		form = SelStaffForm(request.POST)
+		if form.is_valid():
+			cd = form.cleaned_data
+        	staff = request.POST.getlist('staff')
+        	profile = form.save(commit=False)
+        	profile.save()
+        	form.save_m2m()
+        	staffmax = SelStaff.objects.aggregate(Max('id'))
+        	staffid =staffmax['id__max']
+        	staff = SelStaff.objects.filter(id=staffid).values('staff__name')
+        	temp = {'form':form,'staff':staff}
+        	return render_to_response('tcc/letterstaff.html',dict(temp.items() + 
+        	tmp.items()),context_instance=RequestContext(request))
+	else:
+		form = SelStaffForm()
+	temp ={'form': form}
+	return render_to_response('tcc/new_client.html',dict(temp.items() + 
+	tmp.items()),context_instance=RequestContext(request))
