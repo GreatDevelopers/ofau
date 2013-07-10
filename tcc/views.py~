@@ -942,8 +942,8 @@ def receipt_report(request):
 	'client__client__city','client__client__company')
 	mate = Job.objects.all().filter(job_no=job_no).values(
 	'clientjob__material__name','suspencejob__field__name',
-	'report_type','date','clientjob__material__matcomment_id',).\
-	distinct()
+	'report_type','date','clientjob__material__matcomment_id',
+	suspencejob__field__matcomment_id).distinct()
 	bill = Bill.objects.get(job_no=job_no)
 	matcomment= MatComment.objects.all()
 	balance = bill.balance
@@ -1711,7 +1711,7 @@ def letter_staff(request):
         	form.save_m2m()
         	staffmax = SelStaff.objects.aggregate(Max('id'))
         	staffid =staffmax['id__max']
-        	staff = SelStaff.objects.filter(id=staffid).values('staff')
+        	staff = SelStaff.objects.filter(id=staffid).values('staff__name')
         	temp = {'form':form,'staff':staff}
         	return render_to_response('tcc/letterstaff.html',dict(temp.items() + 
         	tmp.items()),context_instance=RequestContext(request))

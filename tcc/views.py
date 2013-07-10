@@ -942,8 +942,8 @@ def receipt_report(request):
 	'client__client__city','client__client__company')
 	mate = Job.objects.all().filter(job_no=job_no).values(
 	'clientjob__material__name','suspencejob__field__name',
-	'report_type','date','clientjob__material__matcomment_id',).\
-	distinct()
+	'report_type','date','clientjob__material__matcomment_id',
+	'suspencejob__field__matcomment_id').distinct()
 	bill = Bill.objects.get(job_no=job_no)
 	matcomment= MatComment.objects.all()
 	balance = bill.balance
