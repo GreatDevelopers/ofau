@@ -3,7 +3,7 @@
     <title>{{lab}}</title>
 </head>
 <body>
-<div align="center"><h2>Lab Report</h2><br>Description of {{material}} samples for {{start_date}} to {{end_date}}</div>
+<div align="center"><h2>Lab Report</h2><br>Description of {{sel_material}} samples for {{start_date}} to {{end_date}}</div>
 <div>
 <table border="1" width="100%">
 	<tr>
@@ -20,7 +20,9 @@
          <tr>
 			<td>{{ clients.job_no }}</td>
 			<td> {{ clients.date }}</td>
-			<td> {{clients.client__client__first_name}}</td>			
+			<td> {{clients.client__client__first_name}} {{clients.client__client__middle_name}}
+			{{clients.client__client__last_name}} {{clients.client__client__address}}
+			{{clients.client__client__city}}</td>			
 <!--			<td> {{clients.client__client__address}}</td>-->
 			<td>{{clients.amount__unit_price}}</td>
 		  

@@ -678,20 +678,63 @@ def lab_report(request):
 		dates(start_date, end_date)	 
 		material = cd['material']
 		mat = Material.objects.get(name=material)
+		sel_material = mat.name
 		if mat.report_id==1:
-			job = Job.objects.filter(clientjob__material__name=material).\
+			job = Job.objects.filter(clientjob__material__name=sel_material).\
 			filter(date__range=(start_date,end_date))
 		else:
-			job = Job.objects.filter(suspencejob__field__name=material).\
+			job = Job.objects.filter(suspencejob__field__name=sel_material).\
 			filter(date__range=(start_date,end_date))
 		client = Job.objects.filter(id__in=job).values('job_no', 'date', 
-		'client__client__first_name', 'client__client__address', 'amount__unit_price')
+		'client__client__first_name','client__client__middle_name','client__client__last_name',
+		'client__client__city', 'client__client__address', 'amount__unit_price')
 		total_temp = Amount.objects.all().filter(job__in=job).\
 		aggregate(Sum('unit_price'))
 		total= total_temp['unit_price__sum']
-		template ={'form':form, 'total':total, 'date':start_date, 
-		'client':client, 'job':job, 'material':material}
+		template ={'form':form, 'total':total, 'start_date':start_date, 
+		'client':client, 'job':job, 'sel_material':sel_material,'end_date':
+		end_date}
 		return render_to_response('tcc/labreport.html', 
+		dict(template.items() + tmp.items()) , context_instance =
+		RequestContext(request))
+	else:
+		form = LabReport()         
+	template ={'form': form}  
+	return render_to_response('tcc/client.html', dict(template.items() + 
+	tmp.items()), context_instance=RequestContext(request))
+	
+def consultancy_funds(request):       
+	"""
+	** consultancy_funds **
+
+	This function lists all the jobs for a particular material in a 
+	date range.
+	"""   
+	form = LabReport(request.POST)
+	if form.is_valid():
+		cd = form.cleaned_data
+		start_date = cd['start_date']
+		end_date = cd['end_date'] 
+		dates(start_date, end_date)	 
+		material = cd['material']
+		mat = Material.objects.get(name=material)
+		sel_material = mat.name
+		if mat.report_id==1:
+			job = Job.objects.filter(clientjob__material__name=sel_material).\
+			filter(date__range=(start_date,end_date))
+		else:
+			job = Job.objects.filter(suspencejob__field__name=sel_material).\
+			filter(date__range=(start_date,end_date))
+		client = Job.objects.filter(id__in=job).values('job_no', 'date', 
+		'client__client__first_name','client__client__middle_name','client__client__last_name',
+		'client__client__city', 'client__client__address', 'amount__consultancy_asst').order_by('job_no')
+		total_temp = Amount.objects.all().filter(job__in=job).\
+		aggregate(Sum('consultancy_asst'))
+		total= total_temp['consultancy_asst__sum']
+		template ={'form':form, 'total':total, 'start_date':start_date, 
+		'client':client, 'job':job, 'sel_material':sel_material,'end_date':
+		end_date}
+		return render_to_response('tcc/consuntancy_funds.html', 
 		dict(template.items() + tmp.items()) , context_instance =
 		RequestContext(request))
 	else:

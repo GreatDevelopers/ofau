@@ -72,6 +72,7 @@ urlpatterns += patterns('Automation.tcc.registers',
     (r'^labreport/$', 'lab_report'),
     (r'^paymentregister/$', 'payment_register'),
     (r'^performaregister/$', 'performa_register'),
+    (r'^consultancy/$', 'consultancy_funds'),
 )
     
 urlpatterns += patterns('Automation.tcc.views_ext',
