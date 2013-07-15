@@ -297,62 +297,13 @@ Install()
 	   Browser      #runs browser function
 	}
 
-Other_requirements()   #this function installs secondary requirements
-	{
-
-	echo "-------installing required packages------"
-
-	result1=$(dpkg-query -W -f='${package}\n' "libapache2-mod-wsgi")
-	result2=$(dpkg-query -W -f='${package}\n' "apache2")
-	if [ $result1 = libapache2-mod-wsgi ] && [ $result2 = apache2 ]
-	then 
-		echo "***********apache2 libapache2-mod-wsgi" \
-			 "already installed*************"
-	else 
-		echo "apache2 libapache2-mod-wsgi is not installed."
-		echo "You want to install it now: (y for yes," \
-			 "otherwise aborted):"
-		read Y
-		if [ $Y = Y ] || [ $Y = y ]
-		then
-			apt-get install apache2 libapache2-mod-wsgi
-			a2enmod wsgi
-		else 
-			echo "Aborted"
-			exit
-		fi
-	fi
-
-	result=$(dpkg-query -W -f='${package}\n' "sysvbanner")
-
-	if [ $result = sysvbanner ]
-	 then
-		    echo "***********banner already installed****************"
-	else
-		echo "sysvbanner is not installed."
-		echo "You want to install it now: (y for yes," \
-			 "otherwise aborted):"
-		read Y
-		if [ $Y = Y ] || [ $Y = y ]
-		then
-			apt-get install sysvbanner
-		else 
-			echo "Aborted"
-			exit
-		fi
-	fi
-
-	Install
-
-	}
-
 Install_django()
 	{
 
 	result=$(python -c "import django; print(django.get_version())")
 	if  [ $result = 1.4.2 ]; then
 			  echo "Django 1.4.2 is already installed"
-			  Other_requirements
+			  Install
 	else
 			  echo "Django 1.4.2 is currently not installed"
 			  echo "You want to install it now: (y for yes, " \
@@ -369,7 +320,7 @@ Install_django()
 					pip install django-tagging
 					check=+1
 					cd ../
-					Other_requirements
+					Install
 			 else
 					echo "Aborted"
 			        exit
@@ -378,97 +329,38 @@ Install_django()
 
 	}
 
-Install_python()
-	{
 
-	result=$(dpkg-query -W -f='${package}\n' "python2.7")
-	if [ $result = python2.7 ]; then
-		echo "**********Python2.7 already installed**************"
-	else
-		echo "Pyhton is not currently installed"
-		echo "Do you want to installa it now? (y for yes," \
-			"otherwsie aborted):" 
-		read Y
-		if [ $Y = y ] || [ $Y=Y ]; then
-			apt-get install python2.7
-		else 
-			echo "Aborted"
-			exit
-		fi
-	fi
-	result=$(dpkg-query -W -f='${package}\n' "python-pip")
-	if [ $result = python-pip ]; then
-		echo "********python-pip already installed***********"
-	else
-		echo "Pip is not installed currently."
-		echo "You want to install it now: (y for yes, " \
-			 "otherwise aborted):"
-		read Y
-		if [ $Y = y ] || [ $Y=Y ]; then
-			apt-get install python-pip
-		else
-			echo "Aborted"
-			exit
-		fi
-	fi
-	result=$(dpkg-query -W -f='${package}\n' "python-setuptools")
-	if [ $result = python-setuptools ]; then
-		echo "**********Python-setup tools already installed*********"
-	else
-		echo "python-setuptools are not currently installed."
-		echo "You want to install it now: (y for yes, " \
-			 "otherwise aborted):"
-		read Y
-		if [ $Y = y ] || [ $Y=Y ]; then
-			apt-get install python-setuptools
-		else
-			echo "Aborted"
-			exit
-		fi
-	fi
-	result=$(dpkg-query -W -f='${package}\n' "python-mysqldb")
-	if [ $result = python-mysqldb ]; then
-		echo "************Python-mysqldb already installed***********"
-	else
-		echo "python-mysqldb is not currently installed."
-		echo "You want to install it now: (y for yes, " \
-			 "otherwise aborted):"
-		read Y
-		if [ $Y = y ] || [ $Y=Y ]; then
-		   apt-get install python-mysqldb
-		else 
-			echo "Aborted"
-			exit
-		fi
-	fi
-Install_django
-	}
 
-# Script starts here
-Install_mysql()
-	{
-
-	result=$(dpkg-query -W -f='${package}\n' "mysql-server")
-
-	if  [ $result = mysql-server ]; then
-		echo "mysql-server already installed"
-		Install_python
+Package()
+{
+result=$(dpkg-query -W -f='${package}\n' "$1")
+if  [ $result = $1 ]; then
+		echo "$1 already installed"
 	else
-		echo "mysql-server is not installed in your system"
+		echo "$1 is not installed in your system"
 		echo "You want to install it now: (y for yes, " \
 			 "otherwise aborted):"
 		read Y
 		if [ $Y = y ] || [ $y = Y]; then
-			apt-get install mysql-server
-			Install_python
+			apt-get install $1
 		else 
 			echo "Aborted" 
 			exit
 		fi
 	fi
+}
+Dependencies()
+{
+dep=(mysql-server python2.7 python-pip python-setuptools python-mysqldb \
+apache2 libapache2-mod-wsgi sysvbanner)
+for i in "${dep[@]}"
+do
+Package $i
+done
+Install_django
+}
+Dependencies
 
-	}
-Install_mysql
 	else
 		echo "::::::::::::SLOW or NO INTERNET CONNECTION:::::::::::::"
 		echo "Please check your connectivity and try again later."
