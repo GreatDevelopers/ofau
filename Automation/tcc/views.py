@@ -1161,6 +1161,15 @@ def transport_bill(request):
 	return render_to_response('tcc/transportbill.html',dict(template.\
 	items() + tmp.items()) , context_instance=RequestContext(request))
 
+def search_transport(request):
+	query = request.GET.get('q', '')
+	if query :
+		results = Transport.objects.filter(job_no = query).values()
+	else:
+		results = []
+	temp = {"results": results,"query": query,}
+	return render_to_response("tcc/search_transport.html", dict(temp.items() + tmp.items()), context_instance=RequestContext(request) )
+
 @login_required
 def ta_da(request):
 	"""
