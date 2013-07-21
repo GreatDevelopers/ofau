@@ -64,7 +64,7 @@ def render_to_pdf(template_src, context_dict):
     return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
 
 def myview(request):
-    #Retrieve data or whatever you need
+ 
 
 	Id = Cube.objects.aggregate(Max('Report_id'))
 	ID = Id['Report_id__max']
