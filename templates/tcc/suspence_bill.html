@@ -97,7 +97,9 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 		{% elif material.suspencejob__field__name == "Survey" or material.clientjob__material__name == "Structural Design (OHSR)" %}
 		work/s
 		{% elif material.clientjob__material__name == "Mix Design" or material.clientjob__material__name == "Structural Design(Building)" or material.suspencejob__field__name == "Hammer" %}
-		No.
+		No./s
+		{% elif material.suspencejob__field__name == "Structural Design" %}
+		No./s
 		
 		{% else %}
 		 sample/s 
@@ -161,6 +163,6 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 		</tr>	
 	</table>
 
-<div style="position:absolute;right:50px;top:800px;">DEAN TESTING AND CONSULTANCY</div>
+<div style="position:absolute;right:50px;top:1000px;">DEAN TESTING AND CONSULTANCY</div>
 </body>
 </html>

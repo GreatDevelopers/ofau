@@ -1,0 +1,49 @@
+{% extends "report/header.html" %}
+{% load i18n %}
+<html>
+{% block report %}
+<body>
+{% if st %}
+
+	
+	<table align="center" border="1">
+		<tr>
+			<th>Description of Test</th>
+			<th>Acceptable limit</th>
+			<th colspan="10">Test Result</th>
+		</tr>  
+	<tr>
+		<td>Mechenical Properties</td>
+		<td>IS 1786, Fe 415 < 20mm</td>
+			{% for test in st %}
+				<td>{{test.Mech_Prop}}</td>
+			{% endfor  %}
+	</tr>
+	<tr>
+		<td>0.2% proof stress N/mm&sup2;</td>
+		<td>415 Min.</td>
+			{% for test in st %}
+				<td>{{test.Proof_stress}}</td>
+			{% endfor  %}
+	</tr>
+	<tr>
+		<td>Ultimate Tensile Stress N/mm&sup2;</td>
+		<td>485 Min.</td>
+			{% for test in st %}
+				<td>{{test.Ultimate_tensile_stress}}</td>
+			{% endfor  %}
+	</tr>
+	<tr>
+		<td>Mechenical Properties</td>
+		<td>14.5 Min.</td>
+			{% for test in st %}
+				<td>{{test.Elongation}}</td>
+			{% endfor  %}
+	</tr>
+
+
+{% endif %}
+	</table>	
+</body>
+{% endblock %}
+</html>

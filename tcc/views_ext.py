@@ -465,7 +465,7 @@ def get_performa_bill(request):
 		job = EditJob.objects.filter(job_no = query).values('id', 
 		'client__client__first_name', 'client__client__address', 
 		'client__client__city', 'clienteditjob__material__name', 
-		'suspenceeditjob__field__name', 'site', 'testtotalperf__unit_price')\
+		'suspenceeditjob__field__name', 'site', 'testtotalperf__unit_price',)\
 		.order_by('id').distinct()
 	else:	
 		job =[]
@@ -492,11 +492,11 @@ def billperf(request):
 	getjob = EditJob.objects.all().filter(job_no=job_no).values(
 	'clienteditjob__material__name','date','testtotalperf__unit_price','site',
 	'suspenceeditjob__field__name','suspenceeditjob__other','report_type','sample',
-	'clienteditjob__other_test').distinct()
+	'clienteditjob__other_test',).distinct()
 	getadd = EditJob.objects.all().filter(id = jobid).values('client__client__first_name', 
 	'client__client__middle_name', 'client__client__last_name',
 	'client__client__address', 'client__client__city', 
-	'client__client__state','site','letter_no','letter_date','date').distinct()
+	'client__client__state','site','letter_no','letter_date','date',).distinct()
 	from Automation.tcc.variable import *
 	bill = BillPerf.objects.get(job_no=job_no)
 	servicetaxprint = servicetaxprint

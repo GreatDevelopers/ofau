@@ -8,21 +8,28 @@
  <body>
 	 <center><h2 style= "color:Grey; "> Registered Clients</h2></center>
 {% if user_list %}
-   <table>
-    <tr><th><center>Client Id</center></th>
-    <th><center>First Name</center></th>
-    <th><center>Last Name</center></th>
-    <th><center>Address</center></th>
-    <th><center>Contact</center></th>
-    <th><center>Email</center></th>
+  <table border='1' class="fixed">
+    <tr><th>Client Id</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Address</th>
+    <th>Contact</th>
+    <th>Email</th>
+	<th>Options</th>
     
 {% for registered_user in user_list %}
-        <tr><td><center>{{registered_user.id}}</center></td>
-        <td><center>{{registered_user.first_name}}</center></td>
-        <td><center>{{registered_user.last_name}}</center></td>
-        <td><center>{{registered_user.address}}</center></td>
-        <td><center>{{registered_user.contact_no}}</center></td>
-         <td><center>{{registered_user.email_address}}</center></td></tr>
+        <tr><td>{{registered_user.id}}</td>
+        <td>{{registered_user.first_name}}</td>
+        <td>{{registered_user.last_name}}</td>
+        <td>{{registered_user.address}}<br>{{registered_user.city}}</td>
+        <td>{{registered_user.contact_no}}</td>
+         <td>{{registered_user.email_address}}</td>
+<td><a href="/automation/tcc/addjob/?id={{ registered_user.id }}&job=">ADD JOB</a>|
+	<a href="/automation/tcc/selectfield/?id={{ registered_user.id }}">ADD PERFORMA JOB</a>|
+	<a href="/automation/tcc/nonpayment/?id={{ registered_user.id }}">ADD NON-PAYMENT JOB</a>|
+
+	<a href="/automation/tcc/prevwork/?id={{ registered_user.id }}">View Previous Work</a></td>
+</tr>
       
       {% endfor %}  
         

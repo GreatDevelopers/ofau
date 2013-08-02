@@ -10,11 +10,11 @@
 <div align='left'>STC No. AAATN1978LSD001<br>PAN No. AAATN1978L</div>
 <br>
 <body>
-<h2 align="center">PERFORMA BILL</h2>
+<h2 align="center">PROFORMA BILL</h2>
 
 <div style="position:absolute;top:290px;left:35px;">No. : GNDEC/TCC/B/{{ job_no }}</div>
 <div style="position:absolute;top:290px;right:0px;">Dated : {{job_date}} </div>
-<br/><br/>
+<br/><br/><br/>
 
 <div align="left">To,<br><br>{% for add in getadd %} {{ add.client__client__first_name}} {{ add.client__client__middle_name}} {{ add.client__client__last_name}} {{ add.client__client__address}}  {{ add.client__client__city}}{% endfor %}
 <br/><br/>
@@ -59,13 +59,13 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 		 Bore Hole each upto {{material.suspenceeditjob__other}} m depth
 		{% elif material.clienteditjob__material__name == "Cubes" %}
 		set
-		{% elif material.suspenceeditjob__field__name == "Survey" or material.clienteditjob__material__name == "Structural Design (OHSR)" or material.clienteditjob__material__name == "Structural Design"%}
-		work/s 
+		{% elif material.suspenceeditjob__field__name == "Survey" or material.clienteditjob__material__name == "Structural Design (OHSR)" or material.clienteditjob__material__name == "Structural Design(OHSR)"%}
+		Work./s 
 		{% elif material.clienteditjob__material__name == "Mix Design" or material.clienteditjob__material__name == "Structural Design(Building)" or material.suspenceeditjob__field__name == "Hammer"  %}
 		No./s
 		
 		{% else %}
-		 sample/s
+		No./s
 		{% endif %}
 		</td>
 
@@ -140,6 +140,39 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 	</table>
 	<br/>
 	<b>Note :</b>
+{% for value in getadd %}\
+{% if value.note != NULL and value.note != "NULL" %}
+	<ol>
+	<li>Payment may be made vide D.D./Cash/Online in favour of Director, Guru Nanak Dev Engg. College, Ludhiana.</li>
+	<li>The Testing/Work shall be done on Receipt of this payment.</li>
+	<li>Three Labourers for soil testing work to be provided by the Department/Client at each site.</li>
+	<li>{{value.note}}</li>	
+	<li>Bank Details for Online Payment:</li>
+	<table border="0">
+	<tr><td>Name of Account Holder</td>
+	<td>:</td>
+	<td>Director, Guru Nanak Dev. Engg. College, Ludhiana</td>
+	</tr>
+	<tr><td>Name of Bank</td>
+	<td>:</td>
+	<td>Panjab & Sind Bank, Guru Nanak Dev Engg. College, Ludhiana</td>
+	</tr>
+	<tr><td>Branch</td>
+	<td>:</td>
+	<td>Gill, Ludhiana</td>
+	</tr>
+	<tr>
+	<td>Online Account No.</td>
+	<td>:</td>
+	<td>002110000 50652</td>
+	</tr>
+	<tr><td>IFC Code No.</td>
+	<td>:</td>
+	<td>PSIB0000021</td>
+	</tr>
+	</table>
+	</ol>
+{% else %}
 	<ol>
 	<li>Payment may be made vide D.D./Cash/Online in favour of Director, Guru Nanak Dev Engg. College, Ludhiana.</li>
 	<li>The Testing/Work shall be done on Receipt of this payment.</li>
@@ -169,9 +202,10 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 	</tr>
 	</table>
 	</ol>
-
+{% endif %}
+{% endfor %}
 <div style="position:absolute;right:50px;top:1000px;">DEAN TESTING AND CONSULTANCY</div><br><br>
-<div style="position:absolute;top:1050px;">I/We here by agree to the terms & conditions as mentioned above</div>
+<br><div style="position:absolute;top:1050px;">I/We here by agree to the terms & conditions as mentioned above</div>
 
 <div style="position:absolute;right:30px;top:1100px;">(Signature of Client/Deptt. Representative)</div>
 </body>

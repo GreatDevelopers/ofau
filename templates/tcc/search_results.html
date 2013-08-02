@@ -10,6 +10,7 @@
 <label for="id_q">Search:</label>
 <input id="id_q" name="q" type="text"><br>
 <input type="submit" value="Submit"><br>
+{% if query_string %}
 You searched for "{{ query_string }}" and the results are listed below.
 <table border='1' class="fixed">
 <tr>
@@ -46,7 +47,7 @@ You searched for "{{ query_string }}" and the results are listed below.
       </ul>
     {% else %}
       <p>No clients found</p>
-    {% endif %}
+    {% endif %}{% endif %}
 </table>
 
 </html>

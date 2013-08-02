@@ -164,6 +164,7 @@ def non_payment_job(request):
 	else:
 		maxid = maxid + 1
 	user = UserProfile.objects.get(id=request.GET['id'])
+	id=request.GET['id']
 	if request.method == 'POST':
 		form = NonPaymentJobForm(request.POST)
 		if form.is_valid():
@@ -172,7 +173,7 @@ def non_payment_job(request):
 			profile.job_no = maxid
 			profile.save()
 			form.save_m2m()
-			x = {'form': form,}		
+			x = {'form': form, 'user': id}		
 			return render_to_response('tcc/nonpayment_job_ok.html',
 			dict(x.items() + tmp.items()), context_instance=
 			RequestContext(request))
@@ -858,7 +859,7 @@ def get_documents(request):
 		return render_to_response('tcc/client_job_ok.html',dict(temp.\
 		items() + tmp.items()), context_instance=RequestContext(request))
 		
-@login_required
+#@login_required
 def bill(request):
 	"""
 	** bill **
@@ -919,7 +920,7 @@ def bill(request):
 		template.items() + tmp.items()), context_instance = 
 		RequestContext(request))
 
-@login_required
+
 def receipt_report(request):
 	"""
 	** receipt_report **
@@ -953,7 +954,7 @@ def receipt_report(request):
 	return render_to_response('tcc/receipt.html',  dict(template.\
 	items() + tmp.items()), context_instance = RequestContext(request))
 	
-@login_required
+#@login_required
 def additional(request):
 	"""
 	** additional **
@@ -977,7 +978,7 @@ def additional(request):
 	return render_to_response('tcc/additional.html',dict(template.items() + tmp.items()), 
 	context_instance = RequestContext(request))
 		
-@login_required
+#@login_required
 def s_report(request):
 	"""
 	** s_report **
@@ -1033,7 +1034,7 @@ def g_report(request):
 	return render_to_response('tcc/get_report.html',dict(temp.items() + 
 	tmp.items()), context_instance=RequestContext(request))	
 	
-@login_required	
+#@login_required	
 def rep(request):
 	"""
 	** rep **
@@ -1131,7 +1132,7 @@ def transport_bill(request):
 	job = Job.objects.get(job_no=request.GET['job_no'])
 	client = Job.objects.filter(job_no =
 	job.job_no).values('client__client__first_name',
-	'client__client__middle_name', 'client__client__last_name')
+	'client__client__middle_name', 'client__client__last_name','client__client__address')
 	kilometer = transport_old.kilometer
 	temp = [0,0,0,0,0,0,0,0,0,0]
 	range = kilometer.split(',')
@@ -1250,6 +1251,14 @@ def ta_da_bill(request):
 	return render_to_response('tcc/ta_da_bill.html', data , 
 	context_instance = RequestContext(request))
 
+def search_transport(request):
+	query = request.GET.get('q', '')
+	if query :
+		results = Transport.objects.filter(job_no = query).values()
+	else:
+		results = []
+	temp = {"results": results,"query": query,}
+	return render_to_response("tcc/search_transport.html", dict(temp.items() + tmp.items()), context_instance=RequestContext(request) )
 def distance(request):
 	"""
 	** distance **
@@ -1354,12 +1363,11 @@ def search_new(request):
 	if ('q' in request.GET) and request.GET['q'].strip():
 		query_string = request.GET['q']
 		entry_query = get_query(query_string, ['first_name', 'middle_name',
-        'last_name', 'address','city'])
-        found_entries = UserProfile.objects.filter(entry_query).order_by('date')
-        temp ={ 'query_string': query_string, 'found_entries': found_entries }
-        return render_to_response('tcc/search_results.html',
-    dict(temp.items() + tmp.items()), context_instance=
-    RequestContext(request))
+	'last_name', 'address','city'])
+		found_entries = UserProfile.objects.filter(entry_query).order_by('date')
+	temp = { 'query_string': query_string, 'found_entries': found_entries }
+	return render_to_response('tcc/search_results.html', dict(temp.items() + tmp.items()), context_instance=
+	RequestContext(request))
                           
 @login_required
 def search(request):
@@ -1700,23 +1708,38 @@ def registered_user(request):
 	return render_to_response("tcc/registered_user.html", dict(temp.items() + 
 	tmp.items()),context_instance=RequestContext(request))
 
-def letter_staff(request):
+def programme(request):
 	if request.method == 'POST':
-		form = SelStaffForm(request.POST)
+		form = ProgrammeForm(request.POST)
 		if form.is_valid():
-			cd = form.cleaned_data
-        	staff = request.POST.getlist('staff')
-        	profile = form.save(commit=False)
-        	profile.save()
-        	form.save_m2m()
-        	staffmax = SelStaff.objects.aggregate(Max('id'))
+			cd = form.cleaned_data		
+		staff = request.POST.getlist('name')
+		profile = form.save(commit=False)
+       		profile.save()
+       		form.save_m2m()
+		staffmax = Programme.objects.aggregate(Max('id'))
         	staffid =staffmax['id__max']
-        	staff = SelStaff.objects.filter(id=staffid).values('staff__name')
-        	temp = {'form':form,'staff':staff}
-        	return render_to_response('tcc/letterstaff.html',dict(temp.items() + 
-        	tmp.items()),context_instance=RequestContext(request))
+        	staff = Programme.objects.filter(id=staffid).values('staff__name')
+       		#temp = {'form':form,'staff':staff}
+		organisation = Organisation.objects.all()
+		department = Department.objects.all().filter(id = 1)		
+		done = Programme.objects.all().filter(id=staffid).values('client_department_name', 'phone_no', 'on', 'at', 'addr', 			'city', 'site','date') 
+		usermax = Programme.objects.aggregate(Max('id'))
+		userid =usermax['id__max']		
+		name_list = UserProfile.objects.all().filter(id=userid).values('first_name', 'last_name')
+		id = Job.objects.aggregate(Max('id'))
+		maxid =id['id__max']
+		job = Job.objects.get(id = maxid)
+	
+		job_date =job.date
+		amtid = Amount.objects.aggregate(Max('id'))
+		amtmaxid =amtid['id__max']
+		amt = Amount.objects.get(job_id = amtmaxid)
+		template = {'form': form, 'organisation':organisation,'department':department, 'done':done, 'staff':staff}
+		return render_to_response('tcc/report11.html', template, context_instance=RequestContext(request))	
+			
 	else:
-		form = SelStaffForm()
+		form = ProgrammeForm()
 	temp ={'form': form}
 	return render_to_response('tcc/new_client.html',dict(temp.items() + 
 	tmp.items()),context_instance=RequestContext(request))

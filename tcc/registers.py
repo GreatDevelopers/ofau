@@ -548,7 +548,7 @@ def non_payment_register(request):
 			npr_obj = NonPaymentJob.objects.all().filter(date__range=
 			(start_date, end_date)).values('id','date', 'dated','ref_no',
 			'site','client__first_name','client__middle_name',
-			'client__last_name','client__address','material_type')
+			'client__last_name','client__address','client__city','material_type')
 			template = {'npr_obj':npr_obj}
 			return render_to_response('tcc/non_payment_register.html', 
 			dict(template.items() + tmp.items()), context_instance=
@@ -687,7 +687,7 @@ def lab_report(request):
 			filter(date__range=(start_date,end_date))
 		client = Job.objects.filter(id__in=job).values('job_no', 'date', 
 		'client__client__first_name','client__client__middle_name','client__client__last_name',
-		'client__client__city', 'client__client__address', 'amount__unit_price')
+		'client__client__city', 'client__client__address', 'client__client__company', 'amount__unit_price')
 		total_temp = Amount.objects.all().filter(job__in=job).\
 		aggregate(Sum('unit_price'))
 		total= total_temp['unit_price__sum']

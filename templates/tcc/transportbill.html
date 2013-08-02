@@ -6,11 +6,11 @@
 <div align="right"> Dated : {{ transport.date }}</div>
 <div align="left">Name : {% for clients in client %}
 			{{clients.client__client__first_name}} {{clients.client__client__middle_name}} 
-			{{clients.client__client__last_name}}{% endfor %}</div> 
+			{{clients.client__client__last_name}}{{clients.client__client__address}}{% endfor %}</div> 
 <br/><br/><br/>
 
 <div align="left"></div>
-<table "border=1" width="75%" height="25%" >
+<center><table border=1 width="75%" height="25%" >
 	<tr>
 		<td align="center">Date of Use </td>
 		<td align="center">No. of Km</td>
@@ -23,9 +23,9 @@
 		<td>{{rate}}</td>
 		<td>{{transport.total}}.00</td>
 	</tr>
-</table>
+</table></center>
 <br/><br/>
 <div align="left"><b>  {{vehical_no.name}}</b></div><br/><br/>
-<div align="right"><b> Dean {{sub_title.name}}</b></div>
+<div align="right"><b> Dean Testing and Consultancy Cell {{sub_title.name}}</b></div>
 </body>
 </html>

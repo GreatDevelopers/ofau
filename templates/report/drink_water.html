@@ -1,0 +1,130 @@
+{% extends "report/header.html" %}
+{% load i18n %}
+<html>
+{% block report %}
+<body>
+	{% if drink_water %}
+	<table align="center" border="1">
+		
+	<tr>    
+	<th>Sr.No</th>
+	<th>Parameters</th>
+	<th>Result</th>
+	</tr>
+	{% for test in drink_water %}     
+	<tr><td>1</td>
+	<td><b>Color Hazen Units(Platinum Cobal scale)</b></td><td>:{{test.Color_Hazen_Units}}</td></tr>        
+	<tr><td>2</td>
+	<td><b>pH</b></td>
+	<td>:{{test.pH}}</td></tr>        
+	<tr><td>3</td>
+	<td><b>Turbidity</b></td>
+	<td>:{{test.Turbidity}}</td></tr>
+	<tr><td>4</td>
+	<td><b>TDS</b></td>
+	<td>:{{test.TDS}}</td></tr>             
+        <tr><td>5</td>
+	<td><b>Odour</b></td>
+        <td>:{{test.Odour}}</td></tr>	
+	<tr><td>6</td>
+	<td><b>Total hardness (as CaCO<sub>3</sub>)(mg/l)</b></td><td>:{{test.Total_hardness}}</td></tr>
+        <tr><td>7</td>
+	<td><b>Calcium,
+	Ca<sup>2+</sup>(mg/l)</b></td>
+	<td>:{{test.Calcium}}</td></tr>
+	<tr><td>8</td>
+       <td><b>Magnesium,
+       Mg<sup>2+</sup>
+        (mg/l)</b></td>
+        <td>:{{test.Magnesium}}</td></tr>
+       	<tr><td>9</td>
+      	<td><b>Chlorides,
+       	Cl<sup>-</sup>
+       	(mg/l)</b></td>
+     	<td>:{{test.Chlorides}}</td></tr>
+	<tr><td>10</td>
+	<td><b>Iron
+ 	(as
+     	Fe)(mg/l)</b></td>
+  	<td>:{{test.Iron}}</td></tr>
+ <tr><td>11</td>
+ 	<td><b>Sulphates(SO<sub>4</sub><sup>2-</sup>)(mg/l)</b></td><td>:{{test.Sulphates}}</td></tr>
+	<tr><td>12</td>
+	<td><b>Nitrates,
+	NO<sub>3</sub><sup>-</sup></b></td>
+	<td>:{{test.Nitrates}}</td></tr>
+<tr><td>13</td>
+	<td><b>Arsenic,
+   					As
+  					(mg/l)</b></td>
+	<td>:{{test.Arsenic}}</td></tr>
+<tr><td>14</td>
+<td><b>Flurides,
+Fl<sup>-</sup></b></td>
+<td>:{{test.Flurides}}</td></tr>
+tr><td>15</td>
+<td><b>Copper,
+Cu
+(mg/l)</b></td>
+{{test.Copper}}</td></tr>
+>16</td>
+												        								<td><b>Total
+												        								Califorms</b></td>
+												        								<td>:{{test.Total_Califorms}}</td></tr>
+												        									<tr><td>17</td>
+												        									<td><b>E.
+												        									Coli</b></td>
+												        									<td>:{{test.E.Coli}}</td></tr>
+												        										<tr><td>18</td>
+												        										<td><b>Alkalinity
+												        										(mg/l)</b></td>
+												        										<td>:{{test.Alkalinity}}</td></tr>
+												        											<tr><td>19</td>
+												        											<td><b>Phenolic
+												        											compounds
+												        											(mg/l)
+												        											as
+												        											(C<sub>6</sub>H<sub>5</sub>OH)</b></td><td>:{{test.Phenol_compounds}}</td></tr>-
+												        												<tr><td>20</td>
+												        												<td><b>Mercury
+												        												(mg/l)</b></td>
+												        												<td>:{{test.Mercury}}</td></tr>
+												        													<tr><td>21</td>
+												        													<td><b>Cadmium
+												        													(mg/l)</b></td>
+												        													<td>:{{test.Cadmium}}</td></tr>
+												        														<tr><td>22</td>
+												        														<td><b>Lead
+												        														(mg/l)</b></td>
+												        														<td>:{{test.Lead}}</td></tr>
+												        															<tr><td>23</td>
+												        															<td><b>Zinc
+												        															(mg/l)</b></td>
+												        															<td>:{{test.Zinc}}</td></tr>
+												        																<tr><td>24</td>
+												        																<td><b>Chromium
+												        																(mg/l)</b></td>
+												        																<td>:{{test.Chromium}}</td></tr>
+												        																	<tr><td>25</td>
+												        																	<td><b>Aluminium
+												        																	(mg/l)</b></td>
+												        																	<td>:{{test.Aluminium}}</td></tr>
+												        																		<tr><td>26</td>
+												        																		<td><b>Boron
+												        																		(mg/l)</b></td>
+												        																		<td>:{{test.Boron}}</td></tr>
+												        																			<tr><td>27</td>
+												        																			<td><b>Cyanide
+												        																			(mg/l)</b></td>
+												        																			<td>:{{test.Cyanide}}</td></tr>
+												        																				<tr><td>28</td>
+												        																				<td><b>Manganese
+												        																				(mg/l)</b></td>
+												        																				<td>:{{test.Manganese}}</td></tr>
+      																				{% endfor %}
+      																				{% endif %}
+												        																					</table>
+												        																					</body>
+																						{% endblock %}
+												        																					</html>
+												        																					
