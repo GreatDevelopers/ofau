@@ -1580,11 +1580,11 @@ def suspence_clearence_report_transport(request):
 	| Q(code=amounts7)| Q(code=amounts8)| Q(code=amounts9) | Q(code=
 	amounts10)).order_by('id')
 	try :
-		transport=Tranport.objects.get(job=request.GET['job_no'])
+		transport=Transport.objects.get(job_no=request.GET['job_no'])
 		tempr = suspence.labour_charge+transport.total+suspence.\
 		boring_charge_external+suspence.car_taxi_charge
 	except Exception :
-		tempr = suspence.labour_charge + suspence.rate + suspence.\
+		tempr = suspence.labour_charge + suspence.\
 		boring_charge_external + suspence.car_taxi_charge
 	try :
 		tada = TaDa.objects.get(job=request.GET['job_no'])
