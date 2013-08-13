@@ -60,8 +60,11 @@
 		{% endif %}
 	
 		
-		<td><a href="/automation/tcc/bill/?id={{client.id}}">Get Bill</a></td>
-		{% endif %}
+		<td><a href="/automation/tcc/bill/?id={{client.id}}">Get Bill</a>
+		{% if client.amount__report_type == "Suspence" %}
+		<a href="/automation/tcc/suspence_bill/?id={{client.id}}" >Suspence Bill</a>
+		{% endif %}{% endif %}
+		
 		<td><a href="/automation/tcc/receipt/?id={{client.id}}">Get Receipt</a></td>
 		<td><a href="/automation/tcc/additional/?id={{client.id}}">Get Additional detail</a></td>
 		

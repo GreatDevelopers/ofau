@@ -920,6 +920,57 @@ def bill(request):
 		template.items() + tmp.items()), context_instance = 
 		RequestContext(request))
 
+def suspence_bill(request):
+	try :
+		job =Job.objects.get(id=request.GET['id'])
+	except Exception:
+		id = Job.objects.aggregate(Max('id'))
+		maxid =id['id__max']
+		job = Job.objects.get(id = maxid)
+	jobid = job.id
+	job_no = job.job_no
+	job_date =job.date
+	getjob = Job.objects.all().filter(job_no=job_no).values(
+	'clientjob__material__name','date','testtotal__unit_price','site',
+	'suspencejob__field__name','report_type', 
+	'clientjob__material__matcomment_id','suspencejob__field__matcomment_id',
+	'sample','letter_no','letter_date', 'suspencejob__other',
+	'clientjob__material__id','suspencejob__field__id').distinct()
+	testname = Job.objects.all().filter(job_no=job_no).values(
+	'clientjob__test__name','clientjob__test__material',
+	'suspencejob__test__material','suspencejob__test__name' ).distinct()
+	gettest = Job.objects.all().filter(job_no=job_no).values(
+	'clientjob__material__test__name','clientjob__material__id',
+	'clientjob__material__test__name')
+	getadd = Job.objects.all().filter(id = jobid).values(
+	'client__client__first_name', 'client__client__middle_name', 
+	'client__client__last_name','client__client__address', 
+	'client__client__city', 'client__client__company',
+	'client__client__state','site',).distinct()
+	from Automation.tcc.variable import *
+	bill = Bill.objects.get(job_no=job_no)
+	matcomment= MatComment.objects.all()
+	servicetaxprint = servicetaxprint
+	educationtaxprint = educationtaxprint
+	highereducationtaxprint = highereducationtaxprint
+	net_total1 = bill.net_total
+	from Automation.tcc.convert_function import *
+	net_total_eng = num2eng(net_total1)
+	template = {'job_no': job_no ,'net_total_eng':net_total_eng,
+	'servicetaxprint':servicetaxprint,'highereducationtaxprint':
+	highereducationtaxprint,'educationtaxprint':educationtaxprint,
+	'bill':bill, 'job' : job, 'net_total1' : net_total1, 'getjob' : 
+	getjob, 'getadd' : getadd,'job_date':job_date,'gettest':gettest,
+	'testname':testname,'matcomment':matcomment}
+	amtid = Amount.objects.aggregate(Max('id'))
+	amtmaxid =amtid['id__max']
+	amt = Amount.objects.get(job_id = jobid)
+	if amt.report_type == "General_report" :
+		return render_to_response('tcc/bill.html', dict(template.\
+		items() + tmp.items()), context_instance = RequestContext(request))
+	else :
+		return render_to_response('tcc/suspence_bill1.html', dict(\
+		template.items() + tmp.items()), context_instance = RequestContext(request))
 
 def receipt_report(request):
 	"""
@@ -1129,9 +1180,9 @@ def transport_bill(request):
 	Transport Bill Function generates transport Bill
 	"""
 	transport_old = Transport.objects.get(job_no=request.GET['job_no'])
-	job = Job.objects.get(job_no=request.GET['job_no'])
-	client = Job.objects.filter(job_no =
-	job.job_no).values('client__client__first_name',
+	job = Job.objects.get(id=request.GET['job_no'])
+	client = Job.objects.filter(id =
+	job.id).values('client__client__first_name',
 	'client__client__middle_name', 'client__client__last_name','client__client__address')
 	kilometer = transport_old.kilometer
 	temp = [0,0,0,0,0,0,0,0,0,0]
@@ -1155,10 +1206,11 @@ def transport_bill(request):
 	+ amount7 + amount8 + amount9 + amount10
 	all_amounts = amount1,amount2,amount3,amount4,amount5,amount6,
 	amount7,amount8,amount9,amount10
+	net_balance_eng = num2eng(total)
 	Transport.objects.filter(job_no = transport_old.job_no).update(\
 	total = total, amounts = all_amounts )
 	transport = Transport.objects.get(job_no=transport_old.job_no)
-	template ={'transport':transport, 'rate':rate, 'client':client, }
+	template ={'transport':transport, 'rate':rate, 'client':client, 'net_balance_eng':net_balance_eng}
 	return render_to_response('tcc/transportbill.html',dict(template.\
 	items() + tmp.items()) , context_instance=RequestContext(request))
 
@@ -1206,6 +1258,17 @@ def tada_view(request):
 	return render_to_response('tcc/tada_ok.html', dict(data.items() + 
 	tmp.items()), context_instance=RequestContext(request))
 
+def search_tadasuspence(request):
+	query = request.GET.get('q', '')
+	if query :
+		results = TaDa.objects.filter(job = query).values()
+		
+	else:
+		results = []
+	
+	temp = {"results": results,"query": query,}
+	return render_to_response("tcc/search_tadasuspence.html", dict(temp.items() + tmp.items()), context_instance=RequestContext(request) )
+
 def ta_da_bill(request):
 	"""
 	** ta_da_bill **
@@ -1245,9 +1308,10 @@ def ta_da_bill(request):
 	Q(code=amount6) | Q(code=amount7)| Q(code=amount8)| Q(code=amount9) 
 	| Q(code=amount10)).aggregate(Sum('daily_income'))
 	daily = int(daily_income['daily_income__sum']) 
+	num_balance_eng = num2eng(daily)
 	TaDa.objects.filter(job = tada.job).update( tada_amount = daily )
 	data = {'tada':tada,'job':job,'staff':staff,  'daily':daily,
-	'client':client}
+	'client':client,'num_balance_eng':num_balance_eng}
 	return render_to_response('tcc/ta_da_bill.html', data , 
 	context_instance = RequestContext(request))
 
@@ -1406,7 +1470,7 @@ def other_charge(request):
 	job = Job.objects.filter(id=client.id).values('client__client__first_name',
 	'client__client__middle_name','client__client__last_name',
 	'client__client__address','client__client__city')
-	transport = Transport.objects.get(job_no=client.job_no)
+	transport = Transport.objects.get(job_no=client.id)
 	amount = Amount.objects.get(job=request.GET['job_no'])
 	suspence = Suspence.objects.get(job=request.GET['job_no'])
 	tada = TaDa.objects.get(job=request.GET['job_no'])
@@ -1415,8 +1479,7 @@ def other_charge(request):
 	+ suspence.boring_charge_external + transport.total
 	total_temp =tada_sum+suspence.labour_charge+suspence.car_taxi_charge
 	+ suspence.boring_charge_external
-	other =suspence.labour_charge+suspence.car_taxi_charge
-	+ suspence.boring_charge_external + transport.total
+	other =suspence.labour_charge+suspence.car_taxi_charge + suspence.boring_charge_external + 		transport.total
 	temp = {'transport' : transport, 'client' :client, 'amount': amount, 	'suspence':suspence,'tada_sum':tada_sum,'total_temp': total_temp, 
 	'total' :total, 'other':other,'job':job}
 	return render_to_response('tcc/other_charge_report.html', 
@@ -1580,11 +1643,11 @@ def suspence_clearence_report_transport(request):
 	| Q(code=amounts7)| Q(code=amounts8)| Q(code=amounts9) | Q(code=
 	amounts10)).order_by('id')
 	try :
-		transport=Transport.objects.get(job_no=request.GET['job_no'])
+		transport=Transport.objects.get(job_no=client.job_no)
 		tempr = suspence.labour_charge+transport.total+suspence.\
 		boring_charge_external+suspence.car_taxi_charge
 	except Exception :
-		tempr = suspence.labour_charge + suspence.\
+		tempr = suspence.labour_charge + suspence.rate +suspence.\
 		boring_charge_external + suspence.car_taxi_charge
 	try :
 		tada = TaDa.objects.get(job=request.GET['job_no'])

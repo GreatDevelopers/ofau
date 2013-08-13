@@ -1,25 +1,26 @@
 <html>
 <head><title>Suspence Clearence Report</title></head>
 <div style="font-size:24px" align='center'><b>{{address.name}}</b></div>
+<div style="font-size:18px" align='center'><b>{{address.address}}</b></div>
 <div style="font-size:24px" align='center'>{{title.name}}</div><br>
 <body>
 <br>
 <body>
 <br/>
-<div style='position:absolute;left:7px;top:55px;'>Voucher No : ____________ </div> 
-<div style='position:absolute;right:7px;top:55px;'>Main/Mat. No :<u>{{ job_no }}</u> </div>
-<div style='position:absolute;left:7px;top:75px;'>Dated : ____________ </div>
-<div style='position:absolute;right:7px;top:75px;'>Dated : ____________ </div>
-<div style='position:absolute;left:7px;top:105px;'>Director,</div>
+<div style='position:absolute;left:7px;top:90px;'>Voucher No : ____________ </div> 
+<div style='position:absolute;right:23px;top:90px;'>Main/Mat. No :<u>{{ job_no }}</u> </div>
+<div style='position:absolute;left:7px;top:110px;'>Dated : ____________ </div>
+<div style='position:absolute;right:7px;top:110px;'>Dated : ____________ </div>
+<div style='position:absolute;left:7px;top:135px;'>Director,</div>
 <br/> <br/><br/><br/>
-<div style='position:absolute;left:7px;top:125px;'>
+<div style='position:absolute;left:7px;top:155px;'>
 Received a sum of Rs. {{amount.unit_price }}/- ( {{ net_balance_eng }} only ) <br/><br/>
 Vide {{client.pay}} {{client.check_number}}, {{client.check_dd_date}} from : {% for clients in clientname %}
 {{ clients.client__client__first_name}} {{ clients.client__client__middle_name}} {{ clients.client__client__last_name}}
 {{ clients.client__client__address}}, {{ clients.client__client__city}} 
 {% endfor %}<br/>
 Vide bill No. : GNDEC/TCC/B/{{client.job_no}}    Dated : {{ client.date }}<br/>
-On account of : {{ clientname.suspencejob__field__name }} Vide Receipt No. : {{client.job_no }}	Dated: {{ client.date }} <br><br>
+On account of : {% for clients in clientname %} {{ clients.suspencejob__field__name }} {% endfor %} &nbsp; Vide Receipt No. : {{client.job_no }}	Dated: {{ client.date }} <br><br>
 Nature of Consultancy :{{ con_type }},  Ratio {{ ratio1 }}:{{ ratio2 }} </div>
 <br/><br/><br/><br/>
 <div>

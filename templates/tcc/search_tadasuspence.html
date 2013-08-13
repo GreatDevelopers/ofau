@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>Search{% if query %} Results{% endif %}</title>
+</head>
+{% block content %}
+<body>
+  <h2 class="changeBlue">TaDa Bill</h2>
+  <form action="." method="GET">
+    <label for="q">Job No: </label>
+    <input type="text" name="q" value="{{ query|escape }}">
+    <input type="submit" value="Search">
+  </form>
+{% if query %}
+<h2>Results for "{{ query|escape }}":</h2>
+	{% if results %}
+{% for tada in results %}
+	 	<table border="2">
+<caption><center><b> TA/DA Bill </b> </center></caption>
+	<tr>
+		<td>  Job id. : {{tada.job_id}}</td>
+	<tr>
+		<td> Date of Testing : {{tada.test_date}}</td>
+	<tr>
+		<td>Reach Site : {{tada.reach_site}}</td>
+	<tr>
+		<td><center><a href="{{ LOCAL_URL }}/automation/tcc/tadabill/?job={{tada.job_id}}&test_date={{tada.test_date}}" target="window"><b> TADA Bill</b></a></center>  </td>
+		
+	</tr>
+	
+{% endfor %}</table>
+
+	{% else %}
+      <p><b>No clients found</b></p>
+{% endif %}	
+
+
+
+{% endif %}
+
+{% endblock %}
