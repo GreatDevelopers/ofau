@@ -1210,7 +1210,7 @@ def transport_bill(request):
 	Transport.objects.filter(job_no = transport_old.job_no).update(\
 	total = total, amounts = all_amounts )
 	transport = Transport.objects.get(job_no=transport_old.job_no)
-	template ={'transport':transport, 'rate':rate, 'client':client, 'net_balance_eng':num_balance_eng}
+	template ={'transport':transport, 'rate':rate, 'client':client, 'net_balance_eng':net_balance_eng}
 	return render_to_response('tcc/transportbill.html',dict(template.\
 	items() + tmp.items()) , context_instance=RequestContext(request))
 
@@ -1257,6 +1257,17 @@ def tada_view(request):
 	data = {'tada':tada }			
 	return render_to_response('tcc/tada_ok.html', dict(data.items() + 
 	tmp.items()), context_instance=RequestContext(request))
+
+def search_tadasuspence(request):
+	query = request.GET.get('q', '')
+	if query :
+		results = TaDa.objects.filter(job = query).values()
+		
+	else:
+		results = []
+	
+	temp = {"results": results,"query": query,}
+	return render_to_response("tcc/search_tadasuspence.html", dict(temp.items() + tmp.items()), context_instance=RequestContext(request) )
 
 def ta_da_bill(request):
 	"""

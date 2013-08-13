@@ -20,7 +20,7 @@ Vide {{client.pay}} {{client.check_number}}, {{client.check_dd_date}} from : {% 
 {{ clients.client__client__address}}, {{ clients.client__client__city}} 
 {% endfor %}<br/>
 Vide bill No. : GNDEC/TCC/B/{{client.job_no}}    Dated : {{ client.date }}<br/>
-On account of : {% for clients in clientname %} {{ clients.suspencejob__field__name }} {% endfor %} &nbsp; Vide Receipt No. : {{client.job_no }}	Dated: {{ client.date }} <br><br>
+On account of : {% for clients in clientname %} {{ clients.clientjob__material__name }} {% endfor %} &nbsp; Vide Receipt No. : {{client.job_no }}	Dated: {{ client.date }} <br><br>
 Nature of Consultancy :{{ con_type }},  Ratio {{ ratio1 }}:{{ ratio2 }} </div>
 <br/><br/><br/><br/>
 <div>

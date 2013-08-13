@@ -1598,7 +1598,7 @@ def suspence_clearence_report_transport(request):
 	clientname = Job.objects.filter(id=client.id).values(\
 	'client__client__first_name','client__client__middle_name',
 	'client__client__last_name','client__client__address',
-	'client__client__city',	'suspencejob__field__name')
+	'client__client__city',	'suspencejob__field__name', 'clientjob__material__name')
 	lab_staff = suspence.lab_testing_staff
         t1=0
         temp = [0,0,0,0,0,0,0,0,0,0]
