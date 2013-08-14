@@ -1312,7 +1312,7 @@ def ta_da_bill(request):
 	net_balance_eng = num2eng(daily)
 	TaDa.objects.filter(job = tada.job).update( tada_amount = daily )
 	data = {'tada':tada,'job':job,'staff':staff,  'daily':daily,
-	'client':client,'net_balance_eng':num_balance_eng}
+	'client':client,'net_balance_eng':net_balance_eng}
 	return render_to_response('tcc/ta_da_bill.html', data , 
 	context_instance = RequestContext(request))
 
