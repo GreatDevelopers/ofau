@@ -1473,7 +1473,7 @@ def other_charge(request):
 	job = Job.objects.filter(id=client.id).values('client__client__first_name',
 	'client__client__middle_name','client__client__last_name',
 	'client__client__address','client__client__city')
-	transport = Transport.objects.get(job_no=client.id)
+	transport = Transport.objects.get(job_no=client.job_no)
 	amount = Amount.objects.get(job=request.GET['job_no'])
 	suspence = Suspence.objects.get(job=request.GET['job_no'])
 	tada = TaDa.objects.get(job=request.GET['job_no'])
@@ -1483,8 +1483,8 @@ def other_charge(request):
 	total_temp =tada_sum+suspence.labour_charge+suspence.car_taxi_charge
 	+ suspence.boring_charge_external
 	other =suspence.labour_charge+suspence.car_taxi_charge + suspence.boring_charge_external + transport.total
-	total_final = other+tada_sum
-	temp = {'transport' : transport, 'client' :client, 'amount': amount, 	'suspence':suspence,'tada_sum':tada_sum,'total_temp': total_temp, 'total' :total, 'other':other,'job':job,'total_final':total_final}
+	total_final = other + tada_sum
+	temp = {'transport' : transport, 'client' :client, 'amount': amount, 	'suspence':suspence,'tada_sum':tada_sum,'total_temp': total_temp, 'total' :total, 'other':other,'job':job, 'total_final':total_final}
 	return render_to_response('tcc/other_charge_report.html', 
 	dict(temp.items() + 
 tmp.items()), context_instance=RequestContext(request))
