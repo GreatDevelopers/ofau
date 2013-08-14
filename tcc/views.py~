@@ -1180,10 +1180,10 @@ def transport_bill(request):
 	Transport Bill Function generates transport Bill
 	"""
 	transport_old = Transport.objects.get(job_no=request.GET['job_no'])
-	job = Job.objects.get(id=request.GET['job_no'])
-	client = Job.objects.filter(id =
-	job.id).values('client__client__first_name',
-	'client__client__middle_name', 'client__client__last_name','client__client__address')
+	job = Job.objects.get(job_no=request.GET['job_no'])
+	client = Job.objects.filter(job_no =
+	job.job_no).values('client__client__first_name',
+	'client__client__middle_name', 'client__client__last_name','client__client__address',)
 	kilometer = transport_old.kilometer
 	temp = [0,0,0,0,0,0,0,0,0,0]
 	range = kilometer.split(',')
@@ -1210,9 +1210,10 @@ def transport_bill(request):
 	Transport.objects.filter(job_no = transport_old.job_no).update(\
 	total = total, amounts = all_amounts )
 	transport = Transport.objects.get(job_no=transport_old.job_no)
-	template ={'transport':transport, 'rate':rate, 'client':client, 'net_balance_eng':net_balance_eng}
+	template ={'transport':transport, 'rate':rate, 'client':client, 'net_balance_eng':net_balance_eng,}
 	return render_to_response('tcc/transportbill.html',dict(template.\
 	items() + tmp.items()) , context_instance=RequestContext(request))
+
 
 @login_required
 def ta_da(request):
