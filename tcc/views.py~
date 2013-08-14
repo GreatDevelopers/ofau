@@ -1600,7 +1600,7 @@ def suspence_clearence_report_transport(request):
 	clientname = Job.objects.filter(id=client.id).values(\
 	'client__client__first_name','client__client__middle_name',
 	'client__client__last_name','client__client__address',
-	'client__client__city',	'suspencejob__field__name')
+	'client__client__city',	'suspencejob__field__name', 'clientjob__material__name')
 	lab_staff = suspence.lab_testing_staff
         t1=0
         temp = [0,0,0,0,0,0,0,0,0,0]
@@ -1644,14 +1644,13 @@ def suspence_clearence_report_transport(request):
 	amounts3) | Q(code=amounts4) | Q(code=amounts5) | Q(code=amounts6) 
 	| Q(code=amounts7)| Q(code=amounts8)| Q(code=amounts9) | Q(code=
 	amounts10)).order_by('id')
-	try:
+	try :
 		transport=Transport.objects.get(job_no=client.job_no)
-		tempr = suspence.labour_charge + transport.total + suspence.boring_charge_external+suspence.car_taxi_charge
-	except Exception:
-		tempr = suspence.labour_charge + suspence.rate + suspence.\
+		tempr = suspence.labour_charge+transport.total+suspence.\
+		boring_charge_external+suspence.car_taxi_charge
+	except Exception :
+		tempr = suspence.labour_charge + suspence.rate +suspence.\
 		boring_charge_external + suspence.car_taxi_charge
-		
-	
 	try :
 		tada = TaDa.objects.get(job=request.GET['job_no'])
 		balance= amount.unit_price - (tada.tada_amount + tempr + suspence.boring_charge_internal)
