@@ -1249,7 +1249,8 @@ def ta_da(request):
 def tada_view(request):
 	"""
 	** tada_view **
-	Tada_view function confirms that tada is saved.
+	Tada_view function confirms that tada is saved.', '')
+	try :
 	"""
 	id = TaDa.objects.aggregate(Max('id'))
 	maxid =id['id__max']
@@ -1279,7 +1280,7 @@ def ta_da_bill(request):
 	GET['test_date'])
 	job = Job.objects.get(id=request.GET['job'])
 	c = job.id
-	client = Job.objects.filter(id=c).values('client__client__first_name')
+	client = Job.objects.filter(id=c).values('client__client__first_name','client__client__address')
 	lab_staff = tada.testing_staff_code
         t1=0
         temp = [0,0,0,0,0,0,0,0,0,0]
