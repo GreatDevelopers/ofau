@@ -1397,17 +1397,18 @@ def suspence_clearance(request):
 			boring_charge_internal=cd['boring_charge_internal']
 			lab_testing_staff=cd['lab_testing_staff']
 			field_testing_staff =cd['field_testing_staff']
+			test_date =cd['test_date']
 			job =query
 			Suspence.objects.filter(job = job).update(labour_charge = 
 			labour_charge, boring_charge_external=boring_charge_external, 
 			boring_charge_internal = boring_charge_internal, 
 			field_testing_staff = field_testing_staff, car_taxi_charge 
-			= car_taxi_charge, lab_testing_staff = lab_testing_staff)
+			= car_taxi_charge, lab_testing_staff = lab_testing_staff, test_date = test_date)
 			data = {'job_no' : job, 'labour_charge':labour_charge, 
 			'boring_charge_external' : boring_charge_external,
 			'boring_charge_internal' : boring_charge_internal, 
 			'car_taxi_charge' : car_taxi_charge, 'lab_testing_staff' : 
-			lab_testing_staff, 'sus':sus,}
+			lab_testing_staff, 'sus':sus,'test_date':test_date}
 			return render_to_response('tcc/suspence_clearence_ok.html', 
 			dict(data.items() + tmp.items()), context_instance=
 			RequestContext(request))

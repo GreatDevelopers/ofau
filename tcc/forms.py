@@ -20,6 +20,7 @@ class SuspenceClearence(forms.Form):
 	boring_charge_internal = forms.IntegerField(initial= 0)
 	lab_testing_staff = forms.CharField(max_length = 20)
 	field_testing_staff = forms.CharField(max_length = 20,required=False)
+	test_date = forms.DateField()
 
 class ContactForm(forms.Form):
    	subject = forms.CharField(max_length=100)
