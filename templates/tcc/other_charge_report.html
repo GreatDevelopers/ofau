@@ -8,7 +8,7 @@
 
 <br/><br/>
 
-<div>A sum of Rs. {{total}}.00 ( TA / DA staff Rs. {{tada_sum}}.00, Other charges Rs.{{other}}.00 has been deposited by:-
+<div>A sum of Rs. {{total_final}}.00 ( TA / DA staff Rs. {{tada_sum}}.00, Other charges Rs.{{other}}.00 has been deposited by:-
 <br>{% for jobs in job %}
 	{{jobs.client__client__first_name}} {{jobs.client__client__middle_name}} {{jobs.client__client__last_name}},
 	{{jobs.client__client__address}}, {{jobs.client__client__city}}
