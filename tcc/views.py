@@ -1244,7 +1244,6 @@ def ta_da(request):
 	temp = {'form': form,'query':query,'sus':sus}
 	return render_to_response('tcc/suspenceclear.html', dict(temp.\
 	items() + tmp.items()), context_instance=RequestContext(request))
-
 def tada_view(request):
 	"""
 	** tada_view **
