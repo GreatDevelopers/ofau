@@ -105,10 +105,8 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 		work/s 
 		{% elif material.clientjob__material__name == "Mix Design" or material.clientjob__material__name == "Structural Design(Building)" %}
 		No./s
-		{% elif material.clientjob__material__name == "Visit" %}
-		No./s
 		{% else %}
-		 sample/s 
+		 No./s
 		{% endif %}
 		</td>
 
