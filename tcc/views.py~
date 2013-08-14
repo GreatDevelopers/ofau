@@ -1180,10 +1180,10 @@ def transport_bill(request):
 	Transport Bill Function generates transport Bill
 	"""
 	transport_old = Transport.objects.get(job_no=request.GET['job_no'])
-	job = Job.objects.get(id=request.GET['job_no'])
-	client = Job.objects.filter(id =
-	job.id).values('client__client__first_name',
-	'client__client__middle_name', 'client__client__last_name','client__client__address')
+	job = Job.objects.get(job_no=request.GET['job_no'])
+	client = Job.objects.filter(job_no =
+	job.job_no).values('client__client__first_name',
+	'client__client__middle_name', 'client__client__last_name','client__client__address',)
 	kilometer = transport_old.kilometer
 	temp = [0,0,0,0,0,0,0,0,0,0]
 	range = kilometer.split(',')
@@ -1210,10 +1210,9 @@ def transport_bill(request):
 	Transport.objects.filter(job_no = transport_old.job_no).update(\
 	total = total, amounts = all_amounts )
 	transport = Transport.objects.get(job_no=transport_old.job_no)
-	template ={'transport':transport, 'rate':rate, 'client':client, 'net_balance_eng':net_balance_eng}
+	template ={'transport':transport, 'rate':rate, 'client':client, 'net_balance_eng':net_balance_eng,}
 	return render_to_response('tcc/transportbill.html',dict(template.\
 	items() + tmp.items()) , context_instance=RequestContext(request))
-
 @login_required
 def ta_da(request):
 	"""
@@ -1323,7 +1322,7 @@ def search_transport(request):
 	else:
 		results = []
 	temp = {"results": results,"query": query,}
-	return render_to_response("tcc/search_transport.html", dict(temp.items() + tmp.items()), context_instance=RequestContext(request) )
+	return render_to_response("tcc/search_transport.html", dict(temp.items() + tmp.items()), context_instance=RequestContext(request)  )
 def distance(request):
 	"""
 	** distance **
@@ -1600,7 +1599,7 @@ def suspence_clearence_report_transport(request):
 	clientname = Job.objects.filter(id=client.id).values(\
 	'client__client__first_name','client__client__middle_name',
 	'client__client__last_name','client__client__address',
-	'client__client__city',	'suspencejob__field__name', 'clientjob__material__name')
+	'client__client__city',	'suspencejob__field__name')
 	lab_staff = suspence.lab_testing_staff
         t1=0
         temp = [0,0,0,0,0,0,0,0,0,0]
@@ -1644,13 +1643,14 @@ def suspence_clearence_report_transport(request):
 	amounts3) | Q(code=amounts4) | Q(code=amounts5) | Q(code=amounts6) 
 	| Q(code=amounts7)| Q(code=amounts8)| Q(code=amounts9) | Q(code=
 	amounts10)).order_by('id')
-	try :
+	try:
 		transport=Transport.objects.get(job_no=client.job_no)
-		tempr = suspence.labour_charge+transport.total+suspence.\
-		boring_charge_external+suspence.car_taxi_charge
-	except Exception :
-		tempr = suspence.labour_charge + suspence.rate +suspence.\
+		tempr = suspence.labour_charge + transport.total + suspence.boring_charge_external+suspence.car_taxi_charge
+	except Exception:
+		tempr = suspence.labour_charge + suspence.rate + suspence.\
 		boring_charge_external + suspence.car_taxi_charge
+		
+	
 	try :
 		tada = TaDa.objects.get(job=request.GET['job_no'])
 		balance= amount.unit_price - (tada.tada_amount + tempr + suspence.boring_charge_internal)
