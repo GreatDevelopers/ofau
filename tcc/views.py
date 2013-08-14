@@ -1309,10 +1309,10 @@ def ta_da_bill(request):
 	Q(code=amount6) | Q(code=amount7)| Q(code=amount8)| Q(code=amount9) 
 	| Q(code=amount10)).aggregate(Sum('daily_income'))
 	daily = int(daily_income['daily_income__sum']) 
-	num_balance_eng = num2eng(daily)
+	net_balance_eng = num2eng(daily)
 	TaDa.objects.filter(job = tada.job).update( tada_amount = daily )
 	data = {'tada':tada,'job':job,'staff':staff,  'daily':daily,
-	'client':client,'num_balance_eng':num_balance_eng}
+	'client':client,'net_balance_eng':num_balance_eng}
 	return render_to_response('tcc/ta_da_bill.html', data , 
 	context_instance = RequestContext(request))
 
