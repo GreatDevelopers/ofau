@@ -1322,7 +1322,7 @@ def search_transport(request):
 	else:
 		results = []
 	temp = {"results": results,"query": query,}
-	return render_to_response("tcc/search_transport.html", dict(temp.items() + tmp.items()), context_instance=RequestContex(request)  )
+	return render_to_response("tcc/search_transport.html", dict(temp.items() + tmp.items()), context_instance=RequestContext(request)  )
 def distance(request):
 	"""
 	** distance **
