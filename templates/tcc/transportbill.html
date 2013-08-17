@@ -9,7 +9,7 @@
 <div align="right"> Dated : {{ transport.date }}</div>
 <div align="left">To : {% for clients in client %}
 			{{clients.client__client__first_name}} {{clients.client__client__middle_name}} 
-			{{clients.client__client__last_name}}{{clients.client__client__address}}{% endfor %}</div> 
+			{{clients.client__client__last_name}}{{clients.client__client__address}},{{clients.client__client__city}}{% endfor %}</div> 
 <br/><br/><br/>
 
 <div align="left"></div>

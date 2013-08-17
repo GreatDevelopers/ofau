@@ -6,7 +6,7 @@
 <div align="center"><h2>T.A./D.A. BILL FORM FOR CONSULTANCY WORK</h2></div>
 {% if client %}
 	{% for clients in client %}
-<div>Name of the Department/Client:{{ clients.client__client__first_name }}{{ clients.client__client__address }} {% endfor %}{% endif %}Amount claimed from the Department/Client Rs.{{daily}}
+<div>Name of the Department/Client:{{ clients.client__client__first_name }}{{ clients.client__client__address }},{{clients.client__client__city}} {% endfor %}{% endif %}Amount claimed from the Department/Client Rs.{{daily}}
 <div align="right">Vide Receipt No. {{job.job_no}}<br><br>Date : {{job.date}}</div>
 <br>
 <table border="1" width="100%">

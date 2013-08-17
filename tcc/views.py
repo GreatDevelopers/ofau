@@ -1183,7 +1183,7 @@ def transport_bill(request):
 	job = Job.objects.get(job_no=request.GET['job_no'])
 	client = Job.objects.filter(job_no =
 	job.job_no).values('client__client__first_name',
-	'client__client__middle_name', 'client__client__last_name','client__client__address',)
+	'client__client__middle_name', 'client__client__last_name','client__client__address','client__client__city')
 	kilometer = transport_old.kilometer
 	temp = [0,0,0,0,0,0,0,0,0,0]
 	range = kilometer.split(',')
@@ -1281,7 +1281,7 @@ def ta_da_bill(request):
 	GET['test_date'])
 	job = Job.objects.get(id=request.GET['job'])
 	c = job.id
-	client = Job.objects.filter(id=c).values('client__client__first_name','client__client__address')
+	client = Job.objects.filter(id=c).values('client__client__first_name','client__client__address','client__client__city')
 	lab_staff = tada.testing_staff_code
         t1=0
         temp = [0,0,0,0,0,0,0,0,0,0]
