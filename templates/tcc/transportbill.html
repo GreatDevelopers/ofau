@@ -7,7 +7,7 @@
 <br/>
 <div align="left"> Bill No.: {{transport.bill_no }}</div>
 <div align="right"> Dated : {{ transport.date }}</div>
-<div align="left">To : {% for clients in client %}
+<div align="left">To : {% for clients in client|slice:":1" %}
 			{{clients.client__client__first_name}} {{clients.client__client__middle_name}} 
 			{{clients.client__client__last_name}}{{clients.client__client__address}},{{clients.client__client__city}}{% endfor %}</div> 
 <br/><br/><br/>

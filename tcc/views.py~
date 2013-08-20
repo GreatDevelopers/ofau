@@ -1180,7 +1180,7 @@ def transport_bill(request):
 	Transport Bill Function generates transport Bill
 	"""
 	transport_old = Transport.objects.get(job_no=request.GET['job_no'])
-	job = Job.objects.get(job_no=request.GET['job_no'])
+	job = Job.objects.get(id=request.GET['job_no'])
 	client = Job.objects.filter(job_no =
 	job.job_no).values('client__client__first_name',
 	'client__client__middle_name', 'client__client__last_name','client__client__address','client__client__city')
