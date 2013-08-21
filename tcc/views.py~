@@ -1469,11 +1469,11 @@ def search(request):
 	tmp.items()),context_instance=RequestContext(request))
 
 def other_charge(request):
-	client = Job.objects.get(id=request.GET['job_no'])
-	job = Job.objects.filter(id=client.id).values('client__client__first_name',
+	get_job = Job.objects.get(id=request.GET['job_no'])
+	job = Job.objects.filter(id=get_job.id).values('client__client__first_name',
 	'client__client__middle_name','client__client__last_name',
 	'client__client__address','client__client__city')
-	transport = Transport.objects.get(job_no=client.id)
+	transport = Transport.objects.get(job_no=get_job.id)
 	amount = Amount.objects.get(job=request.GET['job_no'])
 	suspence = Suspence.objects.get(job=request.GET['job_no'])
 	tada = TaDa.objects.get(job=request.GET['job_no'])
@@ -1482,12 +1482,14 @@ def other_charge(request):
 	+ suspence.boring_charge_external + transport.total
 	total_temp =tada_sum+suspence.labour_charge+suspence.car_taxi_charge
 	+ suspence.boring_charge_external
-	other =suspence.labour_charge+suspence.car_taxi_charge + suspence.boring_charge_external + transport.total
+	other =suspence.labour_charge+suspence.car_taxi_charge + suspence.boring_charge_external 
+	+ transport.total
 	total_final = other + tada_sum
-	temp = {'transport' : transport, 'client' :client, 'amount': amount, 	'suspence':suspence,'tada_sum':tada_sum,'total_temp': total_temp, 'total' :total, 'other':other,'job':job, 'total_final':total_final}
+	temp = {'transport' : transport, 'client' :client, 'amount': amount, 	
+	'suspence':suspence,'tada_sum':tada_sum,'total_temp': total_temp, 
+	'total' :total, 'other':other,'job':job, 'total_final':total_final}
 	return render_to_response('tcc/other_charge_report.html', 
-	dict(temp.items() + 
-tmp.items()), context_instance=RequestContext(request))
+	dict(temp.items() + tmp.items()), context_instance=RequestContext(request))
 	
 def suspence_clearence_report(request):
 	"""
@@ -1509,7 +1511,7 @@ def suspence_clearence_report(request):
 	client =Job.objects.get(id=request.GET['job_no'])
 	clientname = Job.objects.filter(id=client.id).values(\
 	'client__client__first_name','client__client__middle_name',
-	'client__client__last_name','client__client__address', 'report_type'
+	'client__client__last_name','client__client__address', 'report_type',
 	'client__client__city',	'suspencejob__field__name', 'clientjob__material__name')
 	lab_staff = suspence.lab_testing_staff
         t1=0
