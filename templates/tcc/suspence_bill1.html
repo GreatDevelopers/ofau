@@ -86,8 +86,9 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 
 
 
-			<td align="right" > {{bill.trans_net_total}}
-			</td>
+			<td align="right" > {% if forloop.counter == 1 %}{{material.testtotal__unit_price|add:bill.trans_total}}
+			{% else %}
+			{{material.testtotal__unit_price}} {% endif %}</td>
 			
 		</tr>
 		
