@@ -1469,11 +1469,11 @@ def search(request):
 	tmp.items()),context_instance=RequestContext(request))
 
 def other_charge(request):
-	get_job = Job.objects.get(id=request.GET['job_no'])
-	job = Job.objects.filter(id=get_job.id).values('client__client__first_name',
+	client = Job.objects.get(id=request.GET['job_no'])
+	job = Job.objects.filter(id=client.id).values('client__client__first_name',
 	'client__client__middle_name','client__client__last_name',
 	'client__client__address','client__client__city')
-	transport = Transport.objects.get(job_no=get_job.id)
+	transport = Transport.objects.get(job_no=client.id)
 	amount = Amount.objects.get(job=request.GET['job_no'])
 	suspence = Suspence.objects.get(job=request.GET['job_no'])
 	tada = TaDa.objects.get(job=request.GET['job_no'])
@@ -1482,14 +1482,12 @@ def other_charge(request):
 	+ suspence.boring_charge_external + transport.total
 	total_temp =tada_sum+suspence.labour_charge+suspence.car_taxi_charge
 	+ suspence.boring_charge_external
-	other =suspence.labour_charge+suspence.car_taxi_charge + suspence.boring_charge_external 
-	+ transport.total
+	other =suspence.labour_charge+suspence.car_taxi_charge + suspence.boring_charge_external + transport.total
 	total_final = other + tada_sum
-	temp = {'transport' : transport, 'client' :client, 'amount': amount, 	
-	'suspence':suspence,'tada_sum':tada_sum,'total_temp': total_temp, 
-	'total' :total, 'other':other,'job':job, 'total_final':total_final}
+	temp = {'transport' : transport, 'client' :client, 'amount': amount, 	'suspence':suspence,'tada_sum':tada_sum,'total_temp': total_temp, 'total' :total, 'other':other,'job':job, 'total_final':total_final}
 	return render_to_response('tcc/other_charge_report.html', 
-	dict(temp.items() + tmp.items()), context_instance=RequestContext(request))
+	dict(temp.items() + 
+tmp.items()), context_instance=RequestContext(request))
 	
 def suspence_clearence_report(request):
 	"""
@@ -1652,8 +1650,7 @@ def suspence_clearence_report_transport(request):
 		tempr = suspence.labour_charge+transport.total+suspence.\
 		boring_charge_external+suspence.car_taxi_charge
 	except Exception :
-		tempr = suspence.labour_charge + suspence.rate +suspence.\
-		boring_charge_external + suspence.car_taxi_charge
+		tempr = suspence.labour_charge + suspence.boring_charge_external + suspence.car_taxi_charge
 	try :
 		tada = TaDa.objects.get(job=request.GET['job_no'])
 		balance= amount.unit_price - (tada.tada_amount + tempr + suspence.boring_charge_internal)
@@ -1673,6 +1670,11 @@ def suspence_clearence_report_transport(request):
 	development_fund = round(ratio2 * balance_temp / 100)
 	net_total1 = amount.unit_price
 	net_balance_eng = num2eng(net_total1)
+	bill = Bill.objects.get(job_no=client.job_no)                                 #added on 22-8-2013
+	testtotal= TestTotal.objects.get(job=request.GET['job_no'])
+	trans_total=bill.trans_total
+	tried = testtotal.unit_price + bill.trans_total
+	net_balance_eng = num2eng(tried)                   
 	retrieve()
 	Suspence.objects.filter(job = client).update( work_charge = 
 	work_charge)
@@ -1686,7 +1688,7 @@ def suspence_clearence_report_transport(request):
 	'job_no' :client.job_no , 'ratio2' : ratio2, 'other' : tempr, 
 	'collegeincome' : collegeincome, 'admincharge' : admincharge, 
 	'client' : client, 'amount' : amount, 'suspence' : suspence, 
-	'clientname' : clientname, 'tada_sum':tada_sum,'con_type':con_type}
+	'clientname' : clientname, 'tada_sum':tada_sum,'con_type':con_type,'trans_total':trans_total,'tried':tried,'testtotal':testtotal}
 	return render_to_response('tcc/suspence_clearence_report_transport.html',
 	dict(data.items() + tmp.items()) , context_instance=
 	RequestContext(request))

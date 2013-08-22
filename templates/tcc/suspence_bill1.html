@@ -86,16 +86,21 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 
 
 
-			<td align="right" > {% if forloop.counter == 1 %}{{material.testtotal__unit_price|add:bill.trans_total}}
+			<td align="right" > 
+			{% if bill.trans_total != NULL %}
+		 		{% if bill.trans_total != 0 %}
+			{% if forloop.counter == 1 %}{{material.testtotal__unit_price|add:bill.trans_total}}
 			{% else %}
-			{{material.testtotal__unit_price}} {% endif %}</td>
+			{{material.testtotal__unit_price}}{% endif %}
+				{% elif bill.trans_total == NULL %}
+					{% elif bill.trans_total == 0 %}
+			{{ material.testtotal__unit_price }}
+				{% endif %}{% endif %}
+			</td>
 			
 		</tr>
 		
 			{% endfor%}
-
-		 {% if bill.trans_total != NULL %}
-		 	{% if bill.trans_total != 0 %}
 
 	<tr>
 			<td>Total Amount</td>
