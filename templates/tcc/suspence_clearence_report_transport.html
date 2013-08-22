@@ -14,8 +14,8 @@
 <div style='position:absolute;left:7px;top:135px;'>Director,</div>
 <br/> <br/><br/><br/>
 <div style='position:absolute;left:7px;top:155px;'>
-Received a sum of Rs. {{tried }}/- ( {{ net_balance_eng }} only ) <br/><br/>
-Vide {{client.pay}} {{client.check_number}}, {{client.check_dd_date}} from : {% for clients in clientname %}
+Received a sum of Rs. {{tried }}/- ( Rupees {{ net_balance_eng }} only ) <br/><br/>
+Vide {{client.pay}} {{client.check_number}}, Dated {{client.check_dd_date}} <br>From : {% for clients in clientname %}
 {{ clients.client__client__first_name}} {{ clients.client__client__middle_name}} {{ clients.client__client__last_name}}
 {{ clients.client__client__address}}, {{ clients.client__client__city}} 
 {% endfor %}<br/>
@@ -33,7 +33,7 @@ On account of :
  &nbsp; Vide Receipt No. : {{client.job_no }}	Dated: {{ client.date }} <br><br>
 Nature of Consultancy :{{ con_type }},  Ratio {{ ratio1 }}:{{ ratio2 }} </div>
 <br/><br/><br/><br/>
-<div>
+<div><br>
 <table border='1' width='100%'>
 <tr>
 	<td colspan='2'>THE DISTRIBUTION MAY BE MADE AS</td>
@@ -83,7 +83,7 @@ Nature of Consultancy :{{ con_type }},  Ratio {{ ratio1 }}:{{ ratio2 }} </div>
 
 <tr>
 	<td>TOTAL </td>
-	<td  align='right'>{{amount.unit_price}}.00</td>
+	<td  align='right'>{{tried}}.00</td>
 </tr>
 
 </table>
