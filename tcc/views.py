@@ -1672,6 +1672,7 @@ def suspence_clearence_report_transport(request):
 	net_balance_eng = num2eng(net_total1)
 	bill = Bill.objects.get(job_no=client.job_no)                                 #added on 22-8-2013
 	testtotal= TestTotal.objects.get(job=request.GET['job_no'])
+	num_balance_eng = num2eng(testtotal.unit_price)
 	trans_total=bill.trans_total
 	tried = testtotal.unit_price + bill.trans_total
 	net_balance_eng = num2eng(tried)                   
@@ -1688,10 +1689,15 @@ def suspence_clearence_report_transport(request):
 	'job_no' :client.job_no , 'ratio2' : ratio2, 'other' : tempr, 
 	'collegeincome' : collegeincome, 'admincharge' : admincharge, 
 	'client' : client, 'amount' : amount, 'suspence' : suspence, 
-	'clientname' : clientname, 'tada_sum':tada_sum,'con_type':con_type,'trans_total':trans_total,'tried':tried,'testtotal':testtotal}
-	return render_to_response('tcc/suspence_clearence_report_transport.html',
-	dict(data.items() + tmp.items()) , context_instance=
-	RequestContext(request))
+	'clientname' : clientname, 'tada_sum':tada_sum,'con_type':con_type,'trans_total':trans_total,'tried':tried,'testtotal':testtotal,'num_balance_eng':num_balance_eng}
+	if request.GET['val']:		                                             #done for getting report with and without trans_total
+		return render_to_response('tcc/suspence_clearence_report_without_transport.html',          
+		dict(data.items() + tmp.items()) , context_instance=
+		RequestContext(request))
+	else:
+		return render_to_response('tcc/suspence_clearence_report_transport.html',
+		dict(data.items() + tmp.items()) , context_instance=
+		RequestContext(request))
 	
 			
 def prevwork(request):
