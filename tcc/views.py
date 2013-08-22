@@ -1478,11 +1478,20 @@ def other_charge(request):
 	suspence = Suspence.objects.get(job=request.GET['job_no'])
 	tada = TaDa.objects.get(job=request.GET['job_no'])
 	tada_sum = tada.tada_amount
-	total = tada_sum + suspence.labour_charge + suspence.car_taxi_charge
-	+ suspence.boring_charge_external + transport.total
+	try:  
+		transport = Transport.objects.get(job_no=client.id)                                                                              
+		total = tada_sum + suspence.labour_charge + suspence.car_taxi_charge \
+		+ suspence.boring_charge_external + transport.total
+		other =suspence.labour_charge+suspence.car_taxi_charge \
+		+ suspence.boring_charge_external + transport.total
+	except Exception:
+		transport = []
+		total = tada_sum + suspence.labour_charge + suspence.car_taxi_charge \
+		+ suspence.boring_charge_external
+		other =suspence.labour_charge+suspence.car_taxi_charge \
+		+ suspence.boring_charge_external
 	total_temp =tada_sum+suspence.labour_charge+suspence.car_taxi_charge
 	+ suspence.boring_charge_external
-	other =suspence.labour_charge+suspence.car_taxi_charge + suspence.boring_charge_external + transport.total
 	total_final = other + tada_sum
 	temp = {'transport' : transport, 'client' :client, 'amount': amount, 	'suspence':suspence,'tada_sum':tada_sum,'total_temp': total_temp, 'total' :total, 'other':other,'job':job, 'total_final':total_final}
 	return render_to_response('tcc/other_charge_report.html', 
