@@ -1473,7 +1473,7 @@ def other_charge(request):
 	job = Job.objects.filter(id=client.id).values('client__client__first_name',
 	'client__client__middle_name','client__client__last_name',
 	'client__client__address','client__client__city')
-	transport = Transport.objects.get(job_no=client.id)
+#	transport = Transport.objects.get(job_no=client.id)
 	amount = Amount.objects.get(job=request.GET['job_no'])
 	suspence = Suspence.objects.get(job=request.GET['job_no'])
 	tada = TaDa.objects.get(job=request.GET['job_no'])
