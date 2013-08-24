@@ -1654,6 +1654,11 @@ def suspence_clearence_report_transport(request):
 	amounts3) | Q(code=amounts4) | Q(code=amounts5) | Q(code=amounts6) 
 	| Q(code=amounts7)| Q(code=amounts8)| Q(code=amounts9) | Q(code=
 	amounts10)).order_by('id')
+	testtotal= TestTotal.objects.get(job=request.GET['job_no'])                 #added for taking the amount of trans_total
+	bill = Bill.objects.get(job_no=client.job_no)
+	trans_total=bill.trans_total                                                #which will be added to testtoal_unit_price further.
+	tried = testtotal.unit_price + bill.trans_total	               
+	num_balance_eng = num2eng(testtotal.unit_price)
 	try :
 		transport=Transport.objects.get(job_no=client.id)
 		tempr = suspence.labour_charge+transport.total+suspence.\
@@ -1668,7 +1673,7 @@ def suspence_clearence_report_transport(request):
 		tada =[]
 		balance= amount.unit_price - (tempr + suspence.boring_charge_internal)
 		tada_sum =0
-	if request.GET['val']:
+	if request.GET['val']:                                            #done for getting total with and without tranportation charges
 		try :
 			tada = TaDa.objects.get(job=request.GET['job_no'])
 			balance= testtotal.unit_price - (tada.tada_amount + tempr + suspence.boring_charge_internal)
