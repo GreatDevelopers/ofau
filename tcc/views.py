@@ -1668,42 +1668,81 @@ def suspence_clearence_report_transport(request):
 		tada =[]
 		balance= amount.unit_price - (tempr + suspence.boring_charge_internal)
 		tada_sum =0
-	from Automation.tcc.variable import *
-	work_charge = round(workcharge * balance / 100.00)
-	college_income = round(collegeincome * balance / 100.00)
-	admin_charge = round(admincharge * balance / 100.00)
-	balance_temp = balance - college_income - admin_charge -work_charge
-	ratio1 = ratio1(con_type)
-	ratio2 = ratio2(con_type)
-	consultancy_asst = round(ratio1 * balance_temp / 100)
-	development_fund = round(ratio2 * balance_temp / 100)
-	net_total1 = amount.unit_price
-	net_balance_eng = num2eng(net_total1)
-	bill = Bill.objects.get(job_no=client.job_no)                                 #added on 22-8-2013
-	testtotal= TestTotal.objects.get(job=request.GET['job_no'])
-	num_balance_eng = num2eng(testtotal.unit_price)
-	trans_total=bill.trans_total
-	tried = testtotal.unit_price + bill.trans_total
-	net_balance_eng = num2eng(tried)                   
-	retrieve()
-	Suspence.objects.filter(job = client).update( work_charge = 
-	work_charge)
-	Amount.objects.filter(job = client).update( college_income = 
-	college_income, admin_charge = admin_charge, consultancy_asst = 
-	consultancy_asst, development_fund = development_fund )
-	data = {'transport' : transport, 'net_balance_eng' : 
-	net_balance_eng, 'teachers' : staff, 'servicetaxprint' : 
-	servicetaxprint, 'highereducationtaxprint':highereducationtaxprint, 
-	'educationtaxprint' : educationtaxprint, 'ratio1' : ratio1, 
-	'job_no' :client.job_no , 'ratio2' : ratio2, 'other' : tempr, 
-	'collegeincome' : collegeincome, 'admincharge' : admincharge, 
-	'client' : client, 'amount' : amount, 'suspence' : suspence, 
-	'clientname' : clientname, 'tada_sum':tada_sum,'con_type':con_type,'trans_total':trans_total,'tried':tried,'testtotal':testtotal,'num_balance_eng':num_balance_eng}
-	if request.GET['val']:		                                             #done for getting report with and without trans_total
-		return render_to_response('tcc/suspence_clearence_report_without_transport.html',          
+	if request.GET['val']:
+		try :
+			tada = TaDa.objects.get(job=request.GET['job_no'])
+			balance= testtotal.unit_price - (tada.tada_amount + tempr + suspence.boring_charge_internal)
+			tada_sum = tada.tada_amount
+		except Exception :
+			tada =[]
+			balance= testtotal.unit_price - (tempr + suspence.boring_charge_internal)
+			tada_sum =0
+		from Automation.tcc.variable import *
+		work_charge = round(workcharge * balance / 100.00)
+		college_income = round(collegeincome * balance / 100.00)
+		admin_charge = round(admincharge * balance / 100.00)
+		balance_temp = balance - college_income - admin_charge -work_charge
+		ratio1 = ratio1(con_type)
+		ratio2 = ratio2(con_type)
+		consultancy_asst = round(ratio1 * balance_temp / 100)
+		development_fund = round(ratio2 * balance_temp / 100)
+		net_total1 = amount.unit_price
+		net_balance_eng = num2eng(net_total1)
+		net_balance_eng = num2eng(tried)                                                                          
+		retrieve()
+		Suspence.objects.filter(job = client).update( work_charge = 
+		work_charge)
+		Amount.objects.filter(job = client).update( college_income = 
+		college_income, admin_charge = admin_charge, consultancy_asst = 
+		consultancy_asst, development_fund = development_fund )
+		data = {'transport' : transport, 'net_balance_eng' :                                              
+		net_balance_eng, 'teachers' : staff, 'servicetaxprint' : 
+		servicetaxprint, 'highereducationtaxprint':highereducationtaxprint, 
+		'educationtaxprint' : educationtaxprint, 'ratio1' : ratio1, 
+		'job_no' :client.job_no , 'ratio2' : ratio2, 'other' : tempr, 
+		'collegeincome' : collegeincome, 'admincharge' : admincharge, 
+		'client' : client, 'amount' : amount, 'suspence' : suspence, 
+		'clientname' : clientname, 'tada_sum':tada_sum,'con_type':con_type,\
+		'trans_total':trans_total,'tried':tried,'testtotal':testtotal,'num_balance_eng':num_balance_eng}		
+		return render_to_response('tcc/suspence_clearence_report_without_transport.html',
 		dict(data.items() + tmp.items()) , context_instance=
 		RequestContext(request))
 	else:
+		try :
+			tada = TaDa.objects.get(job=request.GET['job_no'])
+			balance= tried - (tada.tada_amount + tempr + suspence.boring_charge_internal)
+			tada_sum = tada.tada_amount
+		except Exception :
+			tada =[]
+			balance= tried - (tempr + suspence.boring_charge_internal)
+			tada_sum = 0
+		from Automation.tcc.variable import *
+		work_charge = round(workcharge * balance / 100.00)
+		college_income = round(collegeincome * balance / 100.00)
+		admin_charge = round(admincharge * balance / 100.00)
+		balance_temp = balance - college_income - admin_charge -work_charge
+		ratio1 = ratio1(con_type)
+		ratio2 = ratio2(con_type)
+		consultancy_asst = round(ratio1 * balance_temp / 100)
+		development_fund = round(ratio2 * balance_temp / 100)
+		net_total1 = amount.unit_price
+		net_balance_eng = num2eng(net_total1)
+		net_balance_eng = num2eng(tried)                                                                          
+		retrieve()
+		Suspence.objects.filter(job = client).update( work_charge = 
+		work_charge)
+		Amount.objects.filter(job = client).update( college_income = 
+		college_income, admin_charge = admin_charge, consultancy_asst = 
+		consultancy_asst, development_fund = development_fund )
+		data = {'transport' : transport, 'net_balance_eng' :                                              
+		net_balance_eng, 'teachers' : staff, 'servicetaxprint' : 
+		servicetaxprint, 'highereducationtaxprint':highereducationtaxprint, 
+		'educationtaxprint' : educationtaxprint, 'ratio1' : ratio1, 
+		'job_no' :client.job_no , 'ratio2' : ratio2, 'other' : tempr, 
+		'collegeincome' : collegeincome, 'admincharge' : admincharge, 
+		'client' : client, 'amount' : amount, 'suspence' : suspence, 
+		'clientname' : clientname, 'tada_sum':tada_sum,'con_type':con_type,\
+		'trans_total':trans_total,'tried':tried,'testtotal':testtotal,'num_balance_eng':num_balance_eng}
 		return render_to_response('tcc/suspence_clearence_report_transport.html',
 		dict(data.items() + tmp.items()) , context_instance=
 		RequestContext(request))
