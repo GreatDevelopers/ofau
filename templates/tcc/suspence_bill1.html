@@ -20,7 +20,7 @@
 Agency: {{add.client__client__company}}
 {% endif %}{% endfor %}
 <br/><br/>
-Ref : Your Letter No. {% for letter in getjob %}{{letter.letter_no}}{% if not forloop.last %},{% endif %} {% endfor %} dated {% for letter in getjob %}{{letter.letter_date}}{% if not forloop.last %}, {% endif %}{% endfor %} respectively.
+Ref : Your Letter No. {% for letter in getjob %}{{letter.letter_no}}{% if not forloop.last %},{% endif %} {% endfor %} dated {% for letter in getjob %}{{letter.letter_date}}{% if not forloop.last %}, {% endif %}{% endfor %}.
 </div>
 Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 <div align= "left">

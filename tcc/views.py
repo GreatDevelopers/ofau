@@ -6,7 +6,7 @@ It is the interface between the user interface, urls and database.
 """
 
 from Automation.tcc.header import *
-
+from datetime import datetime
 
 def index1(request):
 	'''
