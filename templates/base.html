@@ -42,12 +42,7 @@ changeMonth: true,
 changeYear: true,dateFormat:'yy-mm-dd'
 });
 $( "#id_end_date" ).datepicker( "option", "showAnim", 'clip' );
-$( "#id_test_date" ).datepicker({
 
-changeMonth: true,
-changeYear: true,dateFormat:'yy-mm-dd'
-});
-$( "#id_test_date" ).datepicker( "option", "showAnim", 'clip' );
 $( "#id_letter_date" ).datepicker({
 
 changeMonth: true,
@@ -76,10 +71,10 @@ $( "#id_dated" ).datepicker( "option", "showAnim", 'clip' )
 
 	{% if user.is_authenticated %}
 	<font color="white">{% trans "Logged in" %}: {{ user.username }} </font>
-	(<a href="{% url auth_logout %}">{% trans "Log out" %}</a> | 
-	<a href="{% url auth_password_change %}">{% trans "Change password" %}</a>)
+	(<a href="{% url 'auth_logout' %}">{% trans "Log out" %}</a> | 
+	<a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a>)
 	{% else %}
-	<a href="{% url auth_login %}">{% trans "Log in" %}</a>
+	<a href="{% url 'auth_login' %}">{% trans "Log in" %}</a>
 	{% endif %}
 	
         {% endblock %}

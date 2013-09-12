@@ -1399,12 +1399,14 @@ def suspence_clearance(request):
 			lab_testing_staff=cd['lab_testing_staff']
 			field_testing_staff =cd['field_testing_staff']
 			test_date =cd['test_date']
+			clear_date = cd['clear_date']
 			job =query
 			Suspence.objects.filter(job = job).update(labour_charge = 
 			labour_charge, boring_charge_external=boring_charge_external, 
 			boring_charge_internal = boring_charge_internal, 
 			field_testing_staff = field_testing_staff, car_taxi_charge 
-			= car_taxi_charge, lab_testing_staff = lab_testing_staff, test_date = test_date)
+			= car_taxi_charge, lab_testing_staff = lab_testing_staff, test_date = test_date,
+		 	clear_date = clear_date)
 			data = {'job_no' : job, 'labour_charge':labour_charge, 
 			'boring_charge_external' : boring_charge_external,
 			'boring_charge_internal' : boring_charge_internal, 
@@ -1476,8 +1478,12 @@ def other_charge(request):
 #	transport = Transport.objects.get(job_no=client.id)
 	amount = Amount.objects.get(job=request.GET['job_no'])
 	suspence = Suspence.objects.get(job=request.GET['job_no'])
-	tada = TaDa.objects.get(job=request.GET['job_no'])
-	tada_sum = tada.tada_amount
+	try:
+		tada = TaDa.objects.get(job=request.GET['job_no'])
+		tada_sum = tada.tada_amount
+	except Exception:
+		tada= []
+		tada_sum = 0
 	try:  
 		transport = Transport.objects.get(job_no=client.id)                                                                              
 		total = tada_sum + suspence.labour_charge + suspence.car_taxi_charge \

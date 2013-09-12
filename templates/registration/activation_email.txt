@@ -6,7 +6,7 @@ College, Ludhiana for your testing and consultancy jobs.
 To complete your registration process, you need to confirm your Email by
 clicking following link,
 
-http://{{ site.domain }}{% url registration_activate activation_key %}
+http://{{ site.domain }}{% url 'registration_activate' activation_key %}
 
 If you have not initiated this registration process, then just ignore this
 mail.

@@ -34,10 +34,10 @@
 
 	{% if user.is_authenticated %}
 	<font color="white">{% trans "Logged in" %}: {{ user.username }} </font>
-	(<a href="{% url auth_logout %}">{% trans "Log out" %}</a> | 
-	<a href="{% url auth_password_change %}">{% trans "Change password" %}</a>)
+	(<a href="{% url 'auth_logout' %}">{% trans "Log out" %}</a> | 
+	<a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a>)
 	{% else %}
-	<a href="{% url auth_login %}">{% trans "Log in" %}</a>
+	<a href="{% url 'auth_login' %}">{% trans "Log in" %}</a>
 	{% endif %}
 	
         {% endblock %}
@@ -61,7 +61,7 @@
 
 			<ul class="dropdown dropdown-horizontal">
 				<li><a href="/automation">Home</a></li>
-				<li><a href="{% url auth_login %}">Login</a><li>
+				<li><a href="{% url 'auth_login' %}">Login</a><li>
 				<li><a href="/automation/accounts/register/" >Register</a></li>
 				<li><a href="/automation/tcc/catalog">Catalog</a></li>
 				<li><a href="#" >Blog</a> </li>

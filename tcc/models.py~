@@ -356,7 +356,6 @@ class EditJob(models.Model):
 	letter_date = models.DateField( max_length=200, null=True, blank=True)
 	tds = models.IntegerField(default="0")
 	discount = models.IntegerField(default="0")
-	note = models.CharField(max_length=600)
 	def __unicode__(self):
           return self.id()
 
@@ -767,8 +766,9 @@ class Suspence(models.Model):
 	car_taxi_charge = models.IntegerField( blank=True, null=True)
 	lab_testing_staff = models.CharField( max_length=90,blank=True)
 	field_testing_staff =models.CharField( max_length=90,blank=True)
-	test_date = models.DateField( blank=True, null=True)
+	test_date = models.CharField( max_length=300)
 	suspence_bill_no = models.IntegerField( blank=True, null=True)
+	clear_date=models.CharField(max_length=30)
 
 
 class SuspenceForm(ModelForm):

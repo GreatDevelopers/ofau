@@ -3,7 +3,7 @@ File contains urls of the Report
 """
 from django.conf.urls.defaults import *
 from django.contrib import admin
-from django.views.generic.simple import direct_to_template
+from django.views.generic import TemplateView
 
 """
 Urls of views.py
@@ -60,7 +60,7 @@ urlpatterns = patterns('Automation.report.views',
 #    (r'^result_Drinking_water/$', 'result_Drinking_water'),
 
 
-	(r'thanks$',  direct_to_template, {'template': 'report/thanks.html'}),
+	(r'thanks$',  TemplateView, {'template': 'report/thanks.html'}),
 )
 
 """

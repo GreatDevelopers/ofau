@@ -766,8 +766,9 @@ class Suspence(models.Model):
 	car_taxi_charge = models.IntegerField( blank=True, null=True)
 	lab_testing_staff = models.CharField( max_length=90,blank=True)
 	field_testing_staff =models.CharField( max_length=90,blank=True)
-	test_date = models.DateField( blank=True, null=True)
+	test_date = models.CharField( max_length=500)
 	suspence_bill_no = models.IntegerField( blank=True, null=True)
+	clear_date=models.CharField(max_length=30)
 
 
 class SuspenceForm(ModelForm):
