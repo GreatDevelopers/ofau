@@ -1202,8 +1202,8 @@ def transport_bill(request):
 	amount8 = int(temp[7])*rate
 	amount9 = int(temp[8])*rate
 	amount10 = int(temp[9])*rate
-	total = amount1 + amount2 + amount3 + amount4 + amount5 + amount6 
-	+ amount7 + amount8 + amount9 + amount10
+	total = amount1 + amount2 + amount3 + amount4 + amount5 + amount6 + amount7 + amount8 + amount9 + amount10
+	
 	all_amounts = amount1,amount2,amount3,amount4,amount5,amount6,
 	amount7,amount8,amount9,amount10
 	net_balance_eng = num2eng(total)
