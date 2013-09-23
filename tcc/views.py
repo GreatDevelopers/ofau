@@ -1673,9 +1673,11 @@ def suspence_clearence_report_transport(request):
 		tempr = suspence.labour_charge + suspence.boring_charge_external + suspence.car_taxi_charge
 	if request.GET['val']:                                            #done for getting total with and without tranportation charges
 		try :
-			tada = TaDa.objects.get(job=request.GET['job_no'])                           
-			balance= testtotal.unit_price - (tada.tada_amount + tempr + suspence.boring_charge_internal)
-			tada_sum = tada.tada_amount
+		tada = Job.objects.get(id=request.GET['job_no'])
+		
+		tada_amount = TaDa.objects.values_list('tada_amount' , flat=True).filter(job_id=tada.id)
+		tada_sum = sum(tada_amount)
+		balance= amount.unit_price - (tada_sum + tempr + suspence.boring_charge_internal)
 		except Exception :
 			tada =[]
 			balance= testtotal.unit_price - (tempr + suspence.boring_charge_internal)
@@ -1712,9 +1714,10 @@ def suspence_clearence_report_transport(request):
 		RequestContext(request))
 	else:
 		try :
-			tada = TaDa.objects.get(job=request.GET['job_no'])
-			balance= tried - (tada.tada_amount + tempr + suspence.boring_charge_internal)
-			tada_sum = tada.tada_amount
+		tada = Job.objects.get(id=request.GET['job_no'])
+		tada_amount = TaDa.objects.values_list('tada_amount' , flat=True).filter(job_id=tada.id)
+		tada_sum = sum(tada_amount)
+		balance= amount.unit_price - (tada_sum + tempr + suspence.boring_charge_internal)
 		except Exception :
 			tada =[]
 			balance= tried - (tempr + suspence.boring_charge_internal)
