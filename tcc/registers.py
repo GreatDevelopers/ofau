@@ -35,8 +35,8 @@ def  monthly_report(request):
 			job = Job.objects.all().values_list('job_no',flat=True).\
 			filter(date__year=year).filter(date__month=month)
 			total_temp = Bill.objects.filter(job_no__in=job).\
-			aggregate(Sum('price'))
-			total= int(total_temp['price__sum'])
+			aggregate(Sum('trans_net_total'))
+			total= int(total_temp['trans_net_total__sum'])
 			service_tax_temp = Bill.objects.filter(job_no__in=job).\
 			aggregate(Sum('service_tax'))
 			service_tax= int(service_tax_temp['service_tax__sum'])
