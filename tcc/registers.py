@@ -181,12 +181,12 @@ def  daily_report(request):
 				filter(date__range=(start_date,end_date)).filter(pay=
 				'CASH')
 				bill = Bill.objects.all()
-				net_total_temp = Bill.objects.filter(job_no__in=job).\
-				aggregate(Sum('net_total'))
-				net_total= net_total_temp['net_total__sum']
+				balance_temp = Bill.objects.filter(job_no__in=job).\
+				aggregate(Sum('balance'))
+				balance= balance_temp['balance__sum']
 				template ={'s_date': start_date,'e_date':end_date, 
-				'client':client, 'type':type, 'bill':bill,'net_total':
-				net_total,'job':job}
+				'client':client, 'type':type, 'bill':bill,'balance':
+				balance,'job':job}
 				return render_to_response('tcc/dailyreport.html', 
 				dict(template.items() + tmp.items()), context_instance=
 				RequestContext(request))
@@ -201,11 +201,11 @@ def  daily_report(request):
 				filter(date__range=(start_date,end_date)).\
 				filter(Q(pay='CHEQUE')|Q(pay='DD')|Q(pay='ONLINE'))
 				bill = Bill.objects.all()
-				net_total_temp = Bill.objects.filter(job_no__in=job).\
-				aggregate(Sum('net_total'))
-				net_total= net_total_temp['net_total__sum']
+				balance_temp = Bill.objects.filter(job_no__in=job).\
+				aggregate(Sum('balance'))
+				balance= balance_temp['balance__sum']
 				template ={'date': start_date, 'client':client, 'type'
-				:type, 'bill':bill,'net_total':net_total,'job':job}
+				:type, 'bill':bill,'balance':balance,'job':job}
 				return render_to_response('tcc/dailyreport.html', 
 				dict(template.items() + tmp.items()), context_instance=
 				RequestContext(request))
