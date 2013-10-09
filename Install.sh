@@ -289,18 +289,18 @@ Install_django()	#Installs django 1.4.2 if it is not installed.
 
 	result=$(python -c "import django; print(django.get_version())")
 	if  [ $result = 1.4.2 ]; then
-			  echo "Django 1.4.2 is already installed"
+			  echo "Django 1.5.2 is already installed"
 			  Install
 	else
-			  echo "Django 1.4.2 is currently not installed"
+			  echo "Django 1.5.2 is currently not installed"
 			  echo "You want to install it now: (y for yes, " \
 			       "continue otherwise):"
 			  read Y
 		      if [ $Y = y ] || [ $Y = Y ]
 			  then
-			wget http://www.djangoproject.com/m/releases/1.4/Django-1.4.2.tar.gz     
-				tar xzvf Django-1.4.2.tar.gz                                            
-			cd Django-1.4.2                                                           
+			  wget https://www.djangoproject.com/m/releases/1.5/Django-1.5.2.tar.gz     
+					tar xzvf Django-1.5.2.tar.gz                                            
+					cd Django-1.5.2                                                                 
 					python setup.py install
 					pip install django-registration
 					pip install django-tagging
