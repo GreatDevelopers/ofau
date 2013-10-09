@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title>GURU NANAK DEV ENGINNER COLLEGE LUDHIANA</title>
+    <title>{{title.name}}</title>
 </head>
 {% block content %}
 <body> 
@@ -21,8 +21,10 @@
 		{% endif %}
 	{% endfor %}
 		 <tr><td><b><center><a href="{{ LOCAL_URL }}/automation/tcc/bill" target="window">BILL</a> </td></tr>
-		 <tr><td><b><center><a href="{{ LOCAL_URL }}/automation/tcc/receipt" target="window">RECEIPT</a> </td>
-	 </tr>
+		 <tr><td><b><center><a href="{{ LOCAL_URL }}/automation/tcc/receipt" target="window">RECEIPT</a> </td> </tr>
+		 <tr><td><b><center><a href="{{ LOCAL_URL }}/automation/tcc/additional" target="window">Additional</a> </td> </tr>
+		
+	
  </table>
 </body>
 {% endblock %}

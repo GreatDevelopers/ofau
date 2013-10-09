@@ -6,9 +6,9 @@
 </head>
 {% block content %}
 <body>
-  <h1 class="changeBlue">Search a Job</h1>
+  <h2 class="changeBlue">Search a Job</h2>
   <form action="." method="GET">
-    <label for="q">Job: </label>
+    <label for="q">Ref No: </label>
     <input type="text" name="q" value="{{ query|escape }}">
 	<input type="submit" value="Search">
   </form>
@@ -29,7 +29,7 @@
 	
     
         <table>
-	<tr><th><label for="q">Job_id: </label></th><td><input id="id_job" type="text" name="job" value="{{ query|escape }}"></td></tr>
+	<tr><th><label for="q">Ref No.: </label></th><td><input id="id_job" type="text" name="job" value="{{ query|escape }}"></td></tr>
             {{ form.as_table }}
         </table>
         <input type="submit" value="Submit">

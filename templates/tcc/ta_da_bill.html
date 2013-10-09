@@ -6,7 +6,7 @@
 <div align="center"><h2>T.A./D.A. BILL FORM FOR CONSULTANCY WORK</h2></div>
 {% if client %}
 	{% for clients in client %}
-<div>Name of the party {{clients.client__client__name}} {% endfor %}{% endif %}Amount claimed from the party Rs.{{daily}}
+<div>Name of the Department/Client:{{ clients.client__client__first_name }}{{ clients.client__client__address }},{{clients.client__client__city}} {% endfor %}{% endif %}Amount claimed from the Department/Client Rs.{{daily}}
 <div align="right">Vide Receipt No. {{job.job_no}}<br><br>Date : {{job.date}}</div>
 <br>
 <table border="1" width="100%">
@@ -43,7 +43,7 @@
 			<td>{{tada.test_date}}</td>
 			<td>{{tada.arrival_time_up}}</td>
 			<td>{{tada.reach_site}}</td>
-			<td>{{tada.test_date}}</td>
+			<td>{{tada.end_date}}</td>
 			<td>{{tada.departure_time_down}}</td>
 			<td> {{tada.reach_site}}</td>
 			<td> {{ tada.end_date }}</td>
@@ -59,6 +59,14 @@
 			<td>{{daily}}</td>		
 </table>
 </div>
+<br><br><table align="center" style="font-size:12pt; width:30%";>
+<tr><td colspan="3">T.A/D.A Bill have been entered on page ........ <br> of TA/DA & Other Charges register. Head TA/DA</td></tr>
+
+<tr> <td colspan="3" align="right" ><br><br>Dean T&C </td></tr>
+
+<tr><td colspan="3"><br><br>Passed for Payment for Rs. {{daily}}/ <br>( Rupees {{ net_balance_eng }} only ).</td></tr>
+<tr><td><br><br><br>Dean T&C</td><td><br><br><br>Supt. Actt</td>
+<td><br><br><br>Director</tr></table>
 
 
 </body>

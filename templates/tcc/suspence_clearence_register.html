@@ -4,7 +4,8 @@
 </head>
 <body>
 
-<div align="center"> Suspence Clearence Register of {{start_date}} to {{end_date}}
+<div align="center"> Suspence Clearence Register of {{s_date}} to {{e_date}}
+<br>
 <table border='1'>
 	<tr>
 		<td>S.No</td>
@@ -17,6 +18,7 @@
 		<td>Admin Charges {{admincharge}}%</td>
 		<td>Consultancy</td>
 		<td>Dev. Fund</td>
+		<td>Trans Total </td>
                 <td>Work charges</td>
                 <td>Other charges</td>
                 <td>Boring charges internal</td>
@@ -24,32 +26,41 @@
  	</tr>
 {% if amount %}
     {% for amounts in amount %}
-    {% for sus in suspence %}  
     {% for susdetail in suspencedetail %}
-		 {% if amounts.job__id == sus.job_id %}  
-		 {% if sus.job_id == susdetail.job_id %}  	
+	
+		 {% if amounts.job__id == susdetail.job_id %} 
+		
+		 
+		
          <tr>
 		
-            <td>{{forloop.counter}}</td>            
+            		<td>{{forloop.parentloop.counter}}</td>            
 			<td>{{amounts.job__id}}</td> 
 			<td> {{ amounts.job__date  }}</td>
 			<td> {{ amounts.job__job_no }}</td>
-			<td> {{amounts.job__client__client__first_name}}</td>
-			<td> {{ sus.field__name }}</td>
+			<td> {{amounts.job__client__client__first_name}} {{amounts.job__client__client__address}}
+			{{amounts.job__client__client__city}}</td>
+			<td>{% if susdetail.sus__field__name == None %}
+				{{clientmat.material__name}}
+				{% else %}
+				{{susdetail.sus__field__name}}{% endif %}</td>
 			<td>{{amounts.college_income}}</td>
 			<td>{{amounts.admin_charge}}</td>
 			<td>{{amounts.consultancy_asst}}</td>
 			<td>{{amounts.development_fund}}</td>
+			<td>{{trans_total}}
                         <td>{{susdetail.work_charge}}</td>
 			<td>{{ susdetail.labour_charge|add:susdetail.boring_charge_external|add:susdetail.car_taxi_charge}} </td>
 			<td>{{susdetail.boring_charge_internal}}</td>
 			<td>{{amounts.unit_price}}</td>
 			
 		</tr>
-        	{% endif  %}
-		{% endif  %}
+        	
+		
+		
+        	{% endif %}
+	
 	{% endfor %}
-        {% endfor %}
 	{% endfor %}
 {% endif  %}
 

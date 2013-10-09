@@ -1,21 +1,37 @@
 <html>
 <head><title>Suspence Clearence Report</title></head>
+<div style="font-size:24px" align='center'><b>{{address.name}}</b></div>
+<div style="font-size:18px" align='center'><b>{{address.address}}</b></div>
+<div style="font-size:24px" align='center'>{{title.name}}</div><br>
 <body>
 <br/>
-<div style='position:absolute;left:7px;top:55px;'>Voucher No : ____________ </div> 
-<div style='position:absolute;right:7px;top:55px;'>Main/Mat. No :<u>{{ job_no }}</u> </div>
-<div style='position:absolute;left:7px;top:75px;'>Dated : ____________ </div>
-<div style='position:absolute;right:7px;top:75px;'>Dated : ____________ </div>
-<div style='position:absolute;left:7px;top:105px;'>Director,</div>
+<div style='position:absolute;left:7px;top:75px;'>Voucher No : ____________ </div> 
+<div style='position:absolute;right:23px;top:75px;'>Main/Mat. No :<u>{{ job_no }}</u> </div>
+<div style='position:absolute;left:7px;top:95px;'>Dated : ____________ </div>
+<div style='position:absolute;right:7px;top:95px;'>Dated : {{suspence.clear_date}} </div>
+<div style='position:absolute;left:7px;top:125px;'>Director,</div>
 <br/> <br/><br/><br/>
-<div style='position:absolute;left:7px;top:125px;'>
+<div style='position:absolute;left:7px;top:145px;'>
 Received a sum of Rs. {{amount.unit_price }}/- ( {{ net_balance_eng }} only ) <br/><br/>
-Vide {{client.pay}} {{client.check_number}}, {{client.check_dd_date}} from : {{ clientname.client__client__first_name}} <br/>
+Vide {{client.pay}} {{client.check_number}}, {{client.check_dd_date}} from : 
+{% for clients in clientname %}
+{{ clients.client__client__first_name}} {{ clients.client__client__middle_name}} {{ clients.client__client__last_name}}
+{{ clients.client__client__address}}, {{ clients.client__client__city}} 
+{% endfor %}<br/>
 Vide bill No. : GNDEC/TCC/B/{{client.job_no}}    Dated : {{ client.date }}<br/>
-On account of : {{ clientname.suspencejob__field__name }} Vide Receipt No. : {{client.job_no }}	Dated: {{ client.date }} <br><br>
-Nature of Consultancy :{{ consultancy.type }},  Ratio {{ ratio1 }}:{{ ratio2 }} </div>
-<br/><br/><br/><br/><br><br><br><br />
-<div>
+On account of : 
+{% for clients in clientname %} 
+{% if clients.report_type == 1 %} 
+{{ clients.clientjob__material__name }}
+{% if not forloop.last %},{% endif %}
+{% elif clients.report_type == 2 %}
+{{ clients.suspencejob__field__name }} 
+{% if not forloop.last %},{% endif %}	
+{% elif mates.report_type == 3  %}Advance Adjust
+{% else %}CDF {% endif %} {% endfor %}
+ &nbsp; Vide Receipt No. : {{client.job_no }}&nbsp;	Dated: {{ client.date }} <br><br>
+Nature of Consultancy :{{ con_type }},  Ratio {{ ratio1 }}:{{ ratio2 }} </div><br>
+<br/><br/><br/><br/><br><div>
 <table border='1' width='100%'>
 <tr>
 	<td colspan='2'>THE DISTRIBUTION MAY BE MADE AS</td>
@@ -25,7 +41,7 @@ Nature of Consultancy :{{ consultancy.type }},  Ratio {{ ratio1 }}:{{ ratio2 }} 
 <tr>
 	<td rowspan='15'>CREDITS</td>
 	<td>COLLEGE INCOME {{ collegeincome }}% </td>
-	<td width='15%' rowspan='15'>{{ta_da.test_date}}</td>
+	<td width='15%' rowspan='15'>{{suspence.test_date}}</td>
 	<td  align='right'>{{ amount.college_income }}.00</td>
 </tr>
 <tr>
@@ -41,21 +57,6 @@ Nature of Consultancy :{{ consultancy.type }},  Ratio {{ ratio1 }}:{{ ratio2 }} 
 	<td>DEV. FUND (CONSULTANCY) </td>
 	<td  align='right'>{{ amount.development_fund }}.00</td>
 </tr>
-<tr>
-	<td>WORK CHARGES(CONSULTANCY)</td>
-	<td  align='right'>{{ suspence.work_charge }}.00</td>
-</tr>
-
-<tr>
-	<td>OTHER CHARGES</td>
-	<td  align='right'>{{other}}.00</td>
-</tr>
-<tr>
-	<td>BORING CHARGES (Internal)</td>
-	<td  align='right'>{{suspence.boring_charge_internal}}.00</td>
-</tr>
-
-
 <tr>
 	<td>TOTAL </td>
 	<td  align='right'>{{amount.unit_price}}.00</td>
@@ -78,13 +79,14 @@ Nature of Consultancy :{{ consultancy.type }},  Ratio {{ ratio1 }}:{{ ratio2 }} 
 
 	<td>{{suspence.lab_testing_staff}}</td>
 </tr>
-</table>
+</table><br>
 THE WORK HAS BEEN EXECUTED BY ABOVE PERSONS AS MENTIONED ABOVE. </div>
 <br>
 <div align= 'left'>Voucher No : ____________ </div> 
 <div align= 'left'>Dated : ____________ 
-<br><br><br>(Supdt. Accounts)<br><br><br>Account Clerk (Consultancy)<div align='right'>DEAN {{ sign.name}}</div>
-
+<div style="margin-right: 60px;float: right;margin-top: 50px;">DEAN TESTING AND CONSULTANCY</div>
+<div align="left" style="margin-top: 50px;">
+Account Clerk (Consultancy)</div><br>
 <table border='1' >
 <tr>
 	<TD>Code</TD>

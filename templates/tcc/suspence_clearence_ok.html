@@ -18,16 +18,23 @@
 	<tr>
 		<td>Car / Taxi  Charge : {{car_taxi_charge}}</td>
 	<tr>
-		<td>Suspence Bill No. : {{suspence_bill_no}}</td>
-	<tr>
 		<td>Lab Testing Staff : {{lab_testing_staff}} </td>
+	</tr>
+	<tr>
+		<td>Date : {{test_date}} </td>
 	</tr>
 </table> 
   <br/><br/>
  <table>
  <caption><center><b>REPORTS</center></caption>	
 	 <tr>
-		<td><b><center><a href="{{ LOCAL_URL }}/automation/tcc/suspenceclearencereport/?job_no={{ job_no }}"  target="window">Suspence Clearence Report (With transport)</a> </td>
+		<td><b><center><a href="{{ LOCAL_URL }}/automation/tcc/suspenceclearencereporttrans/?val&job_no={{ job_no }}"  target="window">Suspence Clearence Report (With transport)</a> </td></tr>
+	<tr>
+		<td><b><center><a href="{{ LOCAL_URL }}/automation/tcc/suspenceclearencereporttrans/?val=2&job_no={{ job_no }}"  target="window">Suspence Clearence Report (Without transport)</a> </td></tr>
+	<tr>
+		<td><b><center><a href="{{ LOCAL_URL }}/automation/tcc/suspenceclearencereport/?job_no={{ job_no }}"  target="window">Suspence Clearence Report (Without charges)</a> </td></tr>
+	<tr>
+		<td><b><center><a href="{{ LOCAL_URL }}/automation/tcc/othercharge/?job_no={{ job_no }}"  target="window">Other Charge Report</a> </td>
 		 
 	 </tr>
  </table>

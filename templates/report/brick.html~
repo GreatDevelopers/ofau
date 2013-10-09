@@ -2,6 +2,15 @@
 {% load i18n %}
 <html>
 {% block report %}
+<style>
+body{counter-reset:section ;}
+hp:after
+{
+	
+	counter-increment:section; 
+	content:" " counter(section) ;
+	}
+	</style>
 <body>
 {% if brick %}
 
@@ -18,7 +27,7 @@
 	{% for bricks in brick %}
 	
 		<tr>
-			<td>{{bricks.S_No}}</td>	
+			<td><hp></hp></td>	
 			<td>{{bricks.Comp_Strength}}</td>
 			<td>{{bricks.Water_Absorption}}</td>		
 			<td>{{bricks.Efflorescence}}</td>		

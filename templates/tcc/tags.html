@@ -9,7 +9,7 @@
 this.options[this.selectedIndex].value;">
 <option value="">Select Work</option>
 {% for reports in report %}
-  <option value="{{ LOCAL_URL }}/automation/tcc/select/?id={{reports.id}}">{{reports.name}}</option>
+  <option value="{{ LOCAL_URL }}/automation/tcc/select/?id={{reports.id}}&client={{clid}}">{{reports.name}}</option>
 	{% endfor %}
 </select><br></td></tr>
 <tr><td> <label for="id_search">Material:</label></td><td><select name="form" ONCHANGE="location =
@@ -17,7 +17,7 @@ this.options[this.selectedIndex].value;">
 	 <option value="">Select Material</option>
 	{% for field in field_list %}
 		
-   <option value="{{ LOCAL_URL }}/automation/tcc/save/?q={{field.id}}">{{field.name}}</option>
+   <option value="{{ LOCAL_URL }}/automation/tcc/save/?q={{field.id}}&client={{clid}}">{{field.name}}</option>
 	
 	{% endfor %}
  

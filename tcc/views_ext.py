@@ -4,42 +4,35 @@ This file is used to create the views for the software.
 In order to avoid the confusion with generating the temperory jobs and then making them permanents, a different views file is created.
 """
 
-#::::::::::::::IMPORT THE HEADER FILE HERE::::::::::::::::::::#
-from django.http import HttpResponseRedirect,HttpResponse
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
-from django.core.urlresolvers import reverse
-from django.db.models import Max ,Q, Sum
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.sessions.models import Session
-from django.shortcuts import render
-from django.db.models import F
-from django import template
-from tagging.models import Tag, TaggedItem
-from Automation.tcc.choices import *
-from Automation.tcc.models import *
-from Automation.tcc.functions import *
-from Automation.tcc.forms import *
-from Automation.tcc.convert_function import *
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
+from Automation.tcc.header import *
 
-def material_site():
-	material = Material.objects.all().filter(report=1)
-	field = Material.objects.all().filter(report=2)
-	title = Department.objects.get(id=1)	
-	address = get_object_or_404(Organisation, pk='1')
-	report = Report.objects.all()
-	work = Govt.objects.all()
-	payment = Payment.objects.all()
-	template = {'material':material, 'field':field, 'title':title, 
-	'address':address, 'report':report, 'work':work, 'payment':payment}
-	return template
+def perf_distance(request):
+	"""
+	** distance **
 
-tmp = material_site()
-
+	Distance Function is for calculation of distance of the site on the map. 
+	This displays a form fo filling the site.
+	"""
+	mee = EditJob.objects.aggregate(Max('id'))
+	jobid =mee['id__max']
+	if jobid== None :
+		jobid = 1
+	else:
+		jobid = jobid +1
+	if request.method =='POST':
+		form = DistanceperfForm(request.POST)
+  		if form.is_valid():
+			cd = form.cleaned_data
+			sandy = cd['sandy']
+			profile = form.save(commit=False)
+			profile.job = jobid
+			profile.save()
+			return render_to_response('tcc/map_ok.html',tmp, context_instance = 
+			RequestContext(request))
+	else:
+  		form = DistanceperfForm()
+	return render_to_response('tcc/siteinmap.html', {"form": form,}, 
+	context_instance=RequestContext(request))
 
 @login_required
 def perfselectfield(request):
@@ -60,7 +53,9 @@ def perfselectfield(request):
 		m.save()
 	report = Report.objects.all()
 	mat = Material.objects.all()
-	return render_to_response('tcc/performa/typeofworkperf.html',{'report':report,'mat':mat}, context_instance=RequestContext(request))
+	temp = {'report':report,'mat':mat}
+	return render_to_response('tcc/performa/typeofworkperf.html',dict(temp.items() + 
+	tmp.items()), context_instance=RequestContext(request))
 
 @login_required
 def perfselect(request):
@@ -74,7 +69,9 @@ def perfselect(request):
 	mat = Material.objects.all()
 	material = Report.objects.get(id=request.GET['id'])
 	field_list = Material.objects.all().filter(report_id =material)
-	return render_to_response('tcc/performa/tagsperf.html',{'field_list':field_list,'report':report,'mat':mat}, context_instance=RequestContext(request))
+	temp = {'field_list':field_list,'report':report,'mat':mat}
+	return render_to_response('tcc/performa/tagsperf.html',dict(temp.items() + 
+	tmp.items()), context_instance=RequestContext(request))
 
 @login_required
 def add_perf(request):
@@ -128,14 +125,13 @@ def add_perf(request):
 				profile1.job = client
 				profile1.save()
 				form2.save_m2m()
-				if profile.report_type == "1":
-					return HttpResponseRedirect(reverse('Automation.tcc.views_ext.add_suspence_perf'))
-				else :
-					return HttpResponseRedirect(reverse('Automation.tcc.views_ext.gen_report_perf'))
+				return HttpResponseRedirect(reverse('Automation.tcc.views_ext.gen_report_perf'))
 		else:	
 			form1 = editJobForm()
 			form2 = editClientJobForm()
-		return render_to_response('tcc/performa/add_perf.html', {"form1": form1,"test":test,'field_list':field_list,'payment':payment,'work':work,"report":report,'query':query}, context_instance=RequestContext(request))
+		temp ={"form1": form1,"test":test,'field_list':field_list,'payment':payment,'work':work,"report":report,'query':query}
+		return render_to_response('tcc/performa/add_perf.html', dict(temp.items() + 
+		tmp.items()), context_instance=RequestContext(request))
 	else :
 		field_list = Material.objects.all().filter(report_id = 2)
 		if request.method=='POST':
@@ -155,7 +151,7 @@ def add_perf(request):
 				report = Report.objects.get(id=2)
 				profile.report_type = report
 				profile.save()
-        			form1.save_m2m()
+				form1.save_m2m()
 				profile1 = form2.save(commit=False)	
 				profile1.job_no = maxid	
 				profile1.field = material
@@ -171,7 +167,9 @@ def add_perf(request):
 		else:	
 			form1 = editJobForm()
 			form2 = editSuspenceJobForm()
-		return render_to_response('tcc/performa/add_suspence.html', {"form1": form1,"test":test,'field_list':field_list,'payment':payment,'work':work,"report":report,'query':query}, context_instance=RequestContext(request))
+		temp = {"form1": form1,"test":test,'field_list':field_list,'payment':payment,'work':work,"report":report,'query':query}
+		return render_to_response('tcc/performa/add_suspence.html', dict(temp.items() + 
+		tmp.items()), context_instance=RequestContext(request))
 		
 @login_required
 def add_perf_other_test(request):
@@ -239,7 +237,7 @@ def add_perf_other_test(request):
 		field_list = Material.objects.all().filter(report_id = 2)
 		if request.method=='POST':
 			form1 = editJobForm(request.POST)
-			form2 = editClientJobForm(request.POST)
+			form2 = editSuspenceJobForm(request.POST)
 			form3 = TestTotalPerfForm(request.POST)
   			if form1.is_valid and form2.is_valid():
 				def clean_name(self):
@@ -254,9 +252,9 @@ def add_perf_other_test(request):
 				profile = form1.save(commit=False)
 				profile.job_no = maxid
 				profile.ip = request.META.get('REMOTE_ADDR')
-				cl = Clientadd.objects.aggregate(Max('id'))
+				cl = editClientadd.objects.aggregate(Max('id'))
 				clientid =cl['id__max']
-				clid = Clientadd.objects.get(id = clientid)
+				clid = editClientadd.objects.get(id = clientid)
 				profile.client = clid
 				report = Report.objects.get(id=2)
 				profile.report_type = report
@@ -273,12 +271,23 @@ def add_perf_other_test(request):
 				form2.save_m2m()
 				profile2 = form3.save(commit=False)
 				profile2.job = client
+				dist =  Distanceperf.objects.aggregate(Max('id'))
+				distid =dist['id__max']
+				site = Distanceperf.objects.get(id=distid)
+				distance = 2*site.sandy
+				if distance < 100:
+					rate = 1000
+				elif distance == 0:
+					rate = 0
+				else :
+					rate = 10*distance
+				profile2.rate = rate
 				profile2.save()
 				form3.save_m2m()
 				return HttpResponseRedirect(reverse('Automation.tcc.views_ext.job_submit_perf'))
 		else:	
 			form1 = editJobForm()
-			form2 = editClientJobForm()
+			form2 = editSuspenceJobForm()
 			form3= TestTotalPerfForm()
 		temp ={"form1": form1,'field_list':field_list,'query':query}
 		return render_to_response('tcc/performa/add_perf_other.html',dict(temp.items() + 
@@ -301,6 +310,7 @@ def gen_report_perf(request):
 	price = sum(values)
 	unit_price = price*int(client.sample)
 	p = TestTotalPerf(unit_price=unit_price, job=client,rate=0)
+	p.save()
 	return HttpResponseRedirect(reverse('Automation.tcc.views_ext.job_submit_perf'))
 	
 
@@ -335,9 +345,9 @@ def add_suspence_perf(request):
 	clients = EditJob.objects.get(id=jobmaxid)
 	price = unit_price*int(clients.sample)
 	job = clients
-	dist =  Distance.objects.aggregate(Max('id'))
+	dist =  Distanceperf.objects.aggregate(Max('id'))
 	distid =dist['id__max']
-	site = Distance.objects.get(id=distid)
+	site = Distanceperf.objects.get(id=distid)
 	distance = 2*site.sandy
 	report_type = "Suspence" 
 	if distance < 100:
@@ -365,7 +375,9 @@ def job_submit_perf(request):
 	addid =add['id__max']
 	more = editClientadd.objects.get(id=addid)
 	moremat = more.client_id
-	return render_to_response('tcc/performa/job_submit.html',{'mee':mee,'value':value,'moremat':moremat}, context_instance=RequestContext(request))
+	temp ={'mee':mee,'value':value,'moremat':moremat}
+	return render_to_response('tcc/performa/job_submit.html',dict(temp.items() + 
+		tmp.items()), context_instance=RequestContext(request))
 
 @login_required
 def job_ok_perf(request):
@@ -386,7 +398,10 @@ def job_ok_perf(request):
 		trans_value = EditJob.objects.values_list('testtotalperf__rate',flat=True).\
 		filter(job_no=maxid)
 		trans_total = sum(trans_value)
-		trans_net_total = price + trans_total
+		discount_value = EditJob.objects.values_list('discount',flat=True).\
+		filter(job_no=maxid)
+		discount_total = sum(discount_value)
+		trans_net_total = price + trans_total - discount_total
 		service_tax= round(servicetax *  trans_net_total)
 		education_tax = round(educationtax *  trans_net_total)
 		higher_education_tax = round(highereducationtax *  trans_net_total)
@@ -398,19 +413,25 @@ def job_ok_perf(request):
 		m = BillPerf(job_no = job_no, price = price, service_tax=service_tax, 
 		higher_education_tax = higher_education_tax, education_tax = education_tax, 
 		net_total = net_total, balance = 
-		balance,trans_total=trans_total,trans_net_total=trans_net_total)
+		balance,trans_total=trans_total,trans_net_total=trans_net_total,
+		discount_total=discount_total)
 	except Exception:
-		service_tax= round(servicetax *  price)
-		education_tax = round(educationtax *  price)
-		higher_education_tax = round(highereducationtax *  price)
-		net_total =  price + higher_education_tax + education_tax + service_tax
-		bal = Job.objects.values_list('tds',flat=True).\
+		discount_value = EditJob.objects.values_list('discount',flat=True).\
+		filter(job_no=maxid)
+		discount_total = sum(discount_value)
+		trans_net_total = price - discount_total
+		service_tax= round(servicetax *  trans_net_total)
+		education_tax = round(educationtax *  trans_net_total)
+		higher_education_tax = round(highereducationtax *  trans_net_total)
+		net_total =  trans_net_total + higher_education_tax + education_tax + service_tax
+		bal = EditJob.objects.values_list('tds',flat=True).\
 		filter(job_no=maxid)
 		tdstotal = sum(bal)
 		balance = net_total - tdstotal
 		m = BillPerf(job_no = job_no, price = price, service_tax=service_tax, 
 		higher_education_tax = higher_education_tax, education_tax = education_tax, 
-		net_total = net_total, balance = balance)
+		net_total = net_total, balance = balance, discount_total=discount_total,
+		trans_net_total=trans_net_total,)
 	m.save()
 	
 	return HttpResponseRedirect(reverse('Automation.tcc.views_ext.get_document_perf'))
@@ -444,7 +465,7 @@ def get_performa_bill(request):
 		job = EditJob.objects.filter(job_no = query).values('id', 
 		'client__client__first_name', 'client__client__address', 
 		'client__client__city', 'clienteditjob__material__name', 
-		'suspenceeditjob__field__name', 'site', 'testtotalperf__unit_price')\
+		'suspenceeditjob__field__name', 'site', 'testtotalperf__unit_price',)\
 		.order_by('id').distinct()
 	else:	
 		job =[]
@@ -470,11 +491,12 @@ def billperf(request):
 	job_date = job.date
 	getjob = EditJob.objects.all().filter(job_no=job_no).values(
 	'clienteditjob__material__name','date','testtotalperf__unit_price','site',
-	'suspenceeditjob__field__name','report_type','sample').distinct()
+	'suspenceeditjob__field__name','suspenceeditjob__other','report_type','sample',
+	'clienteditjob__other_test',).distinct()
 	getadd = EditJob.objects.all().filter(id = jobid).values('client__client__first_name', 
 	'client__client__middle_name', 'client__client__last_name',
 	'client__client__address', 'client__client__city', 
-	'client__client__state','site','letter_no','letter_date','date').distinct()
+	'client__client__state','site','letter_no','letter_date','date',).distinct()
 	from Automation.tcc.variable import *
 	bill = BillPerf.objects.get(job_no=job_no)
 	servicetaxprint = servicetaxprint
@@ -487,8 +509,13 @@ def billperf(request):
 	:servicetaxprint,'highereducationtaxprint':highereducationtaxprint,
 	'educationtaxprint':educationtaxprint,'bill':bill, 'job':job, 'net_total1' : 
 	net_total1, 'getjob' : getjob, 'getadd' : getadd,'job_date':job_date}
-	return render_to_response('tcc/performa/bill.html', dict(template.items() + 
-	tmp.items()) , context_instance=RequestContext(request))
+	query =request.GET.get('q', '')
+	if query =="1" :
+		return render_to_response('tcc/performa/bill.html', dict(template.items() + 
+		tmp.items()) , context_instance=RequestContext(request))
+	else:
+		return render_to_response('tcc/performa/p_bill.html', dict(template.items() + 
+		tmp.items()) , context_instance=RequestContext(request))
 		
 	
 
@@ -496,14 +523,20 @@ def search_job(request):
 	"""
 	** search_job **
 
-	Search Job function searches the performa job, for which one wants to get information about or want to confirm that job.
+	Search Job function searches the performa job, for which one wants 
+	to get information about or want to confirm that job.
 	"""
 	query =request.GET.get('q', '')
 	if query:
-		job = EditJob.objects.filter(job_no = query).values('id','client__client__first_name','client__client__address_1','client__client__city','clienteditjob__material__name','suspenceeditjob__field__name','site','testtotalperf__unit_price')
-	else:	
-		job =[]	
-	return render_to_response('tcc/performa/searchjob.html',{'job':job,'query':query},context_instance=RequestContext(request))
+		job = EditJob.objects.all().filter(job_no=query).values
+		('id','client__client__first_name','client__client__address',
+		'client__client__city','clienteditjob__material__name',
+		'suspenceeditjob__field__name','site','testtotalperf__unit_price')
+	else :
+		job=[]
+	temp = {'job':job,'query':query}
+	return render_to_response('tcc/performa/searchjob.html',dict(temp.items() + 
+	tmp.items()),context_instance=RequestContext(request))
 
 
 
@@ -516,11 +549,13 @@ def edit_work(request):
 
 	query =request.GET.get('id', '')
 	job = EditJob.objects.get(id = query)
-	if job.report_type_id == 1:
+	try :
 		clientjob = ClientEditJob.objects.get(job =query)
-    	if request.method == "POST":
+		testtotal = TestTotalPerf.objects.get(job=query)
+		if request.method == "POST":
 			jform = JobForm(request.POST)
 			sform = ClientjobForm(request.POST)
+			tform = TestTotalForm(request.POST)
 			if jform.is_valid() and sform.is_valid():
 				profile = jform.save(commit=False)
 				profile.client_id = job.client_id
@@ -534,36 +569,41 @@ def edit_work(request):
 				profile.report_type_id =1
 				profile.save()
 				test = request.POST.getlist('test')
-       				prof = sform.save(commit=False)
+				prof = sform.save(commit=False)
 				getmax = Job.objects.aggregate(Max('id'))
 				getjob =getmax['id__max']
 				getj=Job.objects.get(id=getjob)
 				prof.job = getj
 				prof.save()
 				sform.save_m2m()
-				if profile.report_type == "1":
-					return HttpResponseRedirect(reverse('Automation.tcc.views.add_suspence'))
-				else :
-					return HttpResponseRedirect(reverse('Automation.tcc.views.gen_report'))
-			else:	
-				jform = JobForm(instance=job)
-				sform = ClientjobForm(instance=clientjob)
-			return render_to_response('tcc/performa/edit_job.html', {'jform': jform,'sform':sform}, context_instance=RequestContext(request))
-	else :
+				tform.save()
+				return HttpResponseRedirect(reverse('Automation.tcc.views.gen_report'))
+		else:	
+			jform = JobForm(instance=job)
+			sform = ClientjobForm(instance=clientjob)
+			tform = TestTotalForm(instance=testtotal)
+		temp = {'jform':jform,'sform':sform,'tform':tform}
+		return render_to_response('tcc/performa/edit_job.html', 
+		dict(temp.items() + tmp.items()), context_instance
+		=RequestContext(request))
+	except Exception :
 		suspencejob = SuspenceEditJob.objects.get(job = query)
+		testtotal = TestTotalPerf.objects.get(job=query)
 		if request.method == "POST":
 			jform = JobForm(request.POST)
-        	sform = SuspencejobForm(request.POST)
-        	if jform.is_valid() and sform.is_valid():
+			sform = SuspenceJobForm(request.POST)
+			tform = TestTotalForm(request.POST)
+			if jform.is_valid() and sform.is_valid():
 				profile = jform.save(commit=False)
 				profile.client_id = job.client_id
 				id = Job.objects.aggregate(Max('job_no'))
-				maxid =id['job_no__max']
-				if maxid== None :
+				maxid = id['job_no__max']
+				if maxid == None :
 					maxid = 1
 				else:
 					maxid = maxid + 1
 				profile.job_no = maxid
+				profile.report_type_id =2
 				profile.save()
 				prof = sform.save(commit=False)
 				sel_test = get_object_or_404(Test, pk=request.POST.get('test'))
@@ -571,8 +611,13 @@ def edit_work(request):
 				prof.job = profile.id
 				prof.save()
 				sform.save_m2m()
+				tform.save()
 				return HttpResponseRedirect(reverse('Automation.tcc.views.add_suspence'))
-        	else:	
+		else:	
 			jform = JobForm(instance=job)
-			sform = SuspencejobForm(instance=suspencejob)
-		return render_to_response('tcc/performa/edit_job.html', {'jform': jform,'sform':sform},context_instance=RequestContext(request))
+			sform = SuspenceJobForm(instance=suspencejob)
+			tform = TestTotalForm(instance=testtotal)
+		temp = {'jform':jform,'sform':sform,'tform':tform}
+		return render_to_response('tcc/performa/edit_job.html', dict(temp.items() + 
+		tmp.items()) ,context_instance=RequestContext(request))
+		

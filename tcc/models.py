@@ -4,7 +4,7 @@ This file contains all the defination for models of Automation software.
 including tables, classes, forms and mappers.
 """
 
-#::::::::::::::IMPORT THE HEADER FILE HERE:::::::::::::::::::::::::::::#
+#::::::::::::::IMPORT THE HEADER FILE HERE:::::::::::::::::::::::::::#
 from django.db import models
 from django.forms import ModelForm, TextInput, ModelChoiceField
 from django import forms
@@ -17,9 +17,9 @@ from django.forms.fields import DateField, ChoiceField, MultipleChoiceField
 from tagging.fields import TagField
 from tagging.models import Tag
 from Automation.tcc.choices import *
-#:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 
-#::::::::::::::::::::::DEFINE THE MODELS HERE:::::::::::::::::::::::::::#
+#::::::::::::::::::::::DEFINE THE MODELS HERE::::::::::::::::::::::::#
 class Report(models.Model):
 	"""
 	** Report **
@@ -38,7 +38,8 @@ class UserProfile(models.Model):
 	"""
 	** UserProfile **
 	
-	UserProfile Class define all field required to submit detail about new Client.
+	UserProfile Class define all field required to submit detail about 
+	new Client.
 
 	""" 
     # This field is required.
@@ -50,15 +51,32 @@ class UserProfile(models.Model):
 	company = models.CharField(max_length=255,blank=True, null=True)
 	city = models.CharField(blank=True,max_length=255, null=True)
 	pin_code = models.IntegerField(blank=True,null=True)
-	state = models.CharField(max_length=30,choices=STATES_CHOICES,default='Punjab')
+	state = models.CharField(max_length=30,choices=STATES_CHOICES,
+	default='Punjab')
 	website = models.URLField(blank=True, null=True)
-	email_address = models.EmailField(blank=True, null=True)
+	email_address = models.EmailField(max_length=70, blank=True, null=True)
 	contact_no = models.CharField(max_length=500)
 	type_of_organisation = models.CharField(max_length=20, choices = 
 	ORGANISATION_CHOICES)
+	date = models.DateField(auto_now_add=True)
 
 	def __unicode__(self):
         	return self.first_name
+        	
+class Soundexsearch(models.Model):    # Added.....
+	"""
+	** Soundexsearch **
+	
+	Soundexsearch class defines all the fields required in soundex search. 
+	Its a separate class that handles soundex codes.
+	
+	"""
+	soundex_fname = models.CharField(max_length=100)
+	soundex_mname = models.CharField(max_length=100,blank=True, null=True)
+	soundex_lname = models.CharField(max_length=100,blank=True, null=True)
+	soundex_address = models.CharField(max_length=255,blank=True, null=True)
+	soundex_company = models.CharField(max_length=255,blank=True, null=True)
+	soundex_city = models.CharField(blank=True,max_length=255, null=True)
 
 
 class UserProfileForm(ModelForm):
@@ -88,8 +106,8 @@ class Organisation(models.Model):
 	"""
 	** Organisation **
 	
-	Organisation Class define all fields required to submit detail about 
-	Organisation.
+	Organisation Class define all fields required to submit detail 
+	about Organisation.
 	
 	""" 
 	name = models.CharField(max_length=50)
@@ -101,6 +119,7 @@ class Organisation(models.Model):
 
 	def __unicode__(self):
         	return self.name
+
 
 class Department(models.Model):
 	"""
@@ -129,7 +148,8 @@ class Distribution(models.Model):
 	"""
 	** Distribution **
 	
-	Distribution Class define all didtribution of income that is to be done.
+	Distribution Class define all didtribution of income that is to be 
+	done.
 	
 	"""
 	name = models.CharField(max_length=100)
@@ -142,8 +162,8 @@ class Lab(models.Model):
 	"""
 	** Lab **
 	
-	Lab Class define all fields required to submit detail about a LAB of a 
-	Department.
+	Lab Class define all fields required to submit detail about a LAB 
+	of a Department.
 	
 	""" 
 	name = models.CharField(max_length=300)
@@ -157,34 +177,43 @@ class Lab(models.Model):
         	return Tag.objects.get_for_object(self) 
 
 
+class MatComment(models.Model):
+    name = models.CharField(max_length=300)
+    
+    def __unicode__(self):
+        	return self.name
+
+
 class Material(models.Model):
 	"""
 	** Material **
 	
-	Material Class define all fields required to submit detail about a Material un
-	der a Lab.
+	Material Class define all fields required to submit detail about a 
+	Material under a Lab.
 	
 	""" 
 	lab = models.ForeignKey(Lab)
 	distribution = models.ForeignKey(Distribution)
 	name = models.CharField(max_length=300)
+	matcomment= models.ForeignKey(MatComment)
 	tags = TagField()
 	report = models.ForeignKey(Report)
-	image = models.ImageField(upload_to='logo')
+	image = models.ImageField(upload_to='logo', blank='True', null='True')
 
 	def __unicode__(self):
         	return self.name
 
 	def get_tags(self):
         	return Tag.objects.get_for_object(self) 
+        	
 
 
 class Test(models.Model):
 	"""
 	** Test **
 	
-	Test Class define all fields required to submit detail about a test under a 
-	Material.
+	Test Class define all fields required to submit detail about a 
+	test under a Material.
 	
 	""" 
 	material = models.ForeignKey(Material)
@@ -200,23 +229,26 @@ class Test(models.Model):
 	def get_tags(self):
         	return Tag.objects.get_for_object(self) 
 
+
 class Clientadd(models.Model):
 	"""
 	** Clientadd **
 	
-	Clientadd Class define that which user for which client is adding the jobid.
+	Clientadd Class define that which user for which client is adding 
+	the jobid.
 	
 	""" 
 	user = models.ForeignKey(User)
 	client = models.ForeignKey(UserProfile)
+	job_no = models.IntegerField(blank=True, null=True)
 	
 	
 class editClientadd(models.Model):
 	"""
 	** editClientadd **
 	
-	editClientadd Class define that which user for which client is adding the 
-	performa jobid.
+	editClientadd Class define that which user for which client is 
+	adding the performa jobid.
 	
 	""" 
 	user = models.ForeignKey(User)
@@ -227,9 +259,9 @@ class Govt(models.Model):
 	"""
 	** Govt **
 	
-	Govt Class define all fields required to submit detail about a organisation 
-	Type (Government, Semi-Government or Private).
-	
+	Govt Class define all fields required to submit detail about a 
+	organisation Type (Government, Semi-Government or Private).
+
 	""" 
 	name =	models.CharField(max_length=600, blank=True )
 
@@ -241,8 +273,8 @@ class Payment(models.Model):
 	"""
 	** Payment **
 	
-	Payment Class define all fields required to submit detail about Payment 
-	type (Cash, Cheque, Online or DD).
+	Payment Class define all fields required to submit detail about 
+	Payment type (Cash, Cheque, Online or DD).
 	
 	""" 
 	name = models.CharField(max_length = 50,blank =True)
@@ -255,7 +287,8 @@ class Job(models.Model):
 	"""
 	**Job**
 	
-	Job Class is define all field required to submit detail about new Job.
+	Job Class is define all field required to submit detail about new 
+	Job.
 	
 	""" 
 	client = models.ForeignKey(Clientadd)
@@ -269,34 +302,60 @@ class Job(models.Model):
 	check_number = models.CharField(max_length=15,blank=True)
 	check_dd_date = models.CharField(blank=True, max_length=15)
 	date = models.DateField(auto_now_add=True)
-	letter_no = models.CharField(max_length=15,blank=True)
+	letter_no = models.CharField(max_length=400,blank=True)
 	letter_date = models.DateField( blank=True, null=True)
 	tds = models.IntegerField(default="0")
+	discount = models.IntegerField(default="0")
 
 	def __unicode__(self):
           return self.id()
+
+
+class NonPaymentJob(models.Model):
+	job_no = models.IntegerField(editable =False)
+	client = models.ForeignKey(UserProfile)
+	ref_no =  models.CharField(max_length=400,blank=True)
+	dated = models.DateField( blank=True, null=True)
+	site = models.CharField(max_length=5000,blank=True,null=True)
+	material_type = models.CharField(max_length=500)
+	date = models.DateField(auto_now_add=True)
+
+	def __unicode__(self):
+          return self.id()
+
+
+class NonPaymentJobForm(forms.ModelForm):
+	"""
+	** NonPaymentJobForm **
+	
+	NonPaymentJobForm Class define form for NonPaymentJob model.
+	
+	""" 
+	class Meta :
+		model = NonPaymentJob
+		exclude= ['date','client']
 
 
 class EditJob(models.Model):
 	"""
 	**EditJob**
 	
-	EditJob Class is define all field required to submit detail about new 
-	performa Job.
+	EditJob Class is define all field required to submit detail about 
+	new performa Job.
 	
 	""" 
 	client = models.ForeignKey(editClientadd)
 	job_no = models.IntegerField(editable =False)
-	sample = models.CharField(max_length=11)
+	sample = models.CharField(max_length=11, default="1")
 	ip = models.CharField(max_length=50)
 	site = models.CharField(max_length=600,blank=True,null=True)
 	type_of_work = models.ForeignKey(Govt)
 	report_type = models.ForeignKey(Report)
 	date = models.DateField(auto_now_add=True)
-	letter_no = models.IntegerField(blank=True,null=True)
-	letter_date = models.DateField( blank=True, null=True)
+	letter_no = models.CharField( max_length=200,blank=True,null=True)
+	letter_date = models.DateField( max_length=200, null=True, blank=True)
 	tds = models.IntegerField(default="0")
-
+	discount = models.IntegerField(default="0")
 	def __unicode__(self):
           return self.id()
 
@@ -311,8 +370,20 @@ class JobForm(forms.ModelForm):
 	class Meta :
 		model = Job
 		exclude= ['client','job_no','report_type','date','ip']
-        
-        
+
+
+class AdvancedForm(forms.ModelForm):
+	"""
+	** JobForm For Advanced **
+	
+	JobForm Class define form for Job model.
+	
+	""" 
+	class Meta :
+		model = Job
+		exclude= ['client','job_no','report_type','date','ip',  ]
+
+
 class editJobForm(forms.ModelForm):
 	"""
 	** editJobForm **
@@ -340,6 +411,21 @@ class ClientJob(models.Model):
 	def __unicode__(self):
           return self.id()
 
+class ClientEditJob(models.Model):
+	"""
+	** ClientEditJob **
+	
+	ClientEditJob Class define the materials and tests performed on a 
+	performa clientjob.
+	
+	""" 
+	job = models.ForeignKey(EditJob)
+	material = models.ForeignKey(Material)
+	other_test = models.CharField(max_length=400, blank=True )
+	test = models.ManyToManyField(Test,blank=True,null=True)
+	
+	def __unicode__(self):
+          return self.id()
 
 class ClientJobForm(forms.ModelForm):
 	"""
@@ -350,35 +436,18 @@ class ClientJobForm(forms.ModelForm):
 	""" 
 	class Meta :
 		model = ClientJob
-		exclude= ['job','material']
-
-
-class ClientEditJob(models.Model):
-	"""
-	** ClientEditJob **
-	
-	ClientEditJob Class define the materials and tests performed on a performa 
-	clientjob.
-	
-	""" 
-	job = models.ForeignKey(EditJob)
-	material = models.ForeignKey(Material)
-	test = models.ManyToManyField(Test,blank=True,null=True)
-	
-	def __unicode__(self):
-          return self.id()
-	
+		exclude= ['job','material']	
 
 class ClientjobForm(forms.ModelForm):
 	"""
 	** Test **
 	
-	Test Class define all fields required to submit detail about a test under a 
-	Material.
+	Test Class define all fields required to submit detail about a test 
+	under a Material.
 	
 	""" 
-	test = forms.ModelMultipleChoiceField(queryset=Test.objects.all(), required=False, 
-	widget=forms.CheckboxSelectMultiple)
+	test = forms.ModelMultipleChoiceField(queryset=Test.objects.all(), 
+	required=False, widget=forms.CheckboxSelectMultiple)
 
 	class Meta :
 		model = ClientJob
@@ -386,12 +455,9 @@ class ClientjobForm(forms.ModelForm):
 
 	def __init__(self,*args, **kwargs):
 		super(ClientjobForm,self).__init__(*args,**kwargs)
-		try:
-			material = kwargs['instance'].material
-		except KeyError:
-			material = 1 	
-		self.fields['test'].queryset=Test.objects.filter(material_id = material)
-
+		material = kwargs['instance'].material
+		self.fields['test'].queryset=Test.objects.filter(material_id
+		=material)	
 
 class editClientJobForm(forms.ModelForm):
 	"""
@@ -409,8 +475,8 @@ class SuspenceJob(models.Model):
 	"""
 	**SuspenceJob**
 	
-	SuspenceJob Class is used to define all fields required to submit detail about 
-	new Suspence Job.
+	SuspenceJob Class is used to define all fields required to submit 
+	detail about new Suspence Job.
 	
 	""" 
 	job = models.ForeignKey(Job)
@@ -426,8 +492,8 @@ class SuspenceEditJob(models.Model):
 	"""
 	**SuspenceEditJob**
 	
-	SuspenceJob Class is used to define all fields required to submit detail 
-	about new performa Suspence Job.
+	SuspenceJob Class is used to define all fields required to submit 
+	detail about new performa Suspence Job.
 	
 	""" 
 	job = models.ForeignKey(EditJob)
@@ -449,6 +515,17 @@ class SuspenceJobForm(forms.ModelForm):
 	class Meta :
 		model = SuspenceJob
 		exclude= ['job','field','test']
+		
+class SuspencejobForm(forms.ModelForm):
+	"""
+	** SuspenceJobForm **
+	
+	SuspenceJobForm Class define the form for SuspenceJob model.
+	
+	""" 
+	class Meta :
+		model = SuspenceJob
+		exclude= ['job',]
 
 
 class editSuspenceJobForm(forms.ModelForm):
@@ -467,11 +544,11 @@ class TestTotal(models.Model):
 	"""
 	** TestTotal **
 	
-	TestTotal Class define all fields required to submit amount detail about a 
-	job_id.
+	TestTotal Class define all fields required to submit amount detail 
+	about a job_id.
 	
 	""" 
-	job = models.ForeignKey(Job)
+	job = models.ForeignKey(Job, unique=True)
 	unit_price = models.IntegerField(blank=True,null=True)
 		
 	def __unicode__(self):
@@ -487,15 +564,14 @@ class TestTotalForm(forms.ModelForm):
 	""" 
 	class Meta :
 		model = TestTotal
-		exclude= ['job','balance']
-
-
+		exclude= ['job',]
+		
 class TestTotalPerf(models.Model):
 	"""
 	** TestTotalPerf **
 	
-	TestTotalPerf Class define all fields required to submit amount detail about 
-	a performa job_id.
+	TestTotalPerf Class define all fields required to submit amount 
+	detail about a performa job_id.
 	
 	""" 
 	job = models.ForeignKey(EditJob)
@@ -505,6 +581,7 @@ class TestTotalPerf(models.Model):
 	def __unicode__(self):
         	return self.id
         	
+
 class TestTotalPerfForm(forms.ModelForm):
 	"""
 	** TestTotalForm **
@@ -522,8 +599,8 @@ class Bill(models.Model):
 	"""
 	** Bill **
 	
-	Bill Class define all fields required to submit detail about a taxes on an 
-	amount for a particular job.
+	Bill Class define all fields required to submit detail about a 
+	taxes on an amount for a particular job.
 	
 	""" 
 	job_no = models.IntegerField(editable =False)
@@ -532,37 +609,60 @@ class Bill(models.Model):
 	service_tax = models.IntegerField(blank=True,null=True)
 	net_total = models.IntegerField(blank=True,null=True)
 	price = models.IntegerField(blank=True,null=True)
+	discount_total = models.IntegerField(blank=True,null=True)
 	trans_total = models.IntegerField(blank=True,null=True)
 	trans_net_total = models.IntegerField(blank=True,null=True)
 	balance = models.IntegerField(blank=True,null=True)
+	
+
+class BillForm(forms.ModelForm):
+	"""
+	** BillForm **
+	
+	TestTotalForm Class define the form for TestTotal model.
+	
+	""" 
+	class Meta :
+		model = Bill
+		
+
+class BillForm(forms.ModelForm):
+	"""
+	** BillForm **
+	
+	TestTotalForm Class define the form for TestTotal model.
+	
+	""" 
+	class Meta :
+		model = Bill
 
 
 class BillPerf(models.Model):
 	"""
 	** BillPerf **
 	
-	BillPerf Class define all fields required to submit detail about a taxes on 
-	an amount for a particular performa job.
+	BillPerf Class define all fields required to submit detail about 
+	a taxes on an amount for a particular performa job.
 	
 	""" 
-	job_no = models.IntegerField(primary_key=True, editable =False)
+	job_no = models.IntegerField( editable =False)
 	education_tax = models.IntegerField(blank=True,null=True)
 	higher_education_tax = models.IntegerField(blank=True,null=True)
 	service_tax = models.IntegerField(blank=True,null=True)
 	net_total = models.IntegerField(blank=True,null=True)
 	price = models.IntegerField(blank=True,null=True)
+	discount_total = models.IntegerField(blank=True,null=True)
 	trans_total = models.IntegerField(blank=True,null=True)
 	trans_net_total = models.IntegerField(blank=True,null=True)
 	balance = models.IntegerField(blank=True,null=True)
-
 
 
 class Amount(models.Model):
 	"""
 	** Amount **
 	
-	Amount Class define all fields required to submit detail about amount and 
-	there distribution for a particular Job id.
+	Amount Class define all fields required to submit detail about 
+	amount and there distribution for a particular Job id.
 	
 	""" 
 	job = models.ForeignKey(Job)
@@ -581,7 +681,8 @@ class CdfAmount(models.Model):
 	"""
 	** CdfAmount **
 	
-	CdfAmount Class define all fields required to submit detail about cdf Amount.
+	CdfAmount Class define all fields required to submit detail about 
+	cdf Amount.
 	
 	""" 
 	job_no = models.IntegerField(primary_key=True, editable =False)
@@ -597,13 +698,13 @@ class Distance(models.Model):
 	"""
 	** Distance **
 	
-	Distance Class define all fields required to submit detail about a site and 
-	its distance for a prticular Job_id.
+	Distance Class define all fields required to submit detail about 
+	a site and its distance for a prticular Job_id.
 	
 	""" 
     	job =models.IntegerField(editable =False)
     	sandy = models.DecimalField(max_digits=10, decimal_places=3)
-
+    	
 
 class DistanceForm(ModelForm):
 	"""
@@ -620,13 +721,39 @@ class DistanceForm(ModelForm):
         	return self.id
 
 
+class Distanceperf(models.Model):
+	"""
+	** Distance **
+	
+	Distance Class define all fields required to submit detail about 
+	a site and its distance for a prticular Job_id.
+	
+	""" 
+    	job =models.IntegerField(editable =False)
+    	sandy = models.DecimalField(max_digits=10, decimal_places=3)
+    	
+
+class DistanceperfForm(ModelForm):
+	"""
+	** DistanceForm **
+	
+	DistanceForm Class define form for distance model.
+	
+	""" 
+	class Meta :
+		model = Distanceperf
+		exclude= ['job']
+	
+	def __unicode__(self):
+        	return self.id
+
 
 class Suspence(models.Model):
 	"""
 	** Suspence **
 	
-	Suspence Class define all fields required to submit detail about a Suspence 
-	Job.
+	Suspence Class define all fields required to submit detail about 
+	a Suspence Job.
 	
 	""" 
 	job = models.ForeignKey(Job)
@@ -639,8 +766,9 @@ class Suspence(models.Model):
 	car_taxi_charge = models.IntegerField( blank=True, null=True)
 	lab_testing_staff = models.CharField( max_length=90,blank=True)
 	field_testing_staff =models.CharField( max_length=90,blank=True)
-	test_date = models.DateField( blank=True, null=True)
+	test_date = models.CharField( max_length=500, blank=True, null=True)
 	suspence_bill_no = models.IntegerField( blank=True, null=True)
+	clear_date=models.CharField(max_length=30)
 
 
 class SuspenceForm(ModelForm):
@@ -658,21 +786,22 @@ class Staff(models.Model):
 	"""
 	** Staff **
 	
-	Staff Class define all fields required to submit detail about a particular 
-	Staff member.
+	Staff Class define all fields required to submit detail about a 
+	particular Staff member.
 	
 	""" 
 	department = models.ForeignKey(Department)
 	code = models.CharField(max_length=5)
 	name = models.CharField(max_length=50)
 	daily_income = models.IntegerField(blank=True)
-	position = models.CharField(max_length=15)
+	position = models.CharField(max_length=100)
 	lab = models.ForeignKey(Lab)
 	email =models.EmailField(blank=True)
 
 	def __unicode__(self):
         	return self.name
 	
+
 class ProfromaTax(models.Model):
     pro_no = models.IntegerField(primary_key=True)
     service_tax = models.IntegerField()
@@ -685,8 +814,8 @@ class TaDa(models.Model):
 	"""
 	** TaDa **
 	
-	TaDa Class define all fields required to submit detail about transport and 
-	Daily Allowance for a particular Job id.
+	TaDa Class define all fields required to submit detail about 
+	transport and Daily Allowance for a particular Job id.
 	
 	""" 
 	job = models.ForeignKey(Job)
@@ -729,8 +858,8 @@ class Transportation(models.Model):
 	"""
 	** Transportation **
 	
-	Transportation Class define all fields required to submit detail about 
-	transportation.
+	Transportation Class define all fields required to submit detail 
+	about transportation.
 	
 	""" 
 	vehicleno = models.CharField(max_length=150)
@@ -744,8 +873,8 @@ class Transport(models.Model):
 	"""
 	** Transport **
 	
-	Transport Class define all fields required for transportation for a particular 
-	job id.
+	Transport Class define all fields required for transportation for 
+	a particular job id.
 	
 	""" 
 	vehicle = models.ForeignKey(Transportation)
@@ -754,10 +883,11 @@ class Transport(models.Model):
 	bill_no = models.IntegerField(null=True, editable=False)
 	kilometer = models.CharField(max_length=150, default="00, 00, 00")
 	#rate = models.IntegerField(default='4')
-	amounts = models.CharField(max_length=180, blank=True,editable=False)
+	amounts = models.CharField(max_length=500, blank=True,editable=False)
 	total = models.IntegerField(blank=True, null=True , editable=False)
 	date = models.DateField(default=datetime.date.today())
-	test_date = models.CharField(max_length=300, default="0000-00-00, 0000-00-00")
+	test_date = models.CharField(max_length=300, default="0000-00-00,\
+	0000-00-00")
 
 
 class TransportForm(ModelForm):
@@ -775,14 +905,14 @@ class Bankdetails(models.Model):
 	"""
 	** Bankdetails **
 	
-	Bankdetails Class define all fields required to submit detail about a bank.
+	Bankdetails Class define all fields required to submit detail 
+	about a bank.
 	
 	""" 
 	accname = models.CharField(max_length=50)
 	accountno = models.IntegerField(null=False)
 	accountcode = models.CharField(max_length=50)
 	address = models.CharField(max_length=150)
-
 
 class BankdetailsForm(ModelForm):
 	"""
@@ -794,15 +924,30 @@ class BankdetailsForm(ModelForm):
 	class Meta :
 		model = Bankdetails
 
-
 class LabReport(forms.Form):
 	"""
 	** LabReport **
 
-	LabReport Form that displays start and end date and thus helps in retrieving 
-	data between this date range for a particular material.
+	LabReport Form that displays start and end date and thus helps in 
+	retrieving data between this date range for a particular material.
 
 	"""
 	start_date= forms.DateField()
 	end_date= forms.DateField()
 	material = forms.ModelChoiceField(queryset=Material.objects.all())
+	
+class SelStaff(models.Model):
+	 staff = models.ManyToManyField(Staff,blank=True,null=True)
+	
+class SelStaffForm(ModelForm):
+	"""
+	** SelStaffForm **
+	
+	SelStaffForm Class define form for SelStaff model.
+	
+	""" 
+	staff = forms.ModelMultipleChoiceField(queryset=Staff.objects.all(), 
+	required=False, widget=forms.CheckboxSelectMultiple)
+	
+	class Meta :
+		model = SelStaff

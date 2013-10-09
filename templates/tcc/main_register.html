@@ -3,14 +3,15 @@
     <title>Main Register</title>
 </head>
 <body>
-<div align="center"> Main Register of {{month_print}}, {{year}} 
+<div align="center"> Main Register of {{month}}, {{year}} 
 <table border='1' width='100%'>
 	<tr>
 		<td>S.No</td>
-		<td>Ref.No </td>
-		<td>Date</td>
 		<td>Receipt</td>
-		<td>Address</td>
+		<td>Job </td>
+		<td>Date</td>
+		
+		<td>Name & Address</td>
 		<td>Type of Material</td>
 		<td>College Income {{collegeincome }}%</td>
 		<td>Admin Charges {{admincharge}}%</td>
@@ -27,10 +28,14 @@
 	 
          <tr>
             <td>{{forloop.counter}}</td> 
+            <td> {{ amounts.job__job_no }}</td>
 			<td>{{ amounts.job__id}}</td> 
 			<td> {{ amounts.job__date }}</td>
-			<td> {{ amounts.job__job_no }}</td>
-			<td> {{amounts.job__client__client__first_name}}</td>
+			<td> {{amounts.job__client__client__first_name}} {{amounts.job__client__client__middle_name}}
+			{{amounts.job__client__client__last_name}} {{amounts.job__client__client__address}} 
+			{{amounts.job__client__client__city}}{% if amounts.job__client__client__company != "" %}
+Agency: {{amounts.job__client__client__company}}
+{% endif %}</td>
 			<td>{{amounts.job__clientjob__material__name}}</td>
 			<td>{{amounts.college_income}}</td>
 			<td>{{amounts.admin_charge}}</td>

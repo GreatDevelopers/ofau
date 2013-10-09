@@ -16,6 +16,7 @@ STATES_CHOICES = (
     ('Assam', _('Assam')),
     ('Bihar', _('Bihar')),
     ('Chhattisgarh', _('Chhattisgarh')),
+    ('Delhi', _('Delhi')),
     ('Goa', _('Goa')),
     ('Gujarat', _('Gujarat')),
     ('Haryana', _('Haryana')),
@@ -56,8 +57,9 @@ MONTH_CHOICES = (
 	('December',_('December')),
 )
 YEAR_CHOICES = ( 
-	('2012', _('2012')),
 	('2013', _('2013')),
+	('2012', _('2012')),
+	
 	('2014', _('2014')),
 	('2015', _('2015')),
 	('2016', _('2016')),

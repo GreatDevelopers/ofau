@@ -1,6 +1,6 @@
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="http:/192.168.15.178/static/css2/css/report.css" /><title>Bill</title></head>
+<link rel="stylesheet" type="text/css" href="http://192.168.15.178/static/css2/css/report.css " /><title>Bill</title></head>
 <div style="font-size:24px" align='center'><b>{{address.name}}</b></div>
 <div style="font-size:14px" align='center'>{{address.status}}</div>
 <div style="font-size:24px" align='center'>{{title.name}}</div>
@@ -11,57 +11,145 @@
 <br>
 <body>
 <h2 align="center">BILL</h2>
-
-<div style="top:290px;left:0px;">No. : GNDEC/TCC/B/{{ job_no }}</div>
-<div style="top:290px;right:0px;">Dated : {{job_date}} </div>
+{% load humanize %}
+<div style="top:290px;float:left;">No. : GNDEC/TCC/B/{{ job_no }}</div>
+<div style="top:290px;float:right;">Dated : {{job_date}} </div>
 <br/><br/>
 
-<div align="left">To,<br>{% for add in getadd %} {{ add.client__client__first_name}} {{ add.client__client__middle_name}} {{ add.client__client__last_name}} {{ add.client__client__address}}  {{ add.client__client__city}}{% endfor %}
+<div align="left">To,<br><br>{% for add in getadd %} {{ add.client__client__first_name}} {{ add.client__client__middle_name}} {{ add.client__client__last_name}} {{ add.client__client__address}}  {{ add.client__client__city}}<br/> {% if add.client__client__company != ""%}
+Agency: {{add.client__client__company}}
+{% endif %}{% endfor %}
 <br/><br/>
-Your Letter No. {% for letter in getadd %}{{letter.letter_no}} dated {{letter.letter_date}}{% endfor %}</div>
+Ref.: Your Letter No. {% for letter in getjob %}
+{% if letter.letter_no != "" %}{{letter.letter_no}}{% if not forloop.last %},{% endif %}{% endif %}
+
+ {% endfor %} dated {% for letter in getjob %}
+ {% if letter.letter_date != None %}{{letter.letter_date}}{% if not forloop.last %},{% endif %}
+ {% endif %}{% endfor %} respectively.</div>
+Site : {% for add in getjob %}{{ add.site}} {% endfor %}
+</div>
 
 <div align= "left">
 	<table border="1" width="100%">
 		<tr>
-			<td>Details</td>
-			<td>Per. </td>
-			<td>Rate</td>
-			<td>Amount</td>
+	<td><b>Charges For Following </b></td>
+<td style="border:1px solid #000;"><b>Description</b></td>
+
+<td style="border:1px solid #000;" ><b>Per</b></td>
+			<!--<td>Per. </td>
+			<td>Rate (&#8377;)</td>
+			<td>Amount (&#8377;)</td>-->
+
+
+
+<!--<td >{% for test in getjob %}{{test.testtotal__unit_price}}<br>{% endfor %}</td>-->
+		<td><b>Total(&#8377;)</b></td>
 		</tr>
-		<tr><td><b>Charges For</b> {% for material in getjob %}
+{% for material in getjob %}
+		<tr><td> 
 		   
-			{% if material.report_type == 1 %} {{material.clientjob__material__name}}{% else %}{{material.suspencejob__field__name}}{% endif %}<br>
+
+	{% if material.report_type == 1 %}
+		{% for comments in matcomment %}
+			{% if comments.id == material.clientjob__material__matcomment_id %}
+			{{comments.name}}
+			{% endif %}
+		{% endfor %}	
+		{{material.clientjob__material__name }} :
+		{% for tests in testname %}
+			{% if material.clientjob__material__id == tests.clientjob__test__material %}
+				 
+	
+					{{tests.clientjob__test__name}}
+					{% if not forloop.last %},
+						{% else %} 
+					{% endif %}
+
+			{% endif %}
+		{% endfor %}
+	{% else %} 
+		{% for comments in matcomment %}
+			{% if comments.id == material.suspencejob__field__matcomment_id %}
+			{{comments.name}}
+			{% endif %}
+		{% endfor %}	
+<<<<<<< Updated upstream
+		{{material.suspencejob__field__name}} :
+=======
+		{{material.suspencejob__field__name}}
+>>>>>>> Stashed changes
+		{% for tests in testname %}
+			{% if material.suspencejob__field__id == tests.suspencejob__test__material %}
+				 
+	
+					{{tests.suspencejob__test__name}}
+					{% if not forloop.last %},
+						{% else %} 
+					{% endif %}
+
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+
 			
-			{% endfor%}
 			</td>
-			<td rowspan="8">
-		{% for test in getjob %}{{test.sample}} sample of {% if test.report_type == 1 %} {{test.clientjob__material__name}}{% else %}{{test.suspencejob__field__name}}{% endif %}<br>{% endfor %}</td>
-			<td rowspan="8">{% for test in getjob %}{{test.testtotal__unit_price}}<br>{% endfor %}</td>
-			<td align="right" rowspan="2">{{ bill.price }}</td>
+
+<td >
+
+		{{material.sample}}
+		{% if material.suspencejob__field__name == "Soil for BC" %}
+		 Bore Hole each upto {{material.suspencejob__other}} m depth
+		{% elif material.clientjob__material__name == "Cubes" %}
+		set/s
+		{% elif material.suspencejob__field__name == "Survey" or material.clientjob__material__name == "Structural Design (OHSR)" %}
+		work/s 
+		{% elif material.clientjob__material__name == "Mix Design" or material.clientjob__material__name == "Structural Design(Building)" %}
+		No./s
+		{% else %}
+		 sample./s
+		{% endif %}
+		</td>
+
+<td > {% widthratio material.testtotal__unit_price material.sample 1 %} </td>
+
+			<td align="right" > {{material.testtotal__unit_price}}
+			</td>
+			
 		</tr>
-		<tr>
 		
-			
-			<td>Site : {% for add in getjob %}{{ add.site}} {% endfor %}</td>
-			
-		</tr>
+			{% endfor%}
+<tr>
+<td>
+<b>Total</b>
+</td>
+
+<td  colspan="2" >
+</td>
+<td  align="right">
+<b>{{bill.price}}</b>
+</td>
+</tr>
 		<tr>
-			<td>Service Tax  @ {{ servicetaxprint }}% </td>
-			<td  align="right">{{ bill.service_tax }}</td>
+			<td>Service Tax:  @ {{ servicetaxprint }}% </td>
+			<td  colspan="2" >
+			<td  align="right">{{ bill.service_tax|intcomma }}</td>
 		<tr>
 			<td>Education Cess  @ {{ educationtaxprint }}% </td>
-			<td  align="right">{{ bill.education_tax }}</td>
+			<td  colspan="2" >
+			<td  align="right">{{ bill.education_tax|intcomma }}</td>
 		</tr>
 		<tr>
-			<td>Higher Education Cess  @ {{ highereducationtaxprint }}% </td>
-			<td  align="right">{{ bill.higher_education_tax }}</td>
+			<td >Higher Education Cess  @ {{ highereducationtaxprint }}% </td>
+			<td  colspan="2" >
+			<td  align="right">{{ bill.higher_education_tax|intcomma }}</td>
 		</tr>
 		<tr>
-				<td>Total Rs.  ( {{ net_total_eng }} only) </td>
-			<td  align="right">{{ cdftotal }} {{ bill.net_total}}</td>
+				<td>Total (Rupees {{ net_total_eng }} only) </td>
+				<td  colspan="2" >
+			<td  align="right">{{ cdftotal }} {{ bill.net_total|intcomma}}</td>
 		</tr>	
 	</table>
 
-<div style="position:absolute;right:50px;top:700px;">DEAN TESTING AND CONSULTANCY</div>
+<div style="position:absolute;right:50px;top:1100px;">DEAN TESTING AND CONSULTANCY</div>
 </body>
 </html>

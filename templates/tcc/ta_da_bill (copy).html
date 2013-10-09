@@ -1,0 +1,68 @@
+<html>
+<head>
+    <title>Suspence Report</title>
+</head>
+<body>
+<div align="center"><h2>T.A./D.A. BILL FORM FOR CONSULTANCY WORK</h2></div>
+{% if client %}
+	{% for clients in client %}
+<div>Name of the Department/Client:{{clients.client__client__name}} {% endfor %}{% endif %}Amount claimed from the Department/Client Rs.{{daily}}
+<div align="right">Vide Receipt No. {{job.job_no}}<br><br>Date : {{job.date}}</div>
+<br>
+<table border="1" width="100%">
+	<tr>
+		<td rowspan="2" ><b>Name</b></td>
+		<td colspan="3"><b>Departure (up)</td>	   
+		<td colspan="3"><b>Arrival (up)</td>
+		<td colspan="3"><b>Departure (down)</td>
+		<td colspan="3"><b>Arrival (down)</td>
+		<td rowspan="2" ><b>D.A.</td>
+		<td rowspan="2"><b>Signature</td>
+	</tr>
+	<tr>
+		<td ><b>Date</b></td>
+		<td ><b>Time</b></td>
+		<td ><b>Station</b>
+		<td ><b>Date</b></td>
+		<td ><b>Time</b></td>
+		<td ><b>Station</b></td>
+        <td ><b>Date</b></td>
+		<td > <b>Time</b></td>
+		<td ><b>Station</b></td>
+		<td ><b>  Date </b></td>
+		<td ><b>Time</b></td>	
+		<td > <b> Station</b></td>
+    </tr>
+{% if staff %}
+    {% for teacher in staff %}
+    <tr>
+			<td>{{ teacher.name}}</td>
+			<td>{{tada.test_date}}</td>
+			<td>{{tada.departure_time_up}}</td>
+			<td>Ludhiana</td>
+			<td>{{tada.test_date}}</td>
+			<td>{{tada.arrival_time_up}}</td>
+			<td>{{tada.reach_site}}</td>
+			<td>{{tada.test_date}}</td>
+			<td>{{tada.departure_time_down}}</td>
+			<td> {{tada.reach_site}}</td>
+			<td> {{ tada.end_date }}</td>
+			<td>{{tada.arrival_time_down}}</td>
+			<td>Ludhiana</td>
+			<td>{{teacher.daily_income}}</td>
+			<td>   </td>	
+		</tr>
+    {% endfor %}
+{% endif  %}
+		<tr>
+			<td colspan="13" align="center"><b>Total</b></td>
+			<td>{{daily}}</td>		
+</table>
+</div>
+<br/><div style="font-style:San-Sarif ;font-size:13px; position:absolute;right:250px">T.A/D.A Bill have been entered on page ........ <br> of TA/DA & Other Charges register.<br>Head TA/DA<br></div>
+<div style="font-size:13px; position:absolute;right:300px;top:390px;">Dean T&C</div>
+<br/><div style="font-style:San-Sarif ;font-size:13px; position:absolute;right:310px; top:450">Passed for Payment for Rs. {{daily}}/- <br> of TA/DA & Other Charges register.<br> ( Rupees {{ net_balance_eng }} only )<br></div>
+<div style="font-size:13px; position:absolute;right:290px;top:520px;">Dean T&C &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Actt  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Director</div>
+
+
+</body>
