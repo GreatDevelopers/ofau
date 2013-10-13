@@ -27,37 +27,29 @@
 {% if amount %}
     {% for amounts in amount %}
     {% for susdetail in suspencedetail %}
-	
-		 {% if amounts.job__id == susdetail.job_id %} 
+		{% if amounts.job__id == susdetail.job_id %} 
+	 <tr>
 		
-		 
-		
-         <tr>
-		
-            		<td>{{forloop.parentloop.counter}}</td>            
+            <td>{{forloop.parentloop.counter}}</td>            
 			<td>{{amounts.job__id}}</td> 
 			<td> {{ amounts.job__date  }}</td>
 			<td> {{ amounts.job__job_no }}</td>
 			<td> {{amounts.job__client__client__first_name}} {{amounts.job__client__client__address}}
 			{{amounts.job__client__client__city}}</td>
-			<td>{% if susdetail.sus__field__name == None %}
-				{{clientmat.material__name}}
-				{% else %}
-				{{susdetail.sus__field__name}}{% endif %}</td>
+			
+			<td>{% if amounts.job__report_type == 1 %} {{amounts.job__clientjob__material__name}}
+			{% else %}{{amounts.job__suspencejob__field__name}}{% endif %}</td>
 			<td>{{amounts.college_income}}</td>
 			<td>{{amounts.admin_charge}}</td>
 			<td>{{amounts.consultancy_asst}}</td>
 			<td>{{amounts.development_fund}}</td>
-			<td>{{trans_total}}
-                        <td>{{susdetail.work_charge}}</td>
+			<td>{{trans_total}}</td>
+            <td>{{susdetail.work_charge}}</td>
 			<td>{{ susdetail.labour_charge|add:susdetail.boring_charge_external|add:susdetail.car_taxi_charge}} </td>
 			<td>{{susdetail.boring_charge_internal}}</td>
 			<td>{{amounts.unit_price}}</td>
 			
 		</tr>
-        	
-		
-		
         	{% endif %}
 	
 	{% endfor %}
@@ -65,27 +57,19 @@
 {% endif  %}
 
 		<tr>
-			<td><b>  </b></td>
-			<td><b> </b></td>
-			 <td><b></b></td>
-			<td><b>  </b></td>
-			<td><b> </b></td>
-			<td><b> </b></td>
+			<td colspan="6">Total</td>
+			
 			<td><b> {{college_income}} </b></td>
-	         <td><b>{{admin_charge}}</b></td>
+	        <td><b>{{admin_charge}}</b></td>
 	        <td><b>	{{consultancy_asst}} </b></td>
 	        <td><b> {{development_fund}}</b></td>
-                <td><b> </b></td>
-              <td><b> </b></td>
-               <td><b> </b></td>
-              
-	        
-	         <td><b>{{total}} </b></td>
+            <td><b> </b></td>
+            <td><b> </b></td>
+            <td><b> </b></td>
+            <td><b>{{total}} </b></td>
 	</tr>	
 </table>
 </div>
-
-
 </body>
 	
 

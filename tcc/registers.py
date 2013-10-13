@@ -317,8 +317,9 @@ def suspence_clearence_register(request):
 			'Suspence').values('job__date', 'job__id', 'job__job_no', 
 			'college_income', 'admin_charge', 'consultancy_asst', 
 			'development_fund', 'unit_price',
-			'job__client__client__first_name','job__client__client__address',\
-			'job__client__client__city').order_by('job__id').\
+			'job__client__client__first_name','job__client__client__address',
+			'job__client__client__city','job__report_type','job__clientjob__material__name',
+			'job__suspencejob__field__name').order_by('job__id').\
 			distinct().exclude(admin_charge = None)
 			admin_charge_temp = Amount.objects.filter(id__in=job).\
 			filter(report_type = 'Suspence').aggregate(Sum(\
