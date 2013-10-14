@@ -297,6 +297,7 @@ def suspence_clearence_register(request):
 			client = Job.objects.all().values_list('job_no',flat=True).\
 			filter(date__range=(start_date,end_date)).\
 			filter(amount__report_type="Suspence")
+
 			# job = Job.objects.filter(amount__report_type="Suspence").\
 			job = Job.objects.filter(amount__report_type="Suspence").\
 			filter(date__range=(start_date,end_date))
