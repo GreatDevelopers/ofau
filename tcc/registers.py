@@ -293,20 +293,33 @@ def suspence_clearence_register(request):
 			cd = form.cleaned_data
 			start_date = cd['start_date']
 			end_date = cd['end_date']
-			dates(start_date, end_date)	
-			job = Job.objects.filter(date__range=(start_date,end_date))
+			dates(start_date, end_date)
+			client = Job.objects.all().values_list('job_no',flat=True).\
+			filter(date__range=(start_date,end_date)).\
+			filter(amount__report_type="Suspence")
+			# job = Job.objects.filter(amount__report_type="Suspence").\
+			job = Job.objects.filter(amount__report_type="Suspence").\
+			filter(date__range=(start_date,end_date))
 			suspence =SuspenceJob.objects.all().filter(job_id__in=job).\
 			values('field__name', 'job_id').distinct()
+			bill = Bill.objects.all()
+			net_total_temp = Bill.objects.filter(job_no__in=client).\
+			aggregate(Sum('net_total'))
+			net_total= net_total_temp['net_total__sum']
 			suspencedetail = Suspence.objects.all().filter(job_id__in
-			=job).values('work_charge', 'labour_charge', 
-			'boring_charge_external', 'car_taxi_charge', 
-			'boring_charge_internal', 'job_id')
+			=job).values('work_charge', 'labour_charge',
+			'boring_charge_external', 'car_taxi_charge',
+			'boring_charge_internal', 'job_id','sus__field__name')
+			clientm = ClientJob.objects.all().filter(job_id__in=job).\
+			values('material__name','job_id')
 			amount = Amount.objects.all().filter(job_id__in=job).\
-			filter(report_type = 
-			'Suspence').values('job__date', 'job__id', 'job__job_no', 
-			'college_income', 'admin_charge', 'consultancy_asst', 
+			filter(report_type =
+			'Suspence').values('job__date', 'job__id', 'job__job_no',
+			'college_income', 'admin_charge', 'consultancy_asst',
 			'development_fund', 'unit_price',
-			'job__client__client__first_name').order_by('job__id').\
+			'job__client__client__first_name','job__client__client__address',
+			'job__client__client__city','job__report_type','job__clientjob__material__name',
+			'job__suspencejob__field__name').order_by('job__id').\
 			distinct().exclude(admin_charge = None)
 			admin_charge_temp = Amount.objects.filter(id__in=job).\
 			filter(report_type = 'Suspence').aggregate(Sum(\
@@ -317,7 +330,7 @@ def suspence_clearence_register(request):
 			'college_income'))
 			college_income= college_income_temp['college_income__sum']
 			consultancy_asst_temp =Amount.objects.filter(id__in=job).\
-			filter(report_type = 
+			filter(report_type =
 			'Suspence').aggregate(Sum('consultancy_asst'))
 			consultancy_asst= consultancy_asst_temp[\
 			'consultancy_asst__sum']
@@ -330,18 +343,20 @@ def suspence_clearence_register(request):
 			filter(report_type = 'Suspence').exclude(admin_charge =
 			None).aggregate(Sum('unit_price'))
 			total= price_temp['unit_price__sum']
-			template ={'form':form, 'job':job, 'suspence':suspence, 
-			'suspencedetail':suspencedetail, 'amount': amount,'date': 
+			template ={'form':form, 'job':job, 'suspence':suspence,
+			'suspencedetail':suspencedetail, 'amount': amount,'date':
 			start_date, 'admin_charge':admin_charge, 'college_income'
-			:college_income, 'consultancy_asst':consultancy_asst, 
-			'development_fund':development_fund, 'total':total,}
-			return render_to_response('tcc/suspence_clearence_register.html', 
-			dict(template.items() + tmp.items()), context_instance=
-			RequestContext(request))
+			:college_income, 'consultancy_asst':consultancy_asst,
+			'development_fund':development_fund, 'total':total,\
+			's_date':start_date,'e_date':end_date,'bill':bill,'net_total':
+			net_total,'client':client,'clientm':clientm}
+		return render_to_response('tcc/suspence_clearence_register.html',
+		dict(template.items() + tmp.items()), context_instance=
+		RequestContext(request))
 	else:
 		form = DateReport()
-	template ={'form': form}
-	return render_to_response('tcc/client.html', dict(template.items() 
+		template ={'form': form}
+	return render_to_response('tcc/client.html', dict(template.items()
 	+ tmp.items()), context_instance=RequestContext(request))
 
 def suspence_register(request):

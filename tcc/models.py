@@ -770,7 +770,6 @@ class Suspence(models.Model):
 	suspence_bill_no = models.IntegerField( blank=True, null=True)
 	clear_date=models.CharField(max_length=30)
 
-
 class SuspenceForm(ModelForm):
 	"""
 	** SuspenceForm **

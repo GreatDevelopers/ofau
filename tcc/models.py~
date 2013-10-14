@@ -771,6 +771,11 @@ class Suspence(models.Model):
 	clear_date=models.CharField(max_length=30)
 
 
+	test_date = models.CharField( max_length=300)
+	suspence_bill_no = models.IntegerField( blank=True, null=True)
+	clear_date = models.CharField(max_length=15)
+
+
 class SuspenceForm(ModelForm):
 	"""
 	** SuspenceForm **
@@ -883,7 +888,7 @@ class Transport(models.Model):
 	bill_no = models.IntegerField(null=True, editable=False)
 	kilometer = models.CharField(max_length=150, default="00, 00, 00")
 	#rate = models.IntegerField(default='4')
-	amounts = models.CharField(max_length=180, blank=True,editable=False)
+	amounts = models.CharField(max_length=500, blank=True,editable=False)
 	total = models.IntegerField(blank=True, null=True , editable=False)
 	date = models.DateField(default=datetime.date.today())
 	test_date = models.CharField(max_length=300, default="0000-00-00,\

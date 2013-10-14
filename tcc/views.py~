@@ -1399,14 +1399,22 @@ def suspence_clearance(request):
 			lab_testing_staff=cd['lab_testing_staff']
 			field_testing_staff =cd['field_testing_staff']
 			test_date =cd['test_date']
+<<<<<<< HEAD
 			clear_date = cd['clear_date']
+=======
+			clear_date=cd['clear_date']
+>>>>>>> 5e8d8d7fbf04d50898b76c543a0cbedf12ec3b5a
 			job =query
 			Suspence.objects.filter(job = job).update(labour_charge = 
 			labour_charge, boring_charge_external=boring_charge_external, 
 			boring_charge_internal = boring_charge_internal, 
 			field_testing_staff = field_testing_staff, car_taxi_charge 
+<<<<<<< HEAD
 			= car_taxi_charge, lab_testing_staff = lab_testing_staff, test_date = test_date,
 		 	clear_date = clear_date)
+=======
+			= car_taxi_charge, lab_testing_staff = lab_testing_staff, test_date = test_date,clear_date = clear_date)
+>>>>>>> 5e8d8d7fbf04d50898b76c543a0cbedf12ec3b5a
 			data = {'job_no' : job, 'labour_charge':labour_charge, 
 			'boring_charge_external' : boring_charge_external,
 			'boring_charge_internal' : boring_charge_internal, 
