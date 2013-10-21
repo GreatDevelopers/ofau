@@ -11,7 +11,7 @@
 #                                                                      #
 #      created : 11-July-2013                                          #
 #      last update : 12-July-2013                                      #
-#      VERSION=1.4.2                                                   #
+#      VERSION=1.5.2                                                   #
 #                                                                      #
 ########################################################################
 
@@ -68,8 +68,8 @@ Backup()	#backs up important files
 
 Browser() #open firefox browser at localhost/automation
 	{	
-		rm -rf Django-1.4.2.tar.gz
-		rm -rf Django-1.4.2
+		rm -rf Django-1.5.2.tar.gz
+		rm -rf Django-1.5.2
 		rm -rf other_files
 		firefox http://localhost/automation/
 	    Thanks		
@@ -284,11 +284,11 @@ Install()  #Calls other functions
 	   Browser 
 	}
 
-Install_django()	#Installs django 1.4.2 if it is not installed.
+Install_django()	#Installs django 1.5.2 if it is not installed.
 	{
 
 	result=$(python -c "import django; print(django.get_version())")
-	if  [ $result = 1.4.2 ]; then
+	if  [ $result = 1.5.2 ]; then
 			  echo "Django 1.5.2 is already installed"
 			  Install
 	else
@@ -309,7 +309,7 @@ Install_django()	#Installs django 1.4.2 if it is not installed.
 					cd ../
 					Install
 			 else
-					echo "You have not installed Django 1.4.2"
+					echo "You have not installed Django 1.5.2"
 					pip install django-registration
 					pip install django-tagging
 					pip install python-mysql
