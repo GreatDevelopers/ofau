@@ -356,6 +356,7 @@ class EditJob(models.Model):
 	letter_date = models.DateField( max_length=200, null=True, blank=True)
 	tds = models.IntegerField(default="0")
 	discount = models.IntegerField(default="0")
+	note = models.CharField(max_length=600,blank=True,null=True)
 	def __unicode__(self):
           return self.id()
 

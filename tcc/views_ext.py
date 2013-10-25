@@ -492,11 +492,11 @@ def billperf(request):
 	getjob = EditJob.objects.all().filter(job_no=job_no).values(
 	'clienteditjob__material__name','date','testtotalperf__unit_price','site',
 	'suspenceeditjob__field__name','suspenceeditjob__other','report_type','sample',
-	'clienteditjob__other_test',).distinct()
+	'clienteditjob__other_test','note').distinct()
 	getadd = EditJob.objects.all().filter(id = jobid).values('client__client__first_name', 
 	'client__client__middle_name', 'client__client__last_name',
 	'client__client__address', 'client__client__city', 
-	'client__client__state','site','letter_no','letter_date','date',).distinct()
+	'client__client__state','site','letter_no','letter_date','date','note').distinct()
 	from Automation.tcc.variable import *
 	bill = BillPerf.objects.get(job_no=job_no)
 	servicetaxprint = servicetaxprint
@@ -508,7 +508,7 @@ def billperf(request):
 	template = {'job_no': job_no ,'net_total_eng':net_total_eng,'servicetaxprint'
 	:servicetaxprint,'highereducationtaxprint':highereducationtaxprint,
 	'educationtaxprint':educationtaxprint,'bill':bill, 'job':job, 'net_total1' : 
-	net_total1, 'getjob' : getjob, 'getadd' : getadd,'job_date':job_date}
+	net_total1, 'getjob' : getjob, 'getadd' : getadd,'job_date':job_date,}
 	query =request.GET.get('q', '')
 	if query =="1" :
 		return render_to_response('tcc/performa/bill.html', dict(template.items() + 
