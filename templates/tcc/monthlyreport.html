@@ -30,7 +30,7 @@
 			{% if bills.trans_net_total == NULL %}
 			<td>None</td>
 			{% else %}
-			<td>{{bills.trans_net_total|add:bills.trans_total}}</td>{% endif %}
+			<td>{{bills.trans_net_total}}</td>{% endif %}
 			<td>{{bills.service_tax}}</td>
 			<td>{{bills.education_tax}}</td>
 			<td>{{bills.higher_education_tax}}</td>
