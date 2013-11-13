@@ -655,7 +655,7 @@ def add_suspence(request):
 	site = Distance.objects.get(id=distid)
 	distance = 2*site.sandy
 	report_type = "Suspence" 
-	if distance < 100:
+	if distance < 100 and distance != 0:
 		rate = 1000
 	elif distance == 0:
 		rate = 0
