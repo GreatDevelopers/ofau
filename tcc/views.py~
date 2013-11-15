@@ -103,6 +103,35 @@ def edit_profile(request):
 		return render_to_response('tcc/client.html',dict(x.items() + 
 		tmp.items()), context_instance = RequestContext(request))
 
+@login_required
+def view_profile(request):
+	"""
+	** view_profile **
+	
+	This function firstly checks whether the client has already got a
+	profile or not. If it already has, then he is offered an already
+	built profile to edit, however in other case when the profile is
+	not built, client's new profile will be made.
+	"""
+	client = request.GET['id']
+	maxid = UserProfile.objects.get(id = client)
+	if request.method == "POST":
+		form = UserProfileForm(request.POST,instance=maxid)
+		if form.is_valid():
+			pro = form.save(commit=False)
+			pro.user = request.user
+			pro.save()
+			form.save()	
+			x = {'form': form, 'maxid':maxid}
+			return render_to_response('tcc/new_client_ok.html', 
+			dict(x.items() + tmp.items()), context_instance=
+			RequestContext(request))
+	else:	
+		form = UserProfileForm(instance=maxid)
+	x = {'form': form,}
+	return render_to_response('tcc/client.html',dict(x.items() + 
+	tmp.items()), context_instance = RequestContext(request))
+
 @stop_caching	
 @login_required
 def profile(request):
