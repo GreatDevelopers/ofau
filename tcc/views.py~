@@ -886,11 +886,31 @@ def job_ok(request):
 	temp = {"maxid":maxid,'amt':amt}
 	if request.user.is_staff == 1 and request.user.is_active == 1 and \
 	request.user.is_superuser == 1 :
-		return render_to_response('tcc/job_ok.html', dict(temp.items() + 
-		tmp.items()), context_instance=RequestContext(request))
+		return HttpResponseRedirect('job_ok_show')
 	else :
-		return render_to_response('tcc/client_job_ok.html',dict(temp.\
-		items() + tmp.items()), context_instance=RequestContext(request))
+		return HttpResponseRedirect('client_job_ok_show')
+
+@stop_caching
+def job_ok_show(request):
+	material =request.GET.get('id', '')
+	id = Job.objects.aggregate(Max('job_no'))
+	maxid =id['job_no__max']
+	job_no = maxid
+	amt = Job.objects.filter(job_no=maxid).values('amount__report_type')
+	temp = {"maxid":maxid,'amt':amt}
+	return render_to_response('tcc/job_ok.html',dict(temp.items() + 
+		tmp.items()), context_instance=RequestContext(request))
+
+@stop_caching
+def client_job_ok_show(request):
+	material =request.GET.get('id', '')
+	id = Job.objects.aggregate(Max('job_no'))
+	maxid =id['job_no__max']
+	job_no = maxid
+	amt = Job.objects.filter(job_no=maxid).values('amount__report_type')
+	temp = {"maxid":maxid,'amt':amt}
+	return render_to_response('tcc/client_job_ok.html', dict(temp.items() + 
+		tmp.items()), context_instance=RequestContext(request))
 
 @stop_caching	
 @login_required
