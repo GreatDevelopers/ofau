@@ -1,0 +1,270 @@
+/*
+gthub.com/greatdevelopers/ofau
+search-engine.css
+to style the search engine application
+*/
+@import url(http://fonts.googleapis.com/css?family=Quicksand:400);
+@import url(http://fonts.googleapis.com/css?family=Rosario:400,300);
+@import url('reset.css');
+
+/************************
+GENERAL STYLES
+************************/
+
+html,body{
+    height:100%;
+}
+
+body{
+    background:#fafafa;
+    font-family:'Rosario', sans-serif;
+    line-height:1.5;
+    color:#444;
+}
+*:focus{
+    outline:0;
+}
+.highlight{
+    text-shadow:1px 1px rgba(0,0,0,0.2);
+    color:#2980b9;
+}
+.wrapped{
+    max-width:700px;
+    min-width:300px;
+    margin:auto;
+}
+
+.right-wrapped{
+     max-width:700px;
+    min-width:200px;
+    margin:auto;
+}
+
+.fixed{
+    position:fixed;
+    padding:10px;
+    top:25%;
+    max-width:400px;
+    border:1px solid rgba(0,0,0,0);
+    border-radius:3px;
+    overflow-x:hidden;
+}
+
+::selection{
+    background:#27ae60;
+}
+
+header{
+    min-height:50px;
+    width:100%;
+    background:#2980b9;
+     color:#fff;
+         text-align:center;
+     text-shadow:1px 1px 1px rgba(0,0,0,0.5);
+}
+a{
+    color:#2980b9;
+    text-decoration:none;
+}
+
+
+
+/* typography */
+
+header{
+    font-family:'Quicksand',sans-serif;
+    font-size:28px;
+    line-height:50px;
+}
+
+.icon{
+    vertical-align:middle;
+    padding:3px;
+}
+
+
+/******************************
+PAGE SPECIFIC STYLES
+******************************/
+
+
+
+.search-input, .tt-suggestion{
+    font-family:'Quicksand',sans-serif;
+    padding-left:5px;
+    border:none;
+    width:90%;
+    min-height:50px;
+    line-height:50px;
+    color:#444;
+    font-size:20px;
+    float:left;
+}
+
+.tt-suggestion{
+    border-top:2px solid #eee;
+    background:rgba(255,255,255,1);
+    width:100%;
+    color:#999;
+}
+
+.tt-is-under-cursor{
+    color:#222;
+    border-bottom:1px solid #2980b9;
+}
+
+.tt-dropdown-menu{
+ 
+}
+
+.search-btn{
+    width:10%;
+    min-width:51px;
+    height:51px;
+    display:inline;
+    background:#2980b9;
+    float:left;
+    margin-top:30px;
+    border:0px;
+    transition:background 1s ease;
+   /* margin-top:-57px;
+    margin-right:-2px;
+    position:relative;
+    z-index:1000;
+    border:0px;
+    /*box-shadow:2px 2px rgba(0,0,0,0.2);*/
+}
+
+
+
+
+.search-btn:hover{
+    background:#3498db;
+    box-shadow:2px 2px #2c3e50;
+    cursor:pointer;
+}
+
+.search-btn:active{
+    box-shadow:1px 2px #34495e;
+}
+
+.search-btn img{
+    width:32px;
+    height:32px;
+    margin:auto;
+    margin-top:9px;
+}
+
+.tt-hint{
+    display:none;
+}
+.twitter-typeahead{
+    height:50px;
+    margin-top:30px;
+    width:80%;
+    background:#fff;
+    border:1px solid #ddd;
+    position:relative;
+    z-index:900;
+    float:left;
+}
+.tt-query{
+   
+}
+
+.search_results{
+}
+
+
+
+.result-module{
+    margin-top:20px;
+    padding:10px 10px;
+    background:#fefefe;
+    box-shadow:2px 2px 1px rgba(0,0,0,0.2);
+}
+
+.result-module-heading{
+    color:#222;
+    font-family:'Quicksand',sans-serif;
+    font-size:20px;
+}
+
+.result-submodule{
+    width:50%;
+    float:left;
+    font-size:16px;
+}
+
+.result-actions{
+    font-size:13px;
+}
+
+.result-action{
+   color:#fff;
+   border:0px;
+   padding:5px;
+   background:#f5f5f5;
+   box-shadow:1px 1px #eaeaea;
+      transition:background 1s ease;
+}
+
+.result-action a
+{
+    color:#444;
+    display:block;
+}
+
+.search-options{
+    font-size:16px;
+    line-height:32px;
+    padding-left:10px;
+}
+
+.result-action:hover{
+    background:#eaeaea;
+    box-shadow:2px 3px #dadada;
+}
+
+.result-action a:hover{
+    text-decoration:none;
+}
+
+#search-options-container{
+    display:none;
+}
+
+@media all and (max-width:500px){
+    .heading{font-size:20px;}
+    .result-submodule{clear:both; width:100%;}    
+}
+
+
+.adv-search-input{
+    width:200px;
+    height:36px;
+    line-height:36px;
+    border:0px;
+    text-align:center;
+    color:#2980b9;
+    background:#fff;
+    font-family:'Rosario',sans-serif;
+    font-size:16x;
+    box-shadow:0px 0px 1px rgba(0,0,0,0.3);
+}
+
+.adv-search-button{
+    width:200px;
+    background:#2aba66;
+    color:#fff;
+    font-family:'Rosario',sans-serif;
+    font-size:18px;
+   box-shadow:2px 2px #2a9a66;
+    transition:background 1s ease;
+    cursor:pointer;
+    padding:0px;
+}
+
+.adv-search-button:hover{
+    background:#2ada66;
+}

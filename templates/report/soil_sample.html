@@ -1,0 +1,54 @@
+{% extends "report/header.html" %}
+{% load i18n %}
+<html>
+{% block report %}
+<body>
+{% if st %}
+
+	
+	<table align="center" border="1">
+		 
+	<tr>
+		<td>Max. Dry Density</td>
+			{% for test in st %}
+				<td>{{test.Max_Dry_Density}}</td>
+			{% endfor  %}
+	</tr>
+	<tr>		
+		<td>Optimum Moisture Content</td>
+			{% for test in st %}
+				<td>{{test.Optimum_Moisture_Content}}</td>
+			{% endfor  %}
+	</tr>
+	<tr>		
+		<td>Liquid Limit</td>
+			{% for test in st %}
+				<td>{{test.Liquid_limit}}</td>
+			{% endfor  %}
+	</tr>
+	<tr>		
+		<td>Plastic Limit</td>
+			{% for test in st %}
+				<td>{{test.Plastic_limit}}</td>
+			{% endfor  %}
+	</tr>
+	<tr>		
+		<td>Cohesion Intercept</td>
+			{% for test in st %}
+				<td>{{test.Cohesion_Intercept}}</td>
+			{% endfor  %}
+	</tr>
+	<tr>		
+		<td>Angle of shearing resistance</td>
+			{% for test in st %}
+				<td>{{test.Angle_of_Shearing_Resistence}}</td>
+			{% endfor  %}
+	</tr>
+
+
+	
+{% endif %}
+	</table>	
+</body>
+{% endblock %}
+</html>

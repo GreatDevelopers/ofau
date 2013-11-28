@@ -1,0 +1,104 @@
+<!---------------------------------------------------
+filename: search_results.html
+purpose: allow admin to search through information of client
+lastEdit: Sat Nov 2, 2244hrs
+------------------------------------------------------>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Search</title>
+    <link href="{{ LOCAL_URL }}/media/css/search-engine.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+{% block content %}
+    
+    <header>
+        <h1 class="heading wrapped">Testing and Consultancy Cell</h1>
+    </header>
+    
+    <div class="typeahead-container form-container wrapped">
+        <a href="#" id="search-option-toggle"><img class="icon" src="{{ LOCAL_URL }}/media/css/searchflat.png"/>Search Menu </a>
+    <div id="search-options-container">
+     <button class="result-action search-options"><a href="http://localhost/automation/tcc/search_new">Basic Search</a></button>
+    <button class="result-action search-options"><a href="http://localhost/automation/tcc/advanced_search"><img  class="icon" src="{{ LOCAL_URL }}/media/css/advancedsearch.png"/>Advanced Search</a></button>
+    </div>
+        <form action="." method="GET">
+            <input id="id_q" class="typeahead search-input" name="q" type="text" placeholder="Search client by name..">
+            <button type="submit" class="search-btn"><img src="{{ LOCAL_URL }}/media/css/search.png"/></button>
+        </form>
+        
+    </div>
+    <div style="clear:both;"></div>
+<div class="search_results wrapped">
+    
+{% if found_entries %}
+  {% for entries in found_entries %}
+    {% for client in entries %}
+	<div class="result-module">
+        
+        <h3 class="result-module-heading"> {{ client.first_name }} {{client.middle_name}} {{client.last_name}}</h3>
+        
+        <div class="result-submodule">
+        <p class="id_address result-att"> {{client.address}},{{client.city}}</p>
+        <p class="id_company result-att"> Company:{{client.company}}</p>
+        </div>
+        
+        <div class="result-submodule">
+        <p class="result-att id_email">{{client.email_address}}</p>
+        <p class="result-att id_website">{{client.website}}</p>
+        <p class="result-att id_org">Type of Organisation: {{client.type_of_organisation}}</p>
+        </div>
+ <div style="clear:both;"></div>
+
+       <div class="result-actions">
+       <button class="result-action"><a href="/automation/tcc/addjob/?id={{ client.id }}&job=">+ Add Job</a></button>
+	<button class="result-action"><a href="/automation/tcc/selectfield/?id={{ client.id }}">+ Add Performa Job</a></button>
+	<button class="result-action"><a href="/automation/tcc/nonpayment/?id={{ client.id }}">+ Add Non Payment Job</a></button>
+
+	<button class="result-action"><a href="/automation/tcc/prevwork/?id={{ client.id }}">View Previous Work</a></button>
+	</div>
+        </div>
+      {% endfor %}
+  {% endfor %}
+     
+    {% else %}
+    <div class="result-module">
+      <p>No clients found, this is a phonetic search. It will show results using an algorithm that matches similar sounding words. For ex:- Jasveer and Jasvir, Kamal and Komal etc.</p>
+        </div>
+    {% endif %}
+    </div>
+ <script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://localhost/searchit/js/typeahead.min.js"></script>
+    <script src="https://raw.github.com/bartaz/sandbox.js/master/jquery.highlight.js"></script>
+<script>
+    $('body').highlight("{{query_string}}");
+    console.log('{{query_string}}');
+    var names = new Array;
+      
+  $('.typeahead-container .typeahead').typeahead({
+    name: 'names',
+    prefetch:{
+        url:'{{LOCAL_URL}}/searchit/tcc.json',
+        filter:normalizeData
+    }
+  });
+function normalizeData(data)
+    {
+        for (var i=0; i < data.length; i++)
+        {
+            names.push({"value":data[i].fields.first_name, "city":data[i].fields.city});
+            
+        }
+        return names;
+    }
+    
+$('#search-option-toggle').click(function(){
+    $('#search-options-container').toggle('slow');
+});
+  
+
+
+</script> 
+</html>
+{% endblock %}
+

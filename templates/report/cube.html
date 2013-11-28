@@ -1,0 +1,51 @@
+{% extends "report/header.html" %}
+{% load i18n %}
+<html>
+{% block report %}
+<style>
+body{counter-reset:section ;}
+hp:after
+{
+	
+	counter-increment:section; 
+	content:" " counter(section) ;
+	}
+	.Margin {
+	text-align:center;
+	}
+.Margin {
+text-align:center;
+}
+.counter{
+counter-increment:"Section" counter(section)".";
+}
+
+</style>
+<body>
+{% if cubee %}
+
+	
+	<table width="100%" align="center" border="1">
+		<tr>
+                        {% for test in cubee|slice:":1" %}<th>S.No</th>
+			{% ifnotequal test.Description "" %}<th>Description</th>{% endifnotequal %}
+			{% ifnotequal test.Breaking_load "" %}<th>Breaking Load</th>{% endifnotequal %}
+			{% ifnotequal test.Mix "" %}<th>Mix</th>{% endifnotequal %}
+			{% ifnotequal test.Comp_strength "" %}<th>Comp_Strength</th>{% endifnotequal %}
+		{% endfor %}</tr>
+	{% for test in cubee %}
+	
+		
+		<!--        <th class="Margin">{{test.S_No}}</th>
+		    -->   <tr>   
+                        {% ifnotequal test.Description "" %}<td class="Margin">{{test.Description}}</td>{% endifnotequal %}
+			{% ifnotequal test.Breaking_load "" %}<td class="Margin">{{test.Breaking_load}}</td>{% endifnotequal %}	
+			{% ifnotequal test.Mix "" %}<td class="Margin">{{test.Mix}}</td>{% endifnotequal %}
+			{% ifnotequal test.Comp_strength "" %}<td class="Margin">{{test.Comp_strength}}</td>{% endifnotequal %} </tr>
+			
+	{% endfor  %}
+{% endif %}
+	</table>	
+</body>
+{% endblock %}
+</html>

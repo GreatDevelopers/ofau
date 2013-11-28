@@ -1,0 +1,69 @@
+{% extends "report/header.html" %}
+{% load i18n %}
+<html>
+{% block report %}
+<body>
+{% if st %}
+
+	
+	<table align="center" border="1">
+		<tr>
+			<th>S.No.</th>
+			<th>Description of Test</th>
+			<th>Acceptable limit as per</th>
+			<th colspan="10">Test Result</th>
+		</tr>  
+	<tr>
+		<td>1</td>
+		<td>Chemical test</td>
+		<td>IS 2062:2006< 20mm</td>
+			{% for test in st %}
+				<td>{{test.Chemical_test}}</td>
+			{% endfor  %}
+	</tr>
+	<tr>
+		<td>2</td>
+		<td>Carbon(%)</td>
+		<td>Max. 0.23</td>
+			{% for test in st %}
+				<td>{{test.Carbon}}</td>
+			{% endfor  %}
+	</tr>
+	<tr>
+		<td>3</td>
+		<td>Sulphur(%)</td>
+		<td>Max. 0.045</td>
+			{% for test in st %}
+				<td>{{test.Sulphur}}</td>
+			{% endfor  %}
+	</tr>
+	<tr>
+		<td>4</td>
+		<td>Phosphorus</td>
+		<td>Max. 0.045</td>
+			{% for test in st %}
+				<td>{{test.Phosphorous}}</td>
+			{% endfor  %}
+	</tr>
+	<tr>
+		<td>5</td>
+		<td>Silicon</td>
+		<td>Max. 0.40</td>
+			{% for test in st %}
+				<td>{{test.Silicon}}</td>
+			{% endfor  %}
+	</tr>
+	<tr>
+		<td>6</td>
+		<td>Manganese</td>
+		<td>Max. 1.50</td>
+			{% for test in st %}
+				<td>{{test.Manganese}}</td>
+			{% endfor  %}
+	</tr>
+
+{% endif %}
+	</table>	
+</body>
+{% endblock %}
+</html>

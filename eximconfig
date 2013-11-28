@@ -1,0 +1,22 @@
+>Choose “ mail sent by smarthost; received via SMTP or fetchmail” and press ENTER.
+
+>Enter system mail. It’s your choice, you can choose any. I am using “ubuntu”.
+
+>Then it will ask you to enter IP addresses to listen on incoming SMTP connections. Leave it as it is.
+
+>Other destinations will be same as that of system mail name. If it is not, then enter system mail name which was ubuntu in my case.
+
+>Leave the “machines to relay mail” empty.
+
+>Now it will ask you for IP address or host name of the outgoing smarthost. Enter “smtp.example.com::587″. Where example refers to gmail, yahoo or any 
+>other mail service and 587 is port number.
+
+>Then it will ask you, if you want to hide local mail name in outgoing mail? Choose “No”.
+
+>Then it will ask you, if you want to keep number of DNS-queries minimal? Choose “No”.
+
+>Keep delivery method for local mail default, i.e; mbox format in /var/mail/.
+
+>Then it will ask you, if you want to split configuration into small files? Choose “No”.
+
+>Keep root and postmaster mail recipient empty.

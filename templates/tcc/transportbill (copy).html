@@ -1,0 +1,38 @@
+<html>
+<head><title>Transport Bill</title></head>
+<div style="font-size:24px" align='center'><b>{{address.name}}</b></div>
+<div style="font-size:18px" align='center'><b>{{address.address}}</b></div>
+<div style="font-size:24px" align='center'>{{title.name}}</div><br>
+<body><center><h3>TRANSPORT BILL</center>
+<br/>
+<div align="left"> Bill No.: {{transport.bill_no }}</div>
+<div align="right"> Dated : {{ transport.date }}</div>
+<div align="left">To : {% for clients in client %}
+			{{clients.client__client__first_name}} {{clients.client__client__middle_name}} 
+			{{clients.client__client__last_name}}{{clients.client__client__address}}{% endfor %}</div> 
+<br/><br/><br/>
+
+<div align="left"></div>
+<center><table border=1 width="75%" height="25%" >
+	<tr>
+		<td align="center">Date of Use </td>
+		<td align="center">No. of Km</td>
+		<td align="center">Rate</td>
+		<td align="center">Amount</td>
+	</tr>
+	<tr align="center">
+		<td >{{transport.test_date}}</td>
+		<td >{{transport.kilometer}}</td >
+		<td>{{rate}}</td>
+		<td>{{transport.total}}.00</td>
+	</tr>
+</table></center>
+<br/><br/>
+<div align="left"><b>  {{vehical_no.name}}</b></div><br/><br/>
+<div align="right"><b> Dean Testing and Consultancy Cell {{sub_title.name}}</b></div>
+<br><br/><br><div style="font-style:San-Sarif ;font-size:13px; position:absolute;right:250px; top:600px;">Transport Bill have been entered on page ........ <br> of TA/DA & Other Charges register.<br>Head Other Charges<br></div>
+<div style="font-size:13px; position:absolute;right:300px;top:700px;">Dean T&C</div>
+<br/><div style="font-style:San-Sarif ;font-size:13px; position:absolute;right:320px; top:780px;">Passed for Payment for Rs. {{transport.total}}/- <br> ( Rupees {{ net_balance_eng }} only )<br></div>
+<div style="font-size:13px; position:absolute;right:310px;top:850px;">Dean T&C &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Actt  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Director</div>
+</body>
+</html>

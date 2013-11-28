@@ -1,0 +1,53 @@
+<{% extends "base.html" %}
+{% load i18n %}
+<html lang="en">
+<head>
+    <title>Search</title>
+</head>
+{% block content %}
+<form action="." method="GET">
+<h2 class="changeBlue">Search a Client</h2>          
+<label for="id_q">Search:</label>
+<input id="id_q" name="q" type="text"><br>
+<input type="submit" value="Submit"><br>
+{% if query_string %}
+You searched for "{{ query_string }}" and the results are listed below.
+<table border='1' class="fixed">
+<tr>
+		<th>Sr.No </th>
+		<th>Name of Parties</th>
+                <th>Address</th>
+                <th>Company</th>
+                <th>Email Address</th>
+                <th>Website</th>
+                <th>Phone No</th>
+		<!--<th>Type of organisation</th>
+		<th>Your Activity</th>-->
+	</tr>
+
+{% if found_entries %}
+  {% for client in found_entries %}
+	<tr>
+	<td>{{forloop.counter}}</td>
+        <td> {{ client.user__first_name }} {{client.user__middle_name}}
+	 {{client.user__last_name}} {{client.id__city}}</td>
+        <td> {{client.user__address}}</td>
+        <td>{{client.user__company}}</td>
+	<td>{{client.user__email_address}}</td>
+	<td>{{client.user__contact_no}}</td>
+
+			<td><a href="/automation/tcc/addjob/?id={{ client.user_id }}&job=">ADD JOB</a>|
+			<a href="/automation/tcc/selectfield/?id={{ client.user_id }}">ADD PERFORMA JOB</a>|
+			<a href="/automation/tcc/nonpayment/?id={{ client.user_id }}">ADD NON-PAYMENT JOB</a>|
+			<a href="/automation/tcc/prevwork/?id={{ client.user_id }}">View Previous Work</a>|
+			<a href="/automation/tcc/view_profile/?id={{ client.id }}">View Profile</a></td>	
+	</tr>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p>No clients found</p>
+    {% endif %}{% endif %}
+</table>
+
+</html>
+{% endblock %}

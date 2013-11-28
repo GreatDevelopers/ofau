@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+<html>
+
+{% block content %}
+<h2 class="changeBlue">The Selected Staff members</h2>
+    
+        <p>
+            The selected staff members are:
+           <ol> {% for staffs in staff %}
+            	<li>{{staffs.staff__name}}</li>
+            {% endfor %}
+           </ol>
+        </p>
+</html>
+{% endblock %}

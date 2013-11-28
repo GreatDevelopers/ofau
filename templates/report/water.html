@@ -1,0 +1,62 @@
+{% extends "report/header.html" %}
+{% load i18n %}
+<html>
+{% block report %}
+<body>
+{% if water %}
+
+	
+	
+	
+<!--		<tr>
+			<th>S.no</th>
+			<th>Description</th>
+			<th>Result</th>
+		</tr>
+-->	{% for test in water %}
+<table  border="1" style="margin-left:33pt;" >
+
+<tr>    
+	<th9>Sr.No</th>
+	<th>Parameters</th>
+	<th>Result</th>
+</tr>
+
+	
+	<tr><td>1</td>		<td><b>pH Value</b></td>				<td>:{{test.PH_Value}}</td></tr>	
+	<tr><td>2</td>		<td><b>Colour</b></td>					<td>:{{test.Color}}</td></tr>
+	<tr><td>3</td>		<td><b>COD(Total)</b</td>				<td>:{{test.COD_Total}}</p></td></tr>		
+	<tr><td>4</td>		<td><b>COD (Filtered)</b></td>				<td>:{{test.COD_Filtered}}</p></td></tr>		
+	<tr><td>5</td>		<td><b>BOD5 (Total)</b></td>				<td>:{{test.BOD5_Total}}</p></td></tr>
+	<tr><td>6</td>		<td><b>BOD5 (Filtered)</b></td>				<td>:{{test.BOD5_Filtered}}</p></td></tr>		
+	<tr><td>7</td>		<td><b>Sulphide ( as S<sup>2-</sup>)</b></td>		<td>:{{test.Sulphide}}</p></td></tr>		
+	<tr><td>8</td>		<td><b>Sulphate ( as SO<sub>4</sub><sup>2-</sup>)</b></td><td>:{{test.Sulphate}}</td></tr>		
+	<tr><td>9</td>		<td><b>Alkalinity ( as mg Ca CO3/L)</b></td>		<td>:{{test.Alkalinity}}</td></tr>		
+	<tr><td>10</td>		<td><b>Total Suspended Solids (mg/l)</b></td>		<td>:{{test.Total_Suspended_Solids}}</td></tr>		
+	<tr><td>11</td>		<td><b>Volatile Suspended Solids (mg/l)</b></td>	<td>:{{test.Volatile_Suspended_Solids }}</td></tr>	
+	<tr><td>12</td>		<td><b>Chloride ( as Cl <sup>-</sup>)</b></td>		<td>:{{test.Chloride_as_Cl}}</td></tr>		
+	<tr><td>13</td>		<td><b>Nickel</b></td>					<td>:{{test.Nickel}}</td></tr>		
+	<tr><td>14</td>		<td><b>Iron</b></td>					<td>:{{test.Iron}}</td></tr>	
+	<tr><td>15</td>		<td><b>Maganese</b></td>				<td>:{{test.Maganese}}</td></tr>		
+	<tr><td>16</td>		<td><b>Copper</b></td>					<td>:{{test.Copper}}</td></tr>		
+	<tr><td>17</td>		<td><b>Hardness</b></td>				<td>:{{test.Hardness}}</td></tr>		
+	<tr><td>18</td>		<td><b>Nitrates</b></td>				<td>:{{test.Nitrates}}</td></tr>		
+	<tr><td>19</td>		<td><b>Nitrites</b></td>				<td>:{{test.Nitrites}}</td></tr>		
+	<tr><td>20</td>		<td><b>Turbidity</b></td>				<td>:{{test.Turbidity}}</td></tr>		
+	<tr><td>21</td>		<td><b>Faecal coliform (E.Coli/MPN)</b></td>		<td>:{{test.Faecal_coliform}}</td></tr>		
+	<tr><td>22</td>		<td><b>TDS</b></td>					<td>:{{test.TDS}}</td></tr>		
+	<tr><td>23</td>		<td><b>Taste & Odour</b></td>				<td>:{{test.Taste_and_Odour}}</td></tr>
+	<tr><td>24</td>		<td><b>Calcium, Ca(Mg/l)</b></td>			<td>:{{test.Calcium_and_Ca_Mg_per_l}}</td></tr>		
+	<tr><td>25</td>		<td><b>Residual Free Chloride (Mg/l)</b></td>		<td>:{{test.Residual_Free_Chloride}}</td></tr>		
+	<tr><td>26</td>		<td><b>Florides</b></td>				<td>:{{test.Florides}}</td></tr>
+	<tr><td>27</td>		<td><b>Ammonia Nitrogen in mg/l</b></td>		<td>:{{test.Ammonia_Nitrogen}}</td></tr>		
+	<tr><td>28</td>		<td><b>Total Phosphorus in mg/l</b></td>		<td>:{{test.Total_Phosphorus}}</td></tr>		
+	<tr><td>29</td>		<td><b>TKN</b></td>					<td>:i{{test.TKN}}</td></tr>		
+</table>		
+	{% endfor  %}
+{% endif %}
+	
+</body>
+{% endblock %}
+</html>
+

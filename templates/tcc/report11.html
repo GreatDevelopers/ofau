@@ -1,0 +1,45 @@
+
+<html>
+<head>
+{% block content %}
+<link rel="stylesheet" type="text/css"  href="http://192.168.15.178/static/css2/css/report.css " /><title>Bill</title></head>
+<div style="font-size:24px" align='center'><b><i></i>  
+{% for organisation in organisation %} {{ organisation.name }} </b>{% endfor %}<br>  </div>
+<div style="font-size:14px" align='center'> {% for title in department %}<i>Website :</i> {{ title.url }} <br>
+ <i>Email :</i> {{ title.email_1 }}  <br> <i>Ph :</i> {{ title.phone }} <br> <i>Fax :</i> {{ title.faxno }} <br> </div>
+{% endfor %}
+
+<hr>
+<hr>
+<div align='left'>No. TCC/T/{% for job in amt %} {{job.job_id}} {% endfor %}</div>
+<br>
+<body>
+<div style="top:290px;float:right;">Dated : {% for date in done %} {{date.date}} {% endfor %}</div>
+<br/><br/>
+<div align="left">To:<br><br>
+{% for cntrct in done %} {{cntrct.client_department_name}} {% endfor %}<br>
+<div align="left">{% for cntrct in done %} {{cntrct.addr}} {% endfor %}<br>
+
+<div align="left">Phn No.{% for cntrct in done %} {{cntrct.phone_no}} {% endfor %} </div>
+<div align="left">{% for cntrct in done %} {{cntrct.city}} {% endfor %}<br>
+<div align="left">{% for user in name_list %} {{user.first_name}} {{user.last_name}} {% endfor %}
+<br/><br/>
+Sub:&nbsp;&nbsp;Soil Testing Programme<br><br>
+<div align="left">Sir,<br><br></div>
+<div align="left">
+        <p>
+           <ol> {% for staffs in staff %}
+            	<li>{{staffs.staff__name}}</li>
+            {% endfor %}
+           </ol>
+        </p></div>
+    {% endblock %}
+
+<p>will be reaching at {% for add in done %} <b> {{add.site}}</b>
+ at <b>{{add.at}}</b> on <b>{{add.on}} </b>{% endfor %} . You are requested to depute your representative to be available at the above mentioned place, to show the site to the testing party.<br>
+</p>
+Please arrange Three labourers for the testing work.
+<br><br>
+Deean testing and Consultancy<br>
+<b>Vehicel NO.</b>&nbsp;&nbsp;PB-10-DA 4574
+<br><b>Tata</b> 407
