@@ -1,7 +1,0 @@
->>>Please Run Following Command Before you run Script
-  $sudo su
-
->>>Then Run Install.sh file using following syntax
-   $bash Install.sh
-
->>>PASSWORD IS : 007700
