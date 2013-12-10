@@ -367,7 +367,7 @@ def select(request):
 	client = Clientadd.objects.get(id=request.GET['client'])
 	clid = client.id
 	report = material.id
-	if report == 3 or report == 4:
+	if report == 3 or report == 4 or report == 6:
 		if request.method=='POST':
 			form1 = AdvancedForm(request.POST)
 			form2 = BillForm(request.POST)

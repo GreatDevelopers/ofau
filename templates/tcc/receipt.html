@@ -37,7 +37,8 @@ Agency: {{clients.client__client__company}}
 	{{mates.suspencejob__field__name}}
 	{% if not forloop.last %},{% endif %}	
 {% elif mates.report_type == 3  %}Advance Adjust
-{% else %}CDF
+{% elif mates.report_type == 4  %}CDF
+{% else %}Security refundable
 {% endif %}
 {% endfor %}.</div>
 

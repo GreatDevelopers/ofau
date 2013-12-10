@@ -23,7 +23,7 @@ Agency: {{clients.client__client__company}}
 {% if mates.report_type == 1 %} 
 	{% for comments in matcomment %}
 			{% if comments.id == mates.clientjob__material__matcomment_id %}
-			{{comments.name}}
+			{{comments.name|lower }}
 			{% endif %}
 		{% endfor %}
 	{{mates.clientjob__material__name}}
@@ -31,7 +31,7 @@ Agency: {{clients.client__client__company}}
 {% elif mates.report_type == 2 %}
 	{% for comments in matcomment %}
 			{% if comments.id == mates.suspencejob__field__matcomment_id %}
-			{{comments.name}}
+			{{comments.name|lower }}
 			{% endif %}
 		{% endfor %}
 	{{mates.suspencejob__field__name}}
