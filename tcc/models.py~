@@ -78,6 +78,18 @@ class Soundexsearch(models.Model):    # Added.....
 	soundex_company = models.CharField(max_length=255,blank=True, null=True)
 	soundex_city = models.CharField(blank=True,max_length=255, null=True)
 
+class CodeTable(models.Model): #"K" To implement phonetic search for company names
+	"""
+	** Soundexsearch **
+	
+	CodeTable class defines the soundex codes for all the
+	words contained in database.
+	
+	"""	
+	word = models.CharField(max_length=100)
+	code = models.CharField(max_length=100)
+	def __unicode__(self):
+        	return self.word
 
 class UserProfileForm(ModelForm):
 	"""
@@ -356,7 +368,7 @@ class EditJob(models.Model):
 	letter_date = models.DateField( max_length=200, null=True, blank=True)
 	tds = models.IntegerField(default="0")
 	discount = models.IntegerField(default="0")
-	note = models.CharFeild(max_length=600,blank=True,null=True)
+	note = models.CharField(max_length=600,blank=True,null=True)
 	def __unicode__(self):
           return self.id()
 
