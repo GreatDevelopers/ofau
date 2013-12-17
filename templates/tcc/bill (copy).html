@@ -1,5 +1,3 @@
-
-
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="http://192.168.15.178/static/css2/css/report.css " /><title>Bill</title></head>
@@ -49,7 +47,7 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 		</tr>
 {% for material in getjob %}
 		<tr><td> 
-	
+		   
 
 	{% if material.report_type == 1 %}
 		{% for comments in matcomment %}
@@ -57,10 +55,7 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 			{{comments.name}}
 			{% endif %}
 		{% endfor %}	
-		{{material.clientjob__material__name }}
-                {% if other_test!="" %}
-	             : {{ material.clientjob__other_test }}	 
-	        {% endif %}  
+		{{material.clientjob__material__name }} :
 		{% for tests in testname %}
 			{% if material.clientjob__material__id == tests.clientjob__test__material %}
 				 
@@ -78,6 +73,11 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 			{{comments.name}}
 			{% endif %}
 		{% endfor %}	
+<<<<<<< Updated upstream
+		{{material.suspencejob__field__name}} :
+=======
+		{{material.suspencejob__field__name}}
+>>>>>>> Stashed changes
 		{% for tests in testname %}
 			{% if material.suspencejob__field__id == tests.suspencejob__test__material %}
 				 
@@ -89,7 +89,6 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 
 			{% endif %}
 		{% endfor %}
-	{% endfor %}
 	{% endif %}
 
 			
@@ -154,5 +153,3 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 <div style="position:absolute;right:50px;top:1100px;">DEAN TESTING AND CONSULTANCY</div>
 </body>
 </html>
-
-
