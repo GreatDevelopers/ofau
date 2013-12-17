@@ -22,7 +22,7 @@ def soundex(name):
 	return  soundex
 
 if __name__ == '__main__':
-	con = mdb.connect('localhost', 'root', 'h', 'tcc_automation');
+	con = mdb.connect('localhost', 'db_user', 'db_password', 'db_name');
 	with con:
 		cur = con.cursor()
 		columns = ['first_name', 'middle_name', 'last_name','address', 'city']

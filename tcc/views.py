@@ -7,6 +7,7 @@ It is the interface between the user interface, urls and database.
 
 from Automation.tcc.header import *
 from datetime import datetime
+import itertools
 
 from django.views.decorators.cache import patch_cache_control
 from functools import wraps
