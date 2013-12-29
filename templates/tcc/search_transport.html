@@ -33,6 +33,28 @@
 	{% else %}
       <p><b>No clients found</b></p>
 {% endif %}	
+
+{% if results1 %}
+{% for tada in results1 %}
+	 	<table border="2">
+<caption><center><b> TA/DA Bill </b> </center></caption>
+	<tr>
+		<td>  Job id. : {{tada.job_id}}</td>
+	<tr>
+		<td> Date of Testing : {{tada.test_date}}</td>
+	<tr>
+		<td>Reach Site : {{tada.reach_site}}</td>
+	<tr>
+		<td><center><a href="{{ LOCAL_URL }}/automation/tcc/tadabill/?job={{tada.job_id}}&test_date={{tada.test_date}}" target="window"><b> TADA Bill</b></a></center>  </td>
+		
+	</tr>
+	
+{% endfor %}</table>
+
+	{% else %}
+      <p><b>No clients found</b></p>
+{% endif %}	
+
 {% endif %}
 
 {% endblock %}s

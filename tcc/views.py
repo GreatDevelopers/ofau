@@ -1443,17 +1443,6 @@ def tada_view(request):
 	return render_to_response('tcc/tada_ok.html', dict(data.items() + 
 	tmp.items()), context_instance=RequestContext(request))
 
-def search_tadasuspence(request):
-	query = request.GET.get('q', '')
-	if query :
-		results = TaDa.objects.filter(job = query).values()
-		
-	else:
-		results = []
-	
-	temp = {"results": results,"query": query,}
-	return render_to_response("tcc/search_tadasuspence.html", dict(temp.items() + tmp.items()), context_instance=RequestContext(request) )
-
 def ta_da_bill(request):
 	"""
 	** ta_da_bill **
@@ -1504,10 +1493,13 @@ def search_transport(request):
 	query = request.GET.get('q', '')
 	if query :
 		results = Transport.objects.filter(job_no = query).values()
+		results1 = TaDa.objects.filter(job = query).values()
 	else:
 		results = []
-	temp = {"results": results,"query": query,}
-	return render_to_response("tcc/search_transport.html", dict(temp.items() + tmp.items()), context_instance=RequestContext(request) )
+		results1 = []
+	temp = {"results": results,"results1": results1,"query": query,}
+	return render_to_response("tcc/search_transport.html", 
+	dict(temp.items() + tmp.items()), context_instance=RequestContext(request) )
 def distance(request):
 	"""
 	** distance **
