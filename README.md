@@ -15,6 +15,6 @@ Automation is all about using the computer to:<br>
 
                              ****************INSTALLATION****************
 
-Clone this repository using: <br>
+Clone this repository.
 
 Then read the manual for further information
