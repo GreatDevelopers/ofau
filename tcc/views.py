@@ -157,13 +157,6 @@ def profile(request):
 			pro.save()
 			form.save()'''
 
-			# "K" Added for applying soundex search without spaces.
-			soundex_fname = soundex(first_name) 
-			soundex_mname = soundex(middle_name)
-			soundex_lname = soundex(last_name)
-			soundex_company = soundex(company)
-			soundex_address = soundex(address)
-			soundex_city = soundex(city)
 			
 			# "K" For implementing phonetic with spaces using python lists.
 			full_name = first_name + ' ' + middle_name + ' ' + last_name #concatenation
@@ -196,12 +189,6 @@ def profile(request):
 			id = UserProfile.objects.aggregate(Max('id'))
 			maxid =id['id__max']
 
-			# "K" Added for applying soundex search.....
-			sound = Soundexsearch(soundex_fname = soundex_fname, soundex_mname =  
-			soundex_mname, soundex_lname = soundex_lname, soundex_address = 
-			soundex_address, soundex_company = soundex_company, soundex_city =
-			soundex_city, user_id = maxid )
-			sound.save()
 	
 			id = UserProfile.objects.aggregate(Max('id'))
 			id = Soundexsearch.objects.aggregate(Max('id'))

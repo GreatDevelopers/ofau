@@ -71,7 +71,6 @@ class Soundexsearch(models.Model):    #"K" For implementing phonetic search.....
 	Its a separate class that handles soundex codes.
 	
 	"""	
-	user = models.ForeignKey(UserProfile)
 	soundex_fname = models.CharField(max_length=100)
 	soundex_mname = models.CharField(max_length=100)
 	soundex_lname = models.CharField(max_length=100)
