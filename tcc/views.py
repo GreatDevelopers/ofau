@@ -207,11 +207,6 @@ def profile(request):
 			email_address, user = user)
 			pro.save()
 			id = UserProfile.objects.aggregate(Max('id'))
-			maxid =id['id__max']
-
-	
-			id = UserProfile.objects.aggregate(Max('id'))
-			id = Soundexsearch.objects.aggregate(Max('id'))
 			maxid =id['id__max']	
 			x = {'form': form,'maxid':maxid,}	
 			return render_to_response('tcc/new_client_ok.html',dict(x\
