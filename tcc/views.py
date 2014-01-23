@@ -1972,8 +1972,8 @@ def contact(request):
 	and emailed	by user to give the feedback or to define the problem.
 	"""
 	if request.method == 'POST':
-		form = ContactForm(request.POST)
-        if form.is_valid():
+		if form.is_valid():
+			form = ContactForm(request.POST)
 			cd = form.cleaned_data
 			send_mail(
 				cd['subject'],
