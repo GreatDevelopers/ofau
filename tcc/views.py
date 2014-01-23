@@ -1973,7 +1973,7 @@ def contact(request):
 	"""
 	if request.method == 'POST':
 		form = ContactForm(request.POST)
-        if form.is_valid():
+		if form.is_valid():
 			cd = form.cleaned_data
 			send_mail(
 				cd['subject'],
