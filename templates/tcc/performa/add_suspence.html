@@ -56,7 +56,7 @@
 			<td><input id="id_discount" type="number" name="discount"  maxlength="11" value=0 />
 			</td>
 		</tr>
-	<tr><td><label for="id_note">Additional Note:</label></td><td><input id="id_note" type="text" maxlength="500" value="NULL"/></td></tr>
+	<tr><td><label for="id_note">Additional Note:</label></td><td><input id="id_note" type="text" name="note" maxlength="500" value="NULL"/></td></tr>
 	<tr><td><label for="id_work">Type of Work:</label></td><td><select name="type_of_work">
 {% for typeofwork in work %}
     <option value="{{typeofwork.id }}">{{ typeofwork.name }}</option>
