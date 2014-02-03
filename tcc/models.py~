@@ -963,3 +963,46 @@ class SelStaffForm(ModelForm):
 	
 	class Meta :
 		model = SelStaff
+class Prog_letter(models.Model):
+	"""
+	** ClientJob **
+	
+	ClientJob Class define the materials and tests performed on a clientjob.
+	
+	""" 
+	
+	name =  models.CharField(max_length=50)
+	
+      	def __unicode__(self):
+        	return self.name
+
+class Programme(models.Model):	
+	client_department_name = models.CharField(max_length=50)
+	phone_no = models.IntegerField(max_length=100,blank=True, null=True)
+	on = models.DateField()
+	addr = models.CharField(max_length=100,blank=True, null=True)
+	city = models.CharField(max_length=100)
+	at = models.TimeField()
+	site = models.CharField(max_length=100,blank=True, null=True)
+        staff = models.ManyToManyField(Prog_letter,blank=True,null=True)
+	
+	def __unicode__(self):
+        	return selfclient_department_name
+
+class ProgrammeForm(ModelForm):
+		staff = forms.ModelMultipleChoiceField(queryset=Prog_letter.objects.all(), 
+		required=False, widget=forms.CheckboxSelectMultiple)	
+		valid_time_formats = ['%H:%M', '%I:%M%p', '%I:%M %p']
+		at = forms.TimeField(widget=forms.TimeInput(format='%H:%M'))
+		#on = DateField(widget = AdminDateWidget)
+		class Meta :
+			model = Programme
+			widgets = {
+			'contract_name' : TextInput(attrs={'size':60}),
+			'address' : TextInput(attrs={'size':60}),
+			'on' : TextInput(attrs={'size':60}),
+			'at' : TextInput(attrs={'size':60}),
+			'addr' : TextInput(attrs={'size':60}),
+			
+                  }
+

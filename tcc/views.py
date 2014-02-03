@@ -2011,7 +2011,6 @@ def registered_user(request):
 	temp = {'user_list': user_list}
 	return render_to_response("tcc/registered_user.html", dict(temp.items() + 
 	tmp.items()),context_instance=RequestContext(request))
-
 def programme(request):
 	if request.method == 'POST':
 		form = ProgrammeForm(request.POST)
@@ -2027,7 +2026,7 @@ def programme(request):
        		#temp = {'form':form,'staff':staff}
 		organisation = Organisation.objects.all()
 		department = Department.objects.all().filter(id = 1)		
-		done = Programme.objects.all().filter(id=staffid).values('client_department_name', 'phone_no', 'on', 'at', 'addr', 			'city', 'site','date') 
+		done = Programme.objects.all().filter(id=staffid).values('client_department_name', 'phone_no', 'on', 'at', 'addr', 			'city', 'site') 
 		usermax = Programme.objects.aggregate(Max('id'))
 		userid =usermax['id__max']		
 		name_list = UserProfile.objects.all().filter(id=userid).values('first_name', 'last_name')
@@ -2038,7 +2037,7 @@ def programme(request):
 		job_date =job.date
 		amtid = Amount.objects.aggregate(Max('id'))
 		amtmaxid =amtid['id__max']
-		amt = Amount.objects.get(job_id = amtmaxid)
+		amt = Amount.objects.filter(id = amtmaxid).values('report_type')
 		template = {'form': form, 'organisation':organisation,'department':department, 'done':done, 'staff':staff}
 		return render_to_response('tcc/report11.html', template, context_instance=RequestContext(request))	
 			
@@ -2047,3 +2046,4 @@ def programme(request):
 	temp ={'form': form}
 	return render_to_response('tcc/new_client.html',dict(temp.items() + 
 	tmp.items()),context_instance=RequestContext(request))
+
