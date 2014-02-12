@@ -1,2 +1,4 @@
 *~
 *.pyc
+other_files/httpd.conf
+other_files/default
