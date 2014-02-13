@@ -4,7 +4,7 @@
 This file is a static file that assign some constant values to the variables.
 """
 
-from Automation.tcc.views import *
+from ofau.tcc.views import *
 collegeincome = 15
 admincharge = 5
 workcharge = 2

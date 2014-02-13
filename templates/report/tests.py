@@ -75,7 +75,7 @@ def Fe_500(request):
                 Fe_500.save()
 
            #return HttpResponseRedirect('thanks') # Redirect to a 'success' page
-           return HttpResponseRedirect(reverse('Automation.report.views.result_Fe_500'))
+           return HttpResponseRedirect(reverse('ofau.report.views.result_Fe_500'))
     else:
         report_form = ReportForm()
         Fe_500_formset = Fe_500_FormSet()

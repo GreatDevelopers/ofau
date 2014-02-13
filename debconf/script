@@ -20,13 +20,13 @@
 
 backup()
 {
-  sudo cp /etc/apache2/httpd.conf Automation/other_files/   #copies httpd.conf file in Automation/other_files/ folder
+  sudo cp /etc/apache2/httpd.conf ofau/other_files/   #copies httpd.conf file in ofau/other_files/ folder
 }
 
 
 media()
 {
-  sudo cp -r Automation/other_files/media/ /usr/local/lib/python2.7/dist-packages/django/contrib/admin/
+  sudo cp -r ofau/other_files/media/ /usr/local/lib/python2.7/dist-packages/django/contrib/admin/
   sudo chmod -R 777 /usr/local/lib/python2.7/dist-packages/django/contrib/admin/media/
 }
 
@@ -45,7 +45,7 @@ run()  # the function
   #
   #################################################################
 
-  file=Automation/settings.py
+  file=ofau/settings.py
 
   array=("enter the email address :")
   array1=("email_add")
@@ -117,7 +117,7 @@ run()  # the function
       }
   done    
   sed -i "15 s/db_name/$db_name/" $file
-  #cat Automation/settings.py                       #reads file in terminal
+  #cat ofau/settings.py                       #reads file in terminal
 
   #################################################################################
   #
@@ -140,9 +140,9 @@ run()  # the function
   path=$PWD     #this passes PWD value in path
   echo "Successfully downloading the software at-$path"
   echo ""
-  sed -i "s#mPath#"$path"#g" Automation/other_files/hhtp_cont   
-  sed -i "s#mPath#"$path"#g" Automation/apache/django.wsgi
-  sed -i "s#mPath#"$path"#g" Automation/settings.py
+  sed -i "s#mPath#"$path"#g" ofau/other_files/hhtp_cont   
+  sed -i "s#mPath#"$path"#g" ofau/apache/django.wsgi
+  sed -i "s#mPath#"$path"#g" ofau/settings.py
 
 
   ######################################################################
@@ -151,7 +151,7 @@ run()  # the function
   #
   ######################################################################
 
-  #sed -i "s/user_name/$NAME/" Automation/apache/django.wsgi 
+  #sed -i "s/user_name/$NAME/" ofau/apache/django.wsgi 
 
   ######################################################################
   #
@@ -161,7 +161,7 @@ run()  # the function
 
   # need sudo power for this
 
-  sudo bash -c  "cat Automation/other_files/hhtp_cont >> /etc/apache2/httpd.conf"   
+  sudo bash -c  "cat ofau/other_files/hhtp_cont >> /etc/apache2/httpd.conf"   
   #this appends the text from the file to the httpd.connf
 
 
@@ -199,8 +199,8 @@ run()  # the function
         echo ""
         
 # this imports demo.sql to the database defined by the user
-        mysql --user=$db_user --password=$db_password $db_name < Automation/other_files/demo.sql 
-        cd Automation/
+        mysql --user=$db_user --password=$db_password $db_name < ofau/other_files/demo.sql 
+        cd ofau/
 
 # this creates a new superuser
         #python manage.py createsuperuser
@@ -214,8 +214,8 @@ run()  # the function
         echo "Now you get a new(blank) database"
         echo "Enjoy your experience"
         echo ""
-	mysql --user=$db_user --password=$db_password $db_name < Automation/other_files/new.sql
-        cd Automation/
+	mysql --user=$db_user --password=$db_password $db_name < ofau/other_files/new.sql
+        cd ofau/
         #python manage.py syncdb                   #creates a blnk database for use, using django commands
 
 # scelect count(*) , counts the number of enteries in the table
@@ -339,18 +339,18 @@ main()   #this is the first function, and installs secondary requirements
  cd /home/$NAME/
 
  echo "now we test if there is any folder named Automation that exists in home directory"
- if (test -d Automation)              #check if the same folder exits 
+ if (test -d ofau)              #check if the same folder exits 
     then
 
 ######################################################################
 #
-# this part makes sure that if there is any existing Automation folder 
-# in home directory then it renames it with Automation.date.time
+# this part makes sure that if there is any existing ofau folder 
+# in home directory then it renames it with ofau.date.time
 #
 #######################################################################
  
       mDate=$(date +%Y%m%d%H:%M:%S)     #this stores date in variable mDate
-      for mFName in $PWD/Automation
+      for mFName in $PWD/ofau
          do
             mPref=${mFName%.log}
             echo $mPref | egrep -q "\.[0-9]{10}:[0-9]{2}:[0-9]{2}"

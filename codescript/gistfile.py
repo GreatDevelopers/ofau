@@ -1,5 +1,5 @@
 import MySQLdb as mdb
-#from Automation.tcc.functions import *
+from ofau.tcc.functions import *
 import difflib
 import itertools
 

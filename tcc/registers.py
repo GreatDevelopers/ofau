@@ -5,7 +5,7 @@ This file is used to create the views for registers of the software.
 It is the interface between the user interface, urls and database.
 """
 
-from Automation.tcc.header import *
+from ofau.tcc.header import *
 
 def  monthly_report(request):
 	"""
@@ -669,13 +669,13 @@ def  gov_pri_report(request):
 			filter(date__month=month).filter(report_type =
 			'GENERAL REPORT').aggregate(Sum('tds'))
 			tds= tds_temp['tds__sum']
-			return render_to_response('Automation/gov_pri_report.html', 
+			return render_to_response('ofau/gov_pri_report.html', 
 			dict(template.items() + tmp.items()), context_instance=
 			RequestContext(request))
 	else:
 		form = MonthlyReport()
 	template =  {'form': form}
-	return render_to_response('Automation/client.html',
+	return render_to_response('ofau/client.html',
 	dict(template.items() + tmp.items()), context_instance=
 	RequestContext(request))
 

@@ -1,7 +1,7 @@
-from Automation.contact.forms import *
+from ofau.contact.forms import *
 from django.conf.urls.defaults import *
 
-urlpatterns = patterns("Automation.contact.views",
+urlpatterns = patterns("ofau.contact.views",
     (r"^contact(\d+)/$", "contact"),
 )
 

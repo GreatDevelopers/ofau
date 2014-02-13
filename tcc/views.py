@@ -5,7 +5,7 @@ This file is used to create the views for the software.
 It is the interface between the user interface, urls and database.
 """
 
-from Automation.tcc.header import *
+from ofau.tcc.header import *
 from datetime import datetime
 import itertools
 
@@ -557,9 +557,9 @@ def add_job(request):
 				profile1.save()
 				form2.save_m2m()
 				if profile.report_type == "2":
-					return HttpResponseRedirect(reverse('Automation.tcc.views.add_suspence'))
+					return HttpResponseRedirect(reverse('ofau.tcc.views.add_suspence'))
 				else :
-					return HttpResponseRedirect(reverse('Automation.tcc.views.gen_report'))
+					return HttpResponseRedirect(reverse('ofau.tcc.views.gen_report'))
 		else:	
 			form1 = JobForm()
 			form2 = ClientJobForm()
@@ -600,7 +600,7 @@ def add_job(request):
 				profile1.test = sel_test
 				profile1.save()
 				form2.save_m2m()
-				return HttpResponseRedirect(reverse('Automation.tcc.views.add_suspence'))
+				return HttpResponseRedirect(reverse('ofau.tcc.views.add_suspence'))
 		else:	
 			form1 = JobForm()
 			form2 = SuspenceJobForm()
@@ -669,7 +669,7 @@ def add_job_other_test(request):
 				profile2.job = client
 				profile2.save()
 				form3.save_m2m()
-				return HttpResponseRedirect(reverse('Automation.tcc.views.gen_report_other'))
+				return HttpResponseRedirect(reverse('ofau.tcc.views.gen_report_other'))
 		else:	
 			form1 = JobForm()
 			form2 = ClientJobForm()
@@ -728,7 +728,7 @@ def add_job_other_test(request):
 				profile2.rate = rate
 				profile2.save()
 				form3.save_m2m()
-				return HttpResponseRedirect(reverse('Automation.tcc.views.gen_report_other'))
+				return HttpResponseRedirect(reverse('ofau.tcc.views.gen_report_other'))
 		else:	
 			form1 = JobForm()
 			form2 = SuspenceJobForm()
@@ -788,7 +788,7 @@ def add_suspence(request):
 	m.save()
 	amt = Amount(job = job ,unit_price=price,report_type = report_type,)
 	amt.save()
-	return HttpResponseRedirect(reverse('Automation.tcc.views.job_submit'))
+	return HttpResponseRedirect(reverse('ofau.tcc.views.job_submit'))
 
 @stop_caching
 def gen_report(request):
@@ -816,7 +816,7 @@ def gen_report(request):
 	p.save()
 	if client.pay == "cash" and client.tds == 0:
 		report_type = "General_report"
-		from Automation.tcc.variable import *
+		from ofau.tcc.variable import *
 		type =clients.material.distribution.name
 		college_income = round(collegeincome * unit_price / 100.00)
 		admin_charge = round(admincharge * unit_price / 100.00)
@@ -837,7 +837,7 @@ def gen_report(request):
 		amt = Amount(job = client ,unit_price=unit_price,report_type 
 		= report_type,)
 		amt.save()
-	return HttpResponseRedirect(reverse('Automation.tcc.views.job_submit'))
+	return HttpResponseRedirect(reverse('ofau.tcc.views.job_submit'))
 
 @stop_caching	
 def gen_report_other(request):
@@ -861,7 +861,7 @@ def gen_report_other(request):
 	unit_price = testmax_id.unit_price
 	if client.pay == "CASH" and client.tds == 0:
 		report_type = "General_report"
-		from Automation.tcc.variable import *
+		from ofau.tcc.variable import *
 		type =clients.material.distribution.name
 		college_income = round(collegeincome * unit_price / 100.00)
 		admin_charge = round(admincharge * unit_price / 100.00)
@@ -882,7 +882,7 @@ def gen_report_other(request):
 		amt = Amount(job = client ,unit_price=unit_price,report_type 
 		= report_type,)
 		amt.save()
-	return HttpResponseRedirect(reverse('Automation.tcc.views.job_submit'))
+	return HttpResponseRedirect(reverse('ofau.tcc.views.job_submit'))
 
 @stop_caching
 def job_submit(request):
@@ -932,7 +932,7 @@ def job_ok(request):
 	value =Job.objects.values_list('testtotal__unit_price',flat=True)\
 	.filter(job_no=maxid)
 	price = sum(value)
-	from Automation.tcc.variable import *
+	from ofau.tcc.variable import *
 	try:
 		trans_value = Job.objects.values_list('suspence__rate',flat=\
 		True).filter(job_no=maxid)
@@ -1065,14 +1065,14 @@ def bill(request):
 	'client__client__last_name','client__client__address', 
 	'client__client__city', 'client__client__company',
 	'client__client__state','site',).distinct()
-	from Automation.tcc.variable import *
+	from ofau.tcc.variable import *
 	bill = Bill.objects.get(job_no=job_no)
 	matcomment= MatComment.objects.all()
 	servicetaxprint = servicetaxprint
 	educationtaxprint = educationtaxprint
 	highereducationtaxprint = highereducationtaxprint
 	net_total1 = bill.net_total
-	from Automation.tcc.convert_function import *
+	from ofau.tcc.convert_function import *
 	net_total_eng = num2eng(net_total1)
 	template = {'job_no': job_no ,'net_total_eng':net_total_eng,
 	'servicetaxprint':servicetaxprint,'highereducationtaxprint':
@@ -1119,14 +1119,14 @@ def suspence_bill(request):
 	'client__client__last_name','client__client__address', 
 	'client__client__city', 'client__client__company',
 	'client__client__state','site',).distinct()
-	from Automation.tcc.variable import *
+	from ofau.tcc.variable import *
 	bill = Bill.objects.get(job_no=job_no)
 	matcomment= MatComment.objects.all()
 	servicetaxprint = servicetaxprint
 	educationtaxprint = educationtaxprint
 	highereducationtaxprint = highereducationtaxprint
 	net_total1 = bill.net_total
-	from Automation.tcc.convert_function import *
+	from ofau.tcc.convert_function import *
 	net_total_eng = num2eng(net_total1)
 	template = {'job_no': job_no ,'net_total_eng':net_total_eng,
 	'servicetaxprint':servicetaxprint,'highereducationtaxprint':
@@ -1188,7 +1188,7 @@ def additional(request):
 	all the taxes information.
 	"""
 	
-	from Automation.tcc.variable import *
+	from ofau.tcc.variable import *
 	try :
 		job =Job.objects.get(id=request.GET['id'])
 	except Exception :
@@ -1231,12 +1231,12 @@ def s_report(request):
 	'client__client__last_name','client__client__address', 
 	'client__client__city', 'client__client__state','site','letter_no',
 	'letter_date','client__client__company').distinct()
-	from Automation.tcc.variable import *
+	from ofau.tcc.variable import *
 	bill = Bill.objects.get(job_no=job_no)
 	bal = Job.objects.values_list('tds',flat=True).filter(job_no=job_no)
 	tdstotal = sum(bal)
 	net_total1 = bill.balance
-	from Automation.tcc.convert_function import *
+	from ofau.tcc.convert_function import *
 	net_total_eng = num2eng(net_total1)
 	template = {'job_no': job_no ,'servicetaxprint' : servicetaxprint,
 	'net_total_eng':net_total_eng,'highereducationtaxprint' : 
@@ -1272,7 +1272,7 @@ def rep(request):
 	all the distributions with there amount like college incomee, 
 	admincharge, etc.
 	"""
-	from Automation.tcc.variable import *
+	from ofau.tcc.variable import *
 	query =request.GET.get('id')
 	client = TestTotal.objects.all().get(job_id =query)
 	amount = Amount.objects.all().get(job_id =query)
@@ -1302,7 +1302,7 @@ def rep(request):
 	ratio1 = ratio1(con_type)
 	ratio2 = ratio2(con_type)
 	net_total = amount.unit_price
-	from Automation.tcc.convert_function import *
+	from ofau.tcc.convert_function import *
 	net_total_eng = num2eng(net_total)
 	template = {'net_total_eng' : net_total_eng,'servicetaxprint':
 	servicetaxprint,'highereducationtaxprint':highereducationtaxprint,
@@ -1418,7 +1418,7 @@ def ta_da(request):
 			profile.job = jobid
 			profile.save()
 			return HttpResponseRedirect(reverse(\
-			'Automation.tcc.views.tada_view'))
+			'ofau.tcc.views.tada_view'))
 	else:
 		form = TadaForm()
 	temp = {'form': form,'query':query,'sus':sus}
@@ -1743,7 +1743,7 @@ def suspence_clearence_report(request):
 	amounts3) | Q(code=amounts4) | Q(code=amounts5) | Q(code=amounts6) 
 	| Q(code=amounts7)| Q(code=amounts8)| Q(code=amounts9) | Q(code=
 	amounts10)).order_by('id')
-	from Automation.tcc.variable import *
+	from ofau.tcc.variable import *
 	balance = amount.unit_price
 	college_income = round(collegeincome * balance / 100.00)
 	admin_charge = round(admincharge * balance / 100.00)
@@ -1856,7 +1856,7 @@ def suspence_clearence_report_transport(request):
 			tada =[]
 			balance= testtotal.unit_price - (tempr + suspence.boring_charge_internal)
 			tada_sum =0
-		from Automation.tcc.variable import *
+		from ofau.tcc.variable import *
 		work_charge = round(workcharge * balance / 100.00)
 		college_income = round(collegeincome * balance / 100.00)
 		admin_charge = round(admincharge * balance / 100.00)
@@ -1896,7 +1896,7 @@ def suspence_clearence_report_transport(request):
 			tada =[]
 			balance= tried - (tempr + suspence.boring_charge_internal)
 			tada_sum = 0
-		from Automation.tcc.variable import *
+		from ofau.tcc.variable import *
 		work_charge = round(workcharge * balance / 100.00)
 		college_income = round(collegeincome * balance / 100.00)
 		admin_charge = round(admincharge * balance / 100.00)

@@ -6,11 +6,11 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Example:
-    (r'^$', 'Automation.tcc.views.index1'),
+    (r'^$', 'ofau.tcc.views.index1'),
     (r'^hello', TemplateView,
                     { 'template': 'job_ok.html' }, ),
-    (r'^tcc/', include('Automation.tcc.urls')),
-    (r'^report/', include('Automation.report.urls')),
+    (r'^tcc/', include('ofau.tcc.urls')),
+    (r'^report/', include('ofau.report.urls')),
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
     

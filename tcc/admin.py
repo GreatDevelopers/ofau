@@ -8,7 +8,7 @@ make the data entry easy as one need to do it through MySQL server.
 
 #::::::::::::::IMPORT THE HEADER FILE HERE::::::::::::::::::::::::::::::#
 from django.contrib import admin
-from Automation.tcc.models import *
+from ofau.tcc.models import *
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 
 #:::::::::::::::DEFINE THE ADMIN CLASSES HERE:::::::::::::::::::::::::::#

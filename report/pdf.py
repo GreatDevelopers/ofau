@@ -11,7 +11,7 @@ from django.template.loader import get_template, render_to_string
 from django.template import Context
 from django.http import HttpResponseRedirect
 from cgi import escape
-#from Automation.report.views import *
+#from ofau.report.views import *
 import logging
 """
 For Reportlab

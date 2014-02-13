@@ -1762,8 +1762,6 @@ CREATE TABLE IF NOT EXISTS `tcc_department` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `organisation_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `middle_name` varchar(50) NOT NULL,
-  `last_name` varchar(100) NOT NULL,
   `address` varchar(150) NOT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `dean` varchar(50) DEFAULT NULL,
@@ -1781,13 +1779,13 @@ CREATE TABLE IF NOT EXISTS `tcc_department` (
 --
 
 INSERT INTO `tcc_department` (`id`, `organisation_id`, `name`, `middle_name`, `last_name`, `address`, `phone`, `dean`, `faxno`, `email_1`, `email_2`, `url`, `about`) VALUES
-(1, 1, 'Testing ', '&', 'Consultancy Cell', 'Gill Road, Gill Park, GNDEC Ludhiana', '0161-2491193, 506450', 'Dr. Hardeep Singh Rai', 1615064742, '', '', '', ''),
-(2, 1, 'Civil Engineering', '', '', 'Gill Park, Gill Road, Ludhiana', '82347582', 'Dr. J.N. Jha', NULL, '', '', '', ''),
-(5, 1, 'Mechanical Engineering', '', '', 'GNDEC,  Ludhiana', '', '', NULL, '', '', '', ''),
-(6, 1, 'Computer Science Engineering & Information Technol', '', '', 'GNDEC,  Ludhiana', '', '', NULL, '', '', '', ''),
-(7, 1, 'Electrical Engineering', '', '', 'GNDEC,  Ludhiana', '', '', NULL, '', '', '', ''),
-(8, 1, 'Applied Sciences', '', '', 'GNDEC,  Ludhiana', '', '', NULL, '', '', '', ''),
-(9, 1, 'MBA', '', '', 'GNDEC,  Ludhiana', '', '', NULL, '', '', '', '');
+(1, 1, 'Testing Consultancy Cell', 'Gill Road, Gill Park, GNDEC Ludhiana', '0161-2491193, 506450', 'Dr. Hardeep Singh Rai', 1615064742, '', '', '', ''),
+(2, 1, 'Civil Engineering','Gill Park, Gill Road, Ludhiana', '82347582', 'Dr. J.N. Jha', NULL, '', '', '', ''),
+(5, 1, 'Mechanical Engineering', 'GNDEC,  Ludhiana', '', '', NULL, '', '', '', ''),
+(6, 1, 'Computer Science Engineering & Information Technol', 'GNDEC,  Ludhiana', '', '', NULL, '', '', '', ''),
+(7, 1, 'Electrical Engineering', 'GNDEC,  Ludhiana', '', '', NULL, '', '', '', ''),
+(8, 1, 'Applied Sciences', 'GNDEC,  Ludhiana', '', '', NULL, '', '', '', ''),
+(9, 1, 'MBA', 'GNDEC,  Ludhiana', '', '', NULL, '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -2044,6 +2042,8 @@ CREATE TABLE IF NOT EXISTS `tcc_organisation` (
   `address` varchar(150) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `director` varchar(50) NOT NULL,
+  `status` varchar(5000) NOT NULL,
+  `logo_upload` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
@@ -2052,7 +2052,7 @@ CREATE TABLE IF NOT EXISTS `tcc_organisation` (
 --
 
 INSERT INTO `tcc_organisation` (`id`, `name`, `address`, `phone`, `director`) VALUES
-(1, 'Guru Nanak Dev Engineering College', 'Gill Road, Gill Park, GNDEC Ludhiana', '0161-2491193, 506450', 'Dr. M.S. Saini');
+(1, 'Guru Nanak Dev Engineering College', 'Gill Road, Gill Park, GNDEC Ludhiana', '0161-2491193, 506450', 'Dr. M.S. Saini', 'autonomous', 'something.jpg');
 
 -- --------------------------------------------------------
 
@@ -2753,5 +2753,3 @@ ALTER TABLE `tcc_userprofile`
   ADD CONSTRAINT `user_id_refs_id_3f595074` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

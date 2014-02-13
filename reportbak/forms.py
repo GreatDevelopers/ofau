@@ -1,7 +1,7 @@
 """
 All the forms of report are described here.
 """
-from Automation.report.models import * # Change as necessary
+from ofua.report.models import * # Change as necessary
 from django.forms import ModelForm
 
 #################################

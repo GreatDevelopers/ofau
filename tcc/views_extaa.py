@@ -4,7 +4,7 @@ This file is used to create the views for the software.
 In order to avoid the confusion with generating the temperory jobs and then making them permanents, a different views file is created.
 """
 
-from Automation.tcc.header import *
+from ofau.tcc.header import *
 
 def perf_distance(request):
 	"""
@@ -125,7 +125,7 @@ def add_perf(request):
 				profile1.job = client
 				profile1.save()
 				form2.save_m2m()
-				return HttpResponseRedirect(reverse('Automation.tcc.views_ext.gen_report_perf'))
+				return HttpResponseRedirect(reverse('ofau.tcc.views_ext.gen_report_perf'))
 		else:	
 			form1 = editJobForm()
 			form2 = editClientJobForm()
@@ -163,7 +163,7 @@ def add_perf(request):
 				profile1.test = sel_test
 				profile1.save()
 				form2.save_m2m()
-				return HttpResponseRedirect(reverse('Automation.tcc.views_ext.add_suspence_perf'))
+				return HttpResponseRedirect(reverse('ofau.tcc.views_ext.add_suspence_perf'))
 		else:	
 			form1 = editJobForm()
 			form2 = editSuspenceJobForm()
@@ -225,7 +225,7 @@ def add_perf_other_test(request):
 				profile2.job = client
 				profile2.save()
 				form3.save_m2m()
-				return HttpResponseRedirect(reverse('Automation.tcc.views_ext.job_submit_perf'))
+				return HttpResponseRedirect(reverse('ofau.tcc.views_ext.job_submit_perf'))
 		else:	
 			form1 = editJobForm()
 			form2 = editClientJobForm()
@@ -284,7 +284,7 @@ def add_perf_other_test(request):
 				profile2.rate = rate
 				profile2.save()
 				form3.save_m2m()
-				return HttpResponseRedirect(reverse('Automation.tcc.views_ext.job_submit_perf'))
+				return HttpResponseRedirect(reverse('ofau.tcc.views_ext.job_submit_perf'))
 		else:	
 			form1 = editJobForm()
 			form2 = editSuspenceJobForm()
@@ -311,7 +311,7 @@ def gen_report_perf(request):
 	unit_price = price*int(client.sample)
 	p = TestTotalPerf(unit_price=unit_price, job=client,rate=0)
 	p.save()
-	return HttpResponseRedirect(reverse('Automation.tcc.views_ext.job_submit_perf'))
+	return HttpResponseRedirect(reverse('ofau.tcc.views_ext.job_submit_perf'))
 	
 
 def add_suspence_perf(request):
@@ -358,7 +358,7 @@ def add_suspence_perf(request):
 		rate = 10*distance
 	p = TestTotalPerf(unit_price=price, job=job,rate=rate)
 	p.save()
-	return HttpResponseRedirect(reverse('Automation.tcc.views_ext.job_submit_perf'))
+	return HttpResponseRedirect(reverse('ofau.tcc.views_ext.job_submit_perf'))
 
 def job_submit_perf(request):
 	"""
@@ -393,7 +393,7 @@ def job_ok_perf(request):
 	value = EditJob.objects.values_list('testtotalperf__unit_price',flat=True).\
 	filter(job_no=maxid)
 	price = sum(value)
-	from Automation.tcc.variable import *
+	from ofau.tcc.variable import *
 	try:
 		trans_value = EditJob.objects.values_list('testtotalperf__rate',flat=True).\
 		filter(job_no=maxid)
@@ -434,18 +434,18 @@ def job_ok_perf(request):
 		trans_net_total=trans_net_total,)
 	m.save()
 	
-	return HttpResponseRedirect(reverse('Automation.tcc.views_ext.get_document_perf'))
+	return HttpResponseRedirect(reverse('ofau.tcc.views_ext.get_document_perf'))
 	
 	'''value = TestTotalPerf.objects.values_list('unit_price',flat=True).filter(job_no=maxid)
 	price = sum(value)
-	from Automation.tcc.variable import *
+	from ofau.tcc.variable import *
 	service_tax= round(servicetax *  price)
 	education_tax = round(educationtax *  price)
 	higher_education_tax = round(highereducationtax *  price)
 	net_total =  price + higher_education_tax + education_tax + service_tax
 	m = BillPerf(job_no = job_no, price = price, service_tax=service_tax, higher_education_tax=higher_education_tax,education_tax=education_tax,net_total=net_total)
 	m.save()
-	return HttpResponseRedirect(reverse('Automation.tcc.views_ext.get_document_perf'))'''
+	return HttpResponseRedirect(reverse('ofau.tcc.views_ext.get_document_perf'))'''
 	
 def get_document_perf(request):
 	id = EditJob.objects.aggregate(Max('job_no'))
@@ -497,13 +497,13 @@ def billperf(request):
 	'client__client__middle_name', 'client__client__last_name',
 	'client__client__address', 'client__client__city', 
 	'client__client__state','site','letter_no','letter_date','date','note').distinct()
-	from Automation.tcc.variable import *
+	from ofau.tcc.variable import *
 	bill = BillPerf.objects.get(job_no=job_no)
 	servicetaxprint = servicetaxprint
 	educationtaxprint = educationtaxprint
 	highereducationtaxprint = highereducationtaxprint
 	net_total1 = bill.net_total
-	from Automation.tcc.convert_function import *
+	from ofau.tcc.convert_function import *
 	net_total_eng = num2eng(net_total1)
 	template = {'job_no': job_no ,'net_total_eng':net_total_eng,'servicetaxprint'
 	:servicetaxprint,'highereducationtaxprint':highereducationtaxprint,
@@ -587,7 +587,7 @@ def edit_work(request):
 				prof1 = tform.save(commit=False)
 				prof1.job = getj
 				prof1.save()
-				return HttpResponseRedirect(reverse('Automation.tcc.views_ext.gen_report'))
+				return HttpResponseRedirect(reverse('ofau.tcc.views_ext.gen_report'))
 		else:	
 			jform = JobForm(instance=job)
 			sform = ClientjobForm(instance=clientjob)
@@ -627,7 +627,7 @@ def edit_work(request):
 				prof1 = tform.save(commit=False)
 				prof1.job = getj
 				prof1.save()
-				return HttpResponseRedirect(reverse('Automation.tcc.views_ext.add_suspence'))
+				return HttpResponseRedirect(reverse('ofau.tcc.views_ext.add_suspence'))
 		else:	
 			jform = JobForm(instance=job)
 			sform = SuspenceJobForm(instance=suspencejob)
@@ -654,7 +654,7 @@ def gen_report(request):
 	unit_price=testotal.unit_price
 	if client.pay == "cash" and client.tds == 0:
 		report_type = "General_report"
-		from Automation.tcc.variable import *
+		from ofau.tcc.variable import *
 		type =clients.material.distribution.name
 		college_income = round(collegeincome * unit_price / 100.00)
 		admin_charge = round(admincharge * unit_price / 100.00)
@@ -675,7 +675,7 @@ def gen_report(request):
 		amt = Amount(job = client ,unit_price=unit_price,report_type 
 		= report_type,)
 		amt.save()
-	return HttpResponseRedirect(reverse('Automation.tcc.views.job_submit'))
+	return HttpResponseRedirect(reverse('ofau.tcc.views.job_submit'))
 		
 def add_suspence(request):
 	"""
@@ -705,4 +705,4 @@ def add_suspence(request):
 	m.save()
 	amt = Amount(job = job ,unit_price=price,report_type = report_type,)
 	amt.save()
-	return HttpResponseRedirect(reverse('Automation.tcc.views.job_submit'))
+	return HttpResponseRedirect(reverse('ofau.tcc.views.job_submit'))

@@ -1,5 +1,5 @@
 """
-Models for the TCC-Automation is described in this file
+Models for the TCC-ofau is described in this file
 """
 from django.db import models
 from django.forms import ModelForm, TextInput, ModelChoiceField
@@ -9,10 +9,10 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.db.models import Max ,Q, Sum
 from django.forms.fields import DateField, ChoiceField, MultipleChoiceField
-from Automation.tcc.models import *
+from ofau.tcc.models import *
 from django.forms.models import BaseModelFormSet  #for defining formset in models
 #from report.tests import SeparatedValuesField 	  #for storing array in the models
-from Automation.report.choices import *
+from ofau.report.choices import *
 import ast
 
 """
@@ -523,8 +523,8 @@ class Cement_PPC(models.Model):
 	Fineness = models.CharField(max_length=100,blank=True)
 	Unaerated_Cement_Le = models.CharField(max_length=100,blank=True) 	#for Le-chat expansion(MM)
 	After_7_Days_Areation_Le = models.CharField(max_length=100,blank=True)
-#	Unaerated_Cement_Automation = models.CharField(max_length=100,blank=True)	#for Automation Clave expansion(%)
-#	After_7_Days_Areation_Automation = models.CharField(max_length=100,blank=True)	
+#	Unaerated_Cement_ofau = models.CharField(max_length=100,blank=True)	#for ofau Clave expansion(%)
+#	After_7_Days_Areation_ofau = models.CharField(max_length=100,blank=True)	
 	Consistency = models.CharField(max_length=100,blank=True)	
 	Hours_72 = models.CharField(max_length=100,blank=True) 			#Compressive Strength(MPa)	
 	Hours_168 = models.CharField(max_length=100,blank=True)	
@@ -544,8 +544,8 @@ class Cement_OPC_33(models.Model):
 	Fineness = models.CharField(max_length=100,blank=True)
 	Unaerated_Cement_Le = models.CharField(max_length=100,blank=True) 	#for Le-chat expansion(MM)
 	After_7_Days_Areation_Le = models.CharField(max_length=100,blank=True)
-#	Unaerated_Cement_Automation = models.CharField(max_length=100,blank=True)	#for Automation Clave expansion(%)
-#	After_7_Days_Areation_Automation = models.CharField(max_length=100,blank=True)	
+#	Unaerated_Cement_ofau = models.CharField(max_length=100,blank=True)	#for ofau Clave expansion(%)
+#	After_7_Days_Areation_ofau = models.CharField(max_length=100,blank=True)	
 	Consistency = models.CharField(max_length=100,blank=True)	
 	Hours_72 = models.CharField(max_length=100,blank=True) 			#Compressive Strength(MPa)	
 	Hours_168 = models.CharField(max_length=100,blank=True)	
@@ -566,8 +566,8 @@ class Cement_OPC_43(models.Model):
 	Fineness = models.CharField(max_length=100,blank=True)
 	Unaerated_Cement_Le = models.CharField(max_length=100,blank=True) 	#for Le-chat expansion(MM)
 	After_7_Days_Areation_Le = models.CharField(max_length=100,blank=True)
-#	Unaerated_Cement_Automation = models.CharField(max_length=100,blank=True)	#for Automation Clave expansion(%)
-#	After_7_Days_Areation_Automation = models.CharField(max_length=100,blank=True)	
+#	Unaerated_Cement_ofau = models.CharField(max_length=100,blank=True)	#for ofau Clave expansion(%)
+#	After_7_Days_Areation_ofau = models.CharField(max_length=100,blank=True)	
 	Consistency = models.CharField(max_length=100,blank=True)	
 	Hours_72 = models.CharField(max_length=100,blank=True) 			#Compressive Strength(MPa)	
 	Hours_168 = models.CharField(max_length=100,blank=True)	
@@ -588,8 +588,8 @@ class Cement_OPC_53(models.Model):
 	Fineness = models.CharField(max_length=100,blank=True)
 	Unaerated_Cement_Le = models.CharField(max_length=100,blank=True) 	#for Le-chat expansion(MM)
 	After_7_Days_Areation_Le = models.CharField(max_length=100,blank=True)
-#	Unaerated_Cement_Automation = models.CharField(max_length=100,blank=True)	#for Automation Clave expansion(%)
-#	After_7_Days_Areation_Automation = models.CharField(max_length=100,blank=True)	
+#	Unaerated_Cement_ofau = models.CharField(max_length=100,blank=True)	#for ofau Clave expansion(%)
+#	After_7_Days_Areation_ofau = models.CharField(max_length=100,blank=True)	
 	Consistency = models.CharField(max_length=100,blank=True)	
 	Hours_72 = models.CharField(max_length=100,blank=True) 			#Compressive Strength(MPa)	
 	Hours_168 = models.CharField(max_length=100,blank=True)	

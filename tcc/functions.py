@@ -3,7 +3,7 @@
 
 This file is defines some important functions that are then called views.py file.  
 """
-from Automation.tcc.header import *
+from ofau.tcc.header import *
 import re
 
 from django.db.models import Q
@@ -25,7 +25,7 @@ def retrieve():
 	Retrieve function is used to retrieve the data defined in variable.py file
 	"""
 
-	from Automation.tcc.variable import *
+	from ofau.tcc.variable import *
 	collegeincome = collegeincome
 	admincharge = admincharge
 	servicetaxprint = servicetaxprint

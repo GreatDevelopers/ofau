@@ -16,7 +16,7 @@ import datetime
 from django.forms.fields import DateField, ChoiceField, MultipleChoiceField
 from tagging.fields import TagField
 from tagging.models import Tag
-from Automation.tcc.choices import *
+from ofau.tcc.choices import *
 #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 
 #::::::::::::::::::::::DEFINE THE MODELS HERE::::::::::::::::::::::::#

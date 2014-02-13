@@ -5,7 +5,7 @@ This file contain the defination of the forms of Automation Software
 """
 
 from django import forms
-from Automation.tcc.models import *
+from ofau.tcc.models import *
 
 class SuspenceClearence(forms.Form):
 	"""

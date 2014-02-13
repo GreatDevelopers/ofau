@@ -13,11 +13,11 @@ from django.shortcuts import render
 from django.db.models import F
 from django import template
 from tagging.models import Tag, TaggedItem
-from Automation.tcc.choices import *
-from Automation.tcc.models import *
-from Automation.tcc.functions import *
-from Automation.tcc.forms import *
-from Automation.tcc.convert_function import *
+from ofau.tcc.choices import *
+from ofau.tcc.models import *
+from ofau.tcc.functions import *
+from ofau.tcc.forms import *
+from ofau.tcc.convert_function import *
 from django.core.mail import send_mail          
 #:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 

@@ -5,9 +5,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
-from Automation.report.models import *
-from Automation.report.forms import *
-from Automation.report.views import *
+from ofau.report.models import *
+from ofau.report.forms import *
+from ofau.report.views import *
 from django.core.context_processors import csrf
 
 """
@@ -24,47 +24,47 @@ def search_report(request):
 
 			if Test_Report == "SOIL OHSR":
 				Report_id = Soil_Ohsr.objects.get(Report_id = Report_id)
-				return HttpResponseRedirect(reverse('Automation.report.views.result_Soil_ohsr'))
+				return HttpResponseRedirect(reverse('ofau.report.views.result_Soil_ohsr'))
 
 			if Test_Report == "SOIL BUILDING":
 				Report_id = Soil_Building.objects.get(Report_id = Report_id)
-				return HttpResponseRedirect(reverse('Automation.report.views.result_soil_building'))
+				return HttpResponseRedirect(reverse('ofau.report.views.result_soil_building'))
 
 			if Test_Report == "ADMIXTURE":
 				Report_id = Admixture.objects.get(Report_id = Report_id)
-				return HttpResponseRedirect(reverse('Automation.report.views.result_Admixture'))
+				return HttpResponseRedirect(reverse('ofau.report.views.result_Admixture'))
 
 			if Test_Report == "CUBE":
 				Report_id = Cube.objects.get(Report_id = Report_id)
-				return HttpResponseRedirect(reverse('Automation.report.views.result_cube'))
+				return HttpResponseRedirect(reverse('ofau.report.views.result_cube'))
 
 			if Test_Report == "WATER":
 				Report_id = Water.objects.get(Report_id = Report_id)
-				return HttpResponseRedirect(reverse('Automation.report.views.result_water'))
+				return HttpResponseRedirect(reverse('ofau.report.views.result_water'))
 
 			if Test_Report == "BRICK":
 				Report_id = Brick.objects.get(Report_id = Report_id)
-				return HttpResponseRedirect(reverse('Automation.report.views.result_brick'))
+				return HttpResponseRedirect(reverse('ofau.report.views.result_brick'))
 
 			if Test_Report == "CHEMICAL ANALYSIS":
 				Report_id = Chem_analysis.objects.get(Report_id = Report_id)
-				return HttpResponseRedirect(reverse('Automation.report.views.result_chem'))
+				return HttpResponseRedirect(reverse('ofau.report.views.result_chem'))
 
 			if Test_Report == "CEMENT PPC":
 				Report_id = Cement_PPC.objects.get(Report_id = Report_id)
-				return HttpResponseRedirect(reverse('Automation.report.views.result_Cement_PPC'))
+				return HttpResponseRedirect(reverse('ofau.report.views.result_Cement_PPC'))
 
 			if Test_Report == "OPC 33 GRADE":
 				Report_id = Cement_OPC_33.objects.get(Report_id = Report_id)
-				return HttpResponseRedirect(reverse('Automation.report.views.result_Cement_OPC_33'))
+				return HttpResponseRedirect(reverse('ofau.report.views.result_Cement_OPC_33'))
 
 			if Test_Report == "OPC 43 GRADE":
 				Report_id = Cement_OPC_43.objects.get(Report_id = Report_id)
-				return HttpResponseRedirect(reverse('Automation.report.views.result_Cement_OPC_43'))
+				return HttpResponseRedirect(reverse('ofau.report.views.result_Cement_OPC_43'))
 
 			if Test_Report == "OPC 53 GRADE":
 				Report_id = Cement_OPC_53.objects.get(Report_id = Report_id)
-				return HttpResponseRedirect(reverse('Automation.report.views.result_Cement_OPC_53'))
+				return HttpResponseRedirect(reverse('ofau.report.views.result_Cement_OPC_53'))
 
 			else:
 		        	return HttpResponse("The Report no. or Test Report did not match, Please enter the correct Report no.")
@@ -121,7 +121,7 @@ def report_gen(request):
 	
 	if material == "Cube":
 		Report_id = Cube.objects.get(report = Report_id)
-		return HttpResponseRedirect(reverse('Automation.report.views.result_cube'))
+		return HttpResponseRedirect(reverse('ofau.report.views.result_cube'))
 	else:
 			
 		return HttpResponse("gal halle bani ni")
@@ -137,7 +137,7 @@ def report_gen(request):
 
 	if mate == 1:
 		Report_id = Brick.objects.get(Report_id = report)	
-		return HttpResponseRedirect(reverse('Automation.report.views.result_cube'))
+		return HttpResponseRedirect(reverse('ofau.report.views.result_cube'))
 	else:
 	
 		return HttpResponse("gal halle bani ni")

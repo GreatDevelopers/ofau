@@ -1,5 +1,5 @@
 ########################################################################
-# Discription: This script checks the internet connectivity and starts #
+# Description: This script checks the internet connectivity and starts #
 #               the installation.   		                           #
 #                                                                      # 
 #                                                                      #
@@ -9,9 +9,9 @@
 #      License  :  GNU General Public License                          #
 #      Copyright:  Copyright (c) 2013, Great Developers                #
 #                                                                      #
-#      created : 11-July-2013                                          #
-#      last update : 12-July-2013                                      #
-#      VERSION=1.5.2                                                   #
+#      created 		: 11-July-2013                                          #
+#      last update 	: 12-July-2013                                      #
+#      VERSION      : 1.5.2                                                   #
 #                                                                      #
 ########################################################################
 
@@ -57,8 +57,8 @@ Media()	#copies media folder into (~/contrib/admin/)
 Restart() #restarts apache
 	{
 		/etc/init.d/apache2 restart
-		chmod -R 777 Automation
-		bash Automation/exim.sh               
+		chmod -R 777 ofau
+		bash ofau/exim.sh
 	}
 Backup()	#backs up important files 
 	{
@@ -158,9 +158,9 @@ Database()
 	 path=$PWD     #this passes PWD value in path
 	 echo "Successfully downloading the software at-$path"
 	 echo ""
-	 sed -i "s#mpath#"$path"#g"  Automation/other_files/hhtp_cont
-	 sed -i "s#mpath#"$path"#g"  Automation/apache/django.wsgi
-	 sed -i "s#mpath#"$path"#g"  Automation/settings.py
+	 sed -i "s#mpath#"$path"#g"  ofau/other_files/hhtp_cont
+	 sed -i "s#mpath#"$path"#g"  ofau/apache/django.wsgi
+	 sed -i "s#mpath#"$path"#g"  ofau/settings.py
 
 
 
@@ -172,8 +172,8 @@ Database()
 
 	  #this appends the text from the file to the httpd.conf
 	 etc_path=/etc/apache2
-	 cat  Automation/other_files/hhtp_cont >> $etc_path/httpd.conf
-	 cat  Automation/other_files/hhtp_cont >> $etc_path/sites-available/default
+	 cat  ofau/other_files/hhtp_cont >> $etc_path/httpd.conf
+	 cat  ofau/other_files/hhtp_cont >> $etc_path/sites-available/default
 	 a2ensite default                 
 
 
@@ -205,10 +205,10 @@ Database()
 				 "AUTOMATION WORLD:::::::::::"            		 
 	 	 # this imports demo.sql to the database defined by the user
 		 mysql --user=$db_user --password=$db_password $db_name < \
-			Automation/other_files/demo.sql
+			ofau/other_files/demo.sql
          
 	 	 # this creates a new superuser
-		 python Automation/manage.py createsuperuser
+		 python ofau/manage.py createsuperuser
  
 	 
 	 elif [ $db_yesno = n ] || [ $db_yesno = N ]; then
@@ -217,7 +217,7 @@ Database()
 		    echo "enjoy your experience"
 		   
 			#creates a blank database for use, using django commands		    
-			python Automation/manage.py syncdb
+			python ofau/manage.py syncdb
 			clear	
 			
 			echo -e "\v\v\v\v\v\t\t\t\t\t::::::::::WELCOME TO" \
@@ -231,7 +231,7 @@ Database()
 		       	echo ""
 		       	echo "you need to create a superuser"
 				#creates a superuser
-		        python Automation/manage.py createsuperuser	
+		        python ofau/manage.py createsuperuser	
 
 		    else
 		        echo ""
@@ -249,7 +249,7 @@ Database()
 	 # this Inserts into the table the input values.
 		  mysql  --user=$db_user --password=$db_password $db_name  << EOF
 		  Insert into tcc_organisation (id, name, address, phone, director)
-		  values( "$id", "$name", "$address", "$phone", '$director');    
+		  values( "$id", "$name", "$address", "$phone", '$director', "Autonomous", "Logo.jpg");    
 EOF
 
 

@@ -1,10 +1,10 @@
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from Automation.contact.forms import *
+from ofau.contact.forms import *
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
-from Automation.tcc.models import *
+from ofau.tcc.models import *
 
 def material_site():
 	material = Material.objects.all().filter(report=1)
