@@ -248,8 +248,8 @@ Database()
 
 	 # this Inserts into the table the input values.
 		  mysql  --user=$db_user --password=$db_password $db_name  << EOF
-		  Insert into tcc_organisation (id, name, address, phone, director)
-		  values( "$id", "$name", "$address", "$phone", '$director', "Autonomous", "Logo.jpg");    
+		  Insert into tcc_organisation (name, address, phone, director, status, logo_upload)
+		  values("$name", "$address", "$phone", "$director", "Autonomous", "Logo.jpg");    
 EOF
 
 
@@ -265,9 +265,9 @@ EOF
 
 		  # this inserts values into database
 		  mysql  --user=$db_user --password=$db_password $db_name << EOF
-		  Insert into tcc_department (id, organisation_id, name, address, 
-		  phone, dean, faxno) values( "$id", 1, "$name", "$address", "$phone",
-		  '$dean', "$faxno");
+		  Insert into tcc_department (organisation_id, name, address, 
+			  phone, dean, faxno) values(1, "$name", "$address", "$phone",
+		  "$dean", "$faxno");
 EOF
 	  fi
 	}
