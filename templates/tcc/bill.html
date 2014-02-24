@@ -56,6 +56,9 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 			{% endif %}
 		{% endfor %}	
 		{{material.clientjob__material__name }} :
+		{% if material.clientjob__other_test != "" %}
+			{{material.clientjob__other_test}}
+		{% endif %}
 		{% for tests in testname %}
 			{% if material.clientjob__material__id == tests.clientjob__test__material %}
 				 
@@ -73,11 +76,9 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 			{{comments.name}}
 			{% endif %}
 		{% endfor %}	
-<<<<<<< Updated upstream
-		{{material.suspencejob__field__name}} :
-=======
+
 		{{material.suspencejob__field__name}}
->>>>>>> Stashed changes
+
 		{% for tests in testname %}
 			{% if material.suspencejob__field__id == tests.suspencejob__test__material %}
 				 

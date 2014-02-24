@@ -12,10 +12,10 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'db_name',                      # Or path to database file if using sqlite3.
-        'USER': 'db_user',                      # Not used with sqlite3.
-        'PASSWORD': 'db_password',
-        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
+        'NAME': 'git_auto',                      # Or path to database file if using sqlite3.
+        'USER': 'root',                      # Not used with sqlite3.
+        'PASSWORD': 'a',
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
@@ -34,10 +34,10 @@ TIME_ZONE = 'Asia/Kolkata'
 LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
-DEFAULT_FROM_EMAIL = 'user@host.com'
-EMAIL_HOST = 'smtp.host.com'
-EMAIL_HOST_USER = 'user@host.com'
-EMAIL_HOST_PASSWORD = 'user@host.com'
+DEFAULT_FROM_EMAIL = 'email_add'
+EMAIL_HOST = 'localhost'
+EMAIL_HOST_USER = 'email_user'
+EMAIL_HOST_PASSWORD = 'email_pass'
 EMAIL_USE_TLS = True 
 EMAIL_PORT = "587"
 
@@ -54,14 +54,13 @@ USE_L10N = True
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = '/usr/local/lib/python2.7/dist-packages/django/contrib/admin/media/'
-STATIC_ROOT = 'mpath/ofau/static/'
 
 LOCAL_URL = 'http://localhost/'
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = '/media/'
-STATIC_URL = '/static/'
+MEDIA_URL = 'http://localhost/media/'
+#MEDIA_URL = 'http://localhost/media/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -114,25 +113,24 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'ofau.urls'
 
-TEMPLATE_DIRS = ("mpath/ofau/templates"
+TEMPLATE_DIRS = ("/home/sandy/Documents/githubwork/great_dev/ofau/templates"
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
 )
 
 
-INSTALLED_APPS =(
+INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-    'django.contrib.humanize',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    'django.contrib.humanize',
     'registration',
     'ofau.tcc',
-    'ofau.report',
     'tagging',
 )
 

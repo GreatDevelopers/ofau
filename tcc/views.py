@@ -859,7 +859,7 @@ def gen_report_other(request):
 	testmaxid =testmax['id__max']
 	testmax_id = TestTotal.objects.get(id =testmaxid)
 	unit_price = testmax_id.unit_price
-	if client.pay == "CASH" and client.tds == 0:
+	if client.pay == "cash" and client.tds == 0 and client.report_type == 1:
 		report_type = "General_report"
 		from ofau.tcc.variable import *
 		type =clients.material.distribution.name
@@ -1050,7 +1050,7 @@ def bill(request):
 	job_date =job.date
 	getjob = Job.objects.all().filter(job_no=job_no).values(
 	'clientjob__material__name','date','testtotal__unit_price','site',
-	'suspencejob__field__name','report_type', 
+	'suspencejob__field__name','report_type', 'clientjob__other_test',
 	'clientjob__material__matcomment_id','suspencejob__field__matcomment_id',
 	'sample','letter_no','letter_date', 'suspencejob__other',
 	'clientjob__material__id','suspencejob__field__id').distinct()

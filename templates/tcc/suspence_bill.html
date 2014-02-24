@@ -49,8 +49,10 @@ Site : {% for add in getjob %}{{ add.site}} {% endfor %}
 					{% endif %}
 				{% endfor %}
 
-				{{material.clientjob__material__name}}
-
+				{{material.clientjob__material__name}} :
+				{% if material.clientjob__other_test != "" %}
+			{{material.clientjob__other_test}}
+		{% endif %}
 				{% for tests in testname %}
 			{% if material.clientjob__material__id == tests.clientjob__test__material %}
 				 
