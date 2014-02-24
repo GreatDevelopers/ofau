@@ -4,4 +4,4 @@ other_files/httpd.conf
 other_files/default
 other_files/hhtp_cont
 settings.py
-apache
+apache/django.wsgi
