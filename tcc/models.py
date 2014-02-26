@@ -496,6 +496,7 @@ class SuspenceJob(models.Model):
 	field = models.ForeignKey(Material)
 	test = models.ForeignKey(Test,blank=True,null=True)
 	other = models.CharField(max_length=600, blank=True )
+	other_test = models.CharField(max_length=400, blank=True )
 	
 	def __unicode__(self):
           return self.id()

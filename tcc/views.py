@@ -683,7 +683,7 @@ def add_job_other_test(request):
 			form1 = JobForm(request.POST)
 			form2 = SuspenceJobForm(request.POST)
 			form3 = TestTotalForm(request.POST)
-  			if form1.is_valid and form2.is_valid():
+  			if form1.is_valid and form2.is_valid() and form3.is_valid():
 				def clean_name(self):
 					cleaned_data = self.cleaned_data
 					pay = cleaned_data.get('pay', '')
@@ -1053,7 +1053,8 @@ def bill(request):
 	'suspencejob__field__name','report_type', 'clientjob__other_test',
 	'clientjob__material__matcomment_id','suspencejob__field__matcomment_id',
 	'sample','letter_no','letter_date', 'suspencejob__other',
-	'clientjob__material__id','suspencejob__field__id').distinct()
+	'clientjob__material__id','suspencejob__field__id',
+	'suspencejob__other_test',).distinct()
 	testname = Job.objects.all().filter(job_no=job_no).values(
 	'clientjob__test__name','clientjob__test__material',
 	'suspencejob__test__material','suspencejob__test__name' ).distinct()
