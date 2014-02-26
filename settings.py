@@ -1,4 +1,4 @@
-# Django settings for TCC11_12 project.
+# Django settings for Automation project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -12,9 +12,9 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'git_auto',                      # Or path to database file if using sqlite3.
-        'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': 'a',
+        'NAME': 'db_name',                      # Or path to database file if using sqlite3.
+        'USER': 'db_user',                      # Not used with sqlite3.
+        'PASSWORD': 'db_password',
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
@@ -114,7 +114,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'ofau.urls'
 
-TEMPLATE_DIRS = ("/home/sandy/Documents/githubwork/great_dev/ofau/templates"
+TEMPLATE_DIRS = ("mpath/ofau/templates"
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
