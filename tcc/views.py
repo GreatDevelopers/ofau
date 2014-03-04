@@ -20,10 +20,10 @@ def stop_caching(decorated_function):
         return response
     return wrapper
 
-def index1(request):
+def home(request):
 	'''
-	** index1 **
-
+	** index **
+	
 	This is to have different views for different type of users. Like 
 	here we have 2 types of users :one which is active,staff and is 
 	superuser is the superuser of the software. The one who is just 
@@ -49,7 +49,7 @@ def index1(request):
 	template = {'maxid':maxid,}
 	if request.user.is_staff == 1 and request.user.is_active == 1 and \
 	request.user.is_superuser == 1:
-		return render_to_response('index1.html',dict(template.items() + 
+		return render_to_response('staff_home.html',dict(template.items() + 
 		tmp.items()),context_instance=RequestContext(request))
 	elif request.user.is_staff == 0 and request.user.is_active == 1 \
 	and request.user.is_superuser == 0 :
@@ -58,10 +58,10 @@ def index1(request):
 			client = UserProfile.objects.get(user_id = use)
 			clients = client.id
 			template ={'clients':clients,'maxid':maxid,}
-			return render_to_response('index2.html',dict(template.items() 
+			return render_to_response('non-staff_home.html',dict(template.items() 
 			+ tmp.items()), context_instance=RequestContext(request))
 		except UserProfile.DoesNotExist:
-   			return render_to_response('index2.html',dict(template.items()  
+   			return render_to_response('non-staff_home.html',dict(template.items()  
    			+ tmp.items()), context_instance=RequestContext(request))
 	else:
 		return render_to_response('index.html', tmp ,context_instance = 
