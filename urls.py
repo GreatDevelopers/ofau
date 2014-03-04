@@ -6,7 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Example:
-    (r'^$', 'ofau.tcc.views.index1'),
+    (r'^$', 'ofau.tcc.views.home'),
     (r'^hello', TemplateView,
                     { 'template': 'job_ok.html' }, ),
     (r'^tcc/', include('ofau.tcc.urls')),
