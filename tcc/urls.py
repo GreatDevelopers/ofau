@@ -14,7 +14,7 @@ from ofau.tcc.models import *
 #:::::::::::::::DEFINE THE URLS HERE::::::::::::::::::::::::::::::::::::#
 
 urlpatterns = patterns('ofau.tcc.views',
-    (r'^index/$', 'index1'),
+    (r'^index/$', 'home'),
     (r'^catalog/$', 'material'),
     (r'^previous/$', 'previous'),
     (r'^addprofile/$', 'profile'),
