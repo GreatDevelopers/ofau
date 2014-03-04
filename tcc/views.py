@@ -30,12 +30,22 @@ def index1(request):
 	active is the normal user. Depending upon there status different 
 	views are created in index1.html and index2.html respectively. 
 	'''
+	
 	id = Job.objects.aggregate(Max('job_no'))
 	maxid = id['job_no__max']
+	''' 
+	id is assigned the max value of job_no which is an attribute of relation Job.
+	id gets an array in result and max value is actually stored in id['job_no__max']  
+	'''
+	
 	if maxid == None :
 		maxid = 1
 	else:
 		maxid = maxid + 1
+	''' 
+	we want to insert job after the maximum job no that's already in database, so we
+	increment the maxid here.
+	'''
 	template = {'maxid':maxid,}
 	if request.user.is_staff == 1 and request.user.is_active == 1 and \
 	request.user.is_superuser == 1:
@@ -61,7 +71,7 @@ def index1(request):
 def edit_profile(request):
 	"""
 	** edit_profile **
-	
+i	
 	This function firstly checks whether the user has already got a
 	profile or not. If it already has, then he is offered an already
 	built profile to edit, however in other case when the profile is
