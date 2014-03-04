@@ -71,7 +71,7 @@ def home(request):
 def edit_profile(request):
 	"""
 	** edit_profile **
-i	
+	
 	This function firstly checks whether the user has already got a
 	profile or not. If it already has, then he is offered an already
 	built profile to edit, however in other case when the profile is
