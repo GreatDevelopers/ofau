@@ -52,8 +52,8 @@ def home(request):
 	request.user.is_superuser:
 		return render_to_response('staff_home.html',dict(template.items() + 
 		tmp.items()),context_instance=RequestContext(request))
-	elif !request.user.is_staff  and request.user.is_active  \
-	and !request.user.is_superuser :
+	elif not request.user.is_staff  and request.user.is_active  \
+	and not request.user.is_superuser :
 		try:
    			use = request.user
 			client = UserProfile.objects.get(user_id = use)
