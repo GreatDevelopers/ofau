@@ -22,13 +22,13 @@ def stop_caching(decorated_function):
 
 def home(request):
 	'''
-	** index **
+	** home **
 	
 	This is to have different views for different type of users. Like 
 	here we have 2 types of users :one which is active,staff and is 
 	superuser is the superuser of the software. The one who is just 
 	active is the normal user. Depending upon there status different 
-	views are created in index1.html and index2.html respectively. 
+	views are created in staff_home.html and non-staff_home.html respectively. 
 	'''
 	
 	id = Job.objects.aggregate(Max('job_no'))
@@ -46,13 +46,14 @@ def home(request):
 	we want to insert job after the maximum job no that's already in database, so we
 	increment the maxid here.
 	'''
+
 	template = {'maxid':maxid,}
-	if request.user.is_staff == 1 and request.user.is_active == 1 and \
-	request.user.is_superuser == 1:
+	if request.user.is_staff and request.user.is_active and \
+	request.user.is_superuser:
 		return render_to_response('staff_home.html',dict(template.items() + 
 		tmp.items()),context_instance=RequestContext(request))
-	elif request.user.is_staff == 0 and request.user.is_active == 1 \
-	and request.user.is_superuser == 0 :
+	elif !request.user.is_staff  and request.user.is_active  \
+	and !request.user.is_superuser :
 		try:
    			use = request.user
 			client = UserProfile.objects.get(user_id = use)
@@ -66,6 +67,11 @@ def home(request):
 	else:
 		return render_to_response('index.html', tmp ,context_instance = 
 		RequestContext(request))
+        '''
+        is_staff (can view admin interface) and is_active (is enabled)
+        index.html is the (will be) login page, so when no condition satisfy it goes to login page.
+        TODO: what if user is staff but not superuser? Is that even possible?
+        '''
 
 @login_required
 def edit_profile(request):
