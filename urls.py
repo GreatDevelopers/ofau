@@ -6,7 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Example:
-    (r'^$', 'django.contrib.auth.login',
+    (r'^$', 'django.contrib.auth.views.login',
 		    { 'template_name': 'index.html'}, ),
     (r'^hello', TemplateView,
                     { 'template': 'job_ok.html' }, ),
