@@ -6,7 +6,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Example:
-    (r'^$', 'ofau.tcc.views.home'),
+    (r'^$', 'django.contrib.auth.login',
+		    { 'template_name': 'index.html'}, ),
     (r'^hello', TemplateView,
                     { 'template': 'job_ok.html' }, ),
     (r'^tcc/', include('ofau.tcc.urls')),

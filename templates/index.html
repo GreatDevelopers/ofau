@@ -1,6 +1,31 @@
-{% extends "base_noclient.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <title>{{title.name}}</title>
+        <link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,700' rel='stylesheet' type='text/css'>
+        <link href="{{ LOCAL_URL }}/static/sass/stylesheets/screen.css" media="screen" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="wrapper" id="login-wrapper">
+<h1 class="main-title">Testing <span class="ampersand">& </span> Consultancy Cell </h1>
+
+
 {% load i18n %}
 
 {% block content %}
-{% include "home.html" %}
+<div class="general-form"  id="login-form">
+<form method="post" action=".">{% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" class="submit-button" value="{% trans 'Log in' %}" />
+  <input type="hidden" name="next" value="{{ next }}" />
+</form>
+
+<p>{% trans "Forgot password" %}? <a href="{% url 'auth_password_reset' %}">{% trans "Reset it" %}</a>!</p>
+<p>{% trans "Not member" %}? <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>!</p>
+</div>
 {% endblock %}
+</div>
+</body>
+</html>
+
