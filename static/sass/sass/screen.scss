@@ -1,0 +1,64 @@
+
+@import "compass/reset";
+
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 300;
+  src:  url(http://themes.googleusercontent.com/static/fonts/ubuntu/v5/_aijTyevf54tkVDLy-dlnD8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  src: url(http://themes.googleusercontent.com/static/fonts/ubuntu/v5/_xyN3apAT_yRRDeqB3sPRg.woff) format('woff');
+}
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 700;
+  src:  url(http://themes.googleusercontent.com/static/fonts/ubuntu/v5/0ihfXUL2emPh0ROJezvraD8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+
+html{
+	background:url('../images/bg.jpg') center center fixed;
+	background-size:cover;
+	font-family:'Ubuntu',sans-serif;
+	font-size:18px;
+	line-height:1.618;
+}
+
+#login-wrapper{
+	max-width:450px;
+	margin:auto;
+	color:#fff;
+	h1{
+		font-weight:300;
+		text-shadow:2px 2px rgba(0,0,0,0.5);
+		margin-top:20%;
+		margin-bottom:10%;
+		font-size:36px;
+		text-align:center;
+	}
+}	
+
+.general-form{
+	width:300px;
+	margin:auto;
+	font-family:'ubuntu',sans-serif;
+	label{display:none;}
+	input{
+		padding-left:10px;
+		background:rgba(0,0,0,0.3);
+		border:none;
+		height:50px;
+		color:#fff;
+		font-size:24px;
+		line-height:50px;
+		width:300px;
+		border-radius:5px;
+		margin-bottom:18px;
+		font-weight:300;
+	}
+}
+
