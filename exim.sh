@@ -19,16 +19,16 @@ Get_values() #this function ask user to enter configurations of exim
 		read -p "Enter hostname (for example gmail):" host
 		read -p "Enter Username (Username@hostname.com):" user
 		read -p "Enter password of Username@hostname.com:" password
-		sed -i "s#user#"$user"#g" Automation/other_files/passwd.client
-		sed -i "s#host#"$host"#g" Automation/other_files/passwd.client
-		sed -i "s#password#"$password"#g" Automation/other_files/passwd.client
-		sed -i "37 s/user/$user/" Automation/settings.py
-		sed -i "37 s/host/$host/" Automation/settings.py
-		sed -i "38 s/host/$host/" Automation/settings.py
-		sed -i "39 s/user/$user/" Automation/settings.py
-		sed -i "39 s/host/$host/" Automation/settings.py
-		sed -i "40 s/password/$password/" Automation/settings.py
-		cat Automation/other_files/passwd.client >> /etc/exim4/passwd.client
+		sed -i "s#user#"$user"#g" ofau/other_files/passwd.client
+		sed -i "s#host#"$host"#g" ofau/other_files/passwd.client
+		sed -i "s#password#"$password"#g" ofau/other_files/passwd.client
+		sed -i "37 s/user/$user/" ofau/settings.py
+		sed -i "37 s/host/$host/" ofau/settings.py
+		sed -i "38 s/host/$host/" ofau/settings.py
+		sed -i "39 s/user/$user/" ofau/settings.py
+		sed -i "39 s/host/$host/" ofau/settings.py
+		sed -i "40 s/password/$password/" ofau/settings.py
+		cat ofau/other_files/passwd.client >> /etc/exim4/passwd.client
 	}
 
 
