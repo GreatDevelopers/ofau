@@ -442,6 +442,10 @@ def selectfield(request):
 		jobno = request.GET.get('job','')
 		if jobno =='':
 			id = Bill.objects.aggregate(Max('job_no'))
+		"""
+		why max job no. from bill?
+		what if a job is registered but bill is not genarated? 
+		"""
 			maxid =id['job_no__max']
 			if maxid== None :
 				maxid = 1
@@ -450,6 +454,10 @@ def selectfield(request):
 		else:
 			maxid = jobno
 		m = Clientadd(client = client,user=user,job_no=maxid)
+		"""
+		job no in client = max job no from bill + 1, why?
+		Suppose another job is added while previous job bill is not generated, then?
+		"""
 		m.save()
 		client = Clientadd.objects.aggregate(Max('id'))
 		client =client['id__max']
@@ -473,11 +481,20 @@ def select(request):
 	advances payment, then the form for the same is opened to be
 	filled.
 	"""	
-	material = Report.objects.get(id=request.GET['id'])
+	material = Report.objects.get(id=request.GET['id']) 
+	"""
+	TODO: change name of material to type of work 
+	"""
 	client = Clientadd.objects.get(id=request.GET['client'])
 	clid = client.id
 	report = material.id
+	"""
+	TODO: f!@#$%^g change the name of report to something that humans can understand
+	"""
 	if report == 3 or report == 4 or report == 6:
+	"""
+	TODO: why the hell are reports hardcoded ? , change that so something sensible. 
+	"""
 		if request.method=='POST':
 			form1 = AdvancedForm(request.POST)
 			form2 = BillForm(request.POST)
@@ -537,13 +554,32 @@ def add_job(request):
 	SuspenceJob.
 	"""
 	query =request.GET.get('q', '')
+	"""
+	if you are wondering, what's q? that's id of material, funny names, eh?
+	"""
 	client = Clientadd.objects.get(id=request.GET['client'])
+	"""
+	You get client id in GET and from there we get the client object
+	TODO: why is client table named clientadd ? 
+	"""
 	clid = client.id
+	"""
+	Primary key of client table is clid
+	"""
 	maxid = client.job_no
+	"""
+	job_no again :-/ third redundant job no x-(
+	"""
 	material =Material.objects.get(id=request.GET['q'])
 	test = Test.objects.all().filter(material_id = query)
+	"""
+	What's all the confusion between query and request.GEt['q']
+	"""
 	if material.report.name == "LAB":
 		field_list = Material.objects.all().filter(report_id = 1)
+	"""
+	report id 1 is of LAB, hardcoded ! 
+	"""
 		if request.method=='POST':
 			form1 = JobForm(request.POST)
 			form2 = ClientJobForm(request.POST)
