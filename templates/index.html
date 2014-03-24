@@ -15,7 +15,7 @@
 
 {% block content %}
 <div class="general-form"  id="login-form">
-<form method="post" action="accounts/login/">{% csrf_token %}
+<form method="post" action="{% url 'django.contrib.auth.views.login' %}">{% csrf_token %}
   {{ form.as_p }}
   <input type="submit" class="submit-button" value="{% trans 'Log in' %}" />
   <input type="hidden" name="next" value="{{ next }}" />
