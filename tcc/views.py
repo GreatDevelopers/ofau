@@ -559,9 +559,9 @@ def add_job(request):
 	"""
 	if material.report.name == "LAB":
 		field_list = Material.objects.all().filter(report_id = 1)
-	"""
-	report id 1 is of LAB, hardcoded ! 
-	"""
+		"""
+		report id 1 is of LAB, hardcoded ! 
+		"""
 		if request.method=='POST':
 			form1 = JobForm(request.POST)
 			form2 = ClientJobForm(request.POST)
