@@ -492,9 +492,9 @@ def select(request):
 	TODO: f!@#$%^g change the name of report to something that humans can understand
 	"""
 	if report == 3 or report == 4 or report == 6:
-	"""
-	TODO: why the hell are reports hardcoded ? , change that so something sensible. 
-	"""
+		"""
+		TODO: why the hell are reports hardcoded ? , change that so something sensible. 
+		"""
 		if request.method=='POST':
 			form1 = AdvancedForm(request.POST)
 			form2 = BillForm(request.POST)
@@ -577,9 +577,9 @@ def add_job(request):
 	"""
 	if material.report.name == "LAB":
 		field_list = Material.objects.all().filter(report_id = 1)
-	"""
-	report id 1 is of LAB, hardcoded ! 
-	"""
+		"""
+		report id 1 is of LAB, hardcoded ! 
+		"""
 		if request.method=='POST':
 			form1 = JobForm(request.POST)
 			form2 = ClientJobForm(request.POST)
