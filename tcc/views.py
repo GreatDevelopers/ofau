@@ -30,6 +30,24 @@ def home(request):
 	active is the normal user. Depending upon there status different 
 	views are created in staff_home.html and non-staff_home.html respectively. 
 	'''
+	
+	id = Job.objects.aggregate(Max('job_no'))
+	maxid = id['job_no__max']
+	''' 
+	id is assigned the max value of job_no which is an attribute of relation Job.
+	id gets an array in result and max value is actually stored in id['job_no__max']  
+	'''
+	
+	if maxid == None :
+		maxid = 1
+	else:
+		maxid = maxid + 1
+	''' 
+	we want to insert job after the maximum job no that's already in database, so we
+	increment the maxid here.
+	'''
+
+	template = {'maxid':maxid}
 	if request.user.is_staff and request.user.is_active and \
 	request.user.is_superuser:
 		return render_to_response('staff_home.html',dict(template.items() + 
@@ -40,7 +58,7 @@ def home(request):
    			use = request.user
 			client = UserProfile.objects.get(user_id = use)
 			clients = client.id
-			template ={'clients':clients}
+			template ={'clients':clients,'maxid':maxid,}
 			return render_to_response('non-staff_home.html',dict(template.items() 
 			+ tmp.items()), context_instance=RequestContext(request))
 		except UserProfile.DoesNotExist:
@@ -474,9 +492,9 @@ def select(request):
 	TODO: f!@#$%^g change the name of report to something that humans can understand
 	"""
 	if report == 3 or report == 4 or report == 6:
-		"""
-		TODO: why the hell are reports hardcoded ? , change that so something sensible. 
-		"""
+	"""
+	TODO: why the hell are reports hardcoded ? , change that so something sensible. 
+	"""
 		if request.method=='POST':
 			form1 = AdvancedForm(request.POST)
 			form2 = BillForm(request.POST)
@@ -559,9 +577,9 @@ def add_job(request):
 	"""
 	if material.report.name == "LAB":
 		field_list = Material.objects.all().filter(report_id = 1)
-		"""
-		report id 1 is of LAB, hardcoded ! 
-		"""
+	"""
+	report id 1 is of LAB, hardcoded ! 
+	"""
 		if request.method=='POST':
 			form1 = JobForm(request.POST)
 			form2 = ClientJobForm(request.POST)
