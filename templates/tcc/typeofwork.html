@@ -62,7 +62,6 @@
 </div>
 
 <script type="text/javascript">
-csrf_token = "{{ csrf_token }}";
 /*
 First thing. Write script to manage this page basically.
 First step is to select the type of work. 
@@ -96,23 +95,15 @@ $(document).ready(function() {
         $.post("{{ LOCAL_URL }}/automation/tcc/getmaterial/", {
             id: selectedValue,
         }, function(data) {
-            var material = null;
-            //After loading the Json we have to parse it load it in material_id above
-            try {
-                materials = $.parseJSON(data);
-            } catch (err) {
-                alert("Json Parse Error: " + err.message);
-            }
+            materials = data;
+            //If we already have options from previously selected option remove it
+            $("#material_id").children().remove();
 
-            if (material != null) {
-                //If we already have options from previously selected option remove it
-                $("#material_id").children().remove();
-
-                //Now we have the materials of the given report add it to the select
-                for (material in materials) {
-                    $("#material_id").append("<option value='" + material.id + "'>" + material.name + "</option>");
-                }
-            }
+            //Now we have the materials of the given report add it to the select
+            $.each(materials, function (key, value)
+            {
+            	$("#material_id").append("<option value='" + value.id + "'>" + value.name + "</option>");
+            });
 
         });
     });
