@@ -6,15 +6,15 @@ Order deny,allow
 Allow from all
 </Directory>
 
-Alias /static/ mpath/ofau/static/
+Alias /static/ /home/piyush/ofau/static/
 
-<Directory mpath/ofau/static/>
+<Directory /home/piyush/ofau/static/>
 Order deny,allow
 Allow from all
 </Directory>
 
-WSGIScriptAlias /automation mpath/ofau/apache/django.wsgi
-<Directory mpath//ofau/apache/>
+WSGIScriptAlias /automation /home/piyush/ofau/apache/django.wsgi
+<Directory /home/piyush//ofau/apache/>
 Order allow,deny
 Allow from all
 </Directory>

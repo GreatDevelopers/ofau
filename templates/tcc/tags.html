@@ -1,6 +1,6 @@
 {% extends base_template|default:"base.html" %}
 {% load i18n %}
-<html>
+
 {% block content %}
 	<h3>Add Job</h3>
 <table>
@@ -10,28 +10,22 @@ this.options[this.selectedIndex].value;">
 <option value="">Select Work</option>
 {% for reports in report %}
   <option value="{{ LOCAL_URL }}/automation/tcc/select/?id={{reports.id}}&client={{clid}}">{{reports.name}}</option>
-	{% endfor %}
-</select><br></td></tr>
-<tr><td> <label for="id_search">Material:</label></td><td><select name="form" ONCHANGE="location =
-this.options[this.selectedIndex].value;">
+{% endfor %}
+</select>
+</td>
+</tr>
+<tr>
+<td>
+<label for="id_search">Material:</label>
+</td>
+<td>
+<select name="form">
 	 <option value="">Select Material</option>
-	{% for field in field_list %}
-		
+	{% for field in field_list %}	
    <option value="{{ LOCAL_URL }}/automation/tcc/save/?q={{field.id}}&client={{clid}}">{{field.name}}</option>
 	
 	{% endfor %}
  
 </select></td></tr></table>
- 
-<br/><br/><i><b>Material Tags</b></i>
-<div class="tag-cloud">
-{% load tag_cloud %}
-{% tag_cloud_for_model tcc.Material as tags with steps=6 distribution=log %}
-{% for tag in tags %}
-<span class="tag-{{tag.font_size|add:"2"}}">
-<a href="{{ LOCAL_URL }}/automation/tcc/tag/{{tag.name|slugify}}/">{{tag.name}}, </a>
-</span> 
-{% endfor %}
-</div><!-- tag-cloud end -->
 </html>
 {% endblock %}

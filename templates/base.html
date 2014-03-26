@@ -14,14 +14,10 @@
         <link rel="stylesheet" href="{{ LOCAL_URL }}/static/css2/css/contrib/animate.min.css" type="text/css" media="all" title="Screen" />
         <link rel="stylesheet" href="{{ LOCAL_URL }}/static/css2/css/jquery.smallipop.css" type="text/css" media="all" title="Screen" />
         <link rel="stylesheet" href="{{ LOCAL_URL }}/static/css2/css/screen.css" type="text/css" media="all" title="Screen" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
-    </head>
-<head>
+		<script type="text/javascript" src="/static/js/swfobject.js"></script>
 <link rel="stylesheet" href="/static/jquery-ui.css" />
-<script src="/static/js/jquery.min.js">
-</script>
+<script src="/static/js/jquery.min.js"></script>
 <script src="/static/js/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css" />
 <script>
 $(function() {
 $( "#id_date" ).datepicker({
@@ -62,7 +58,31 @@ changeYear: true,dateFormat:'yy-mm-dd'
 });
 $( "#id_dated" ).datepicker( "option", "showAnim", 'clip' )
 });
-  </script> 
+
+$.ajaxSetup({ 
+     beforeSend: function(xhr, settings) {
+         function getCookie(name) {
+             var cookieValue = null;
+             if (document.cookie && document.cookie != '') {
+                 var cookies = document.cookie.split(';');
+                 for (var i = 0; i < cookies.length; i++) {
+                     var cookie = jQuery.trim(cookies[i]);
+                     // Does this cookie string begin with the name we want?
+                 if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                     break;
+                 }
+             }
+         }
+         return cookieValue;
+         }
+         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+             // Only send the token to relative URLs i.e. locally.
+             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+         }
+     } 
+});
+  </script>
 </head>
     <body link="#C0C0C0" vlink="#808080" alink="#76B900" text="black">
 <div>
@@ -182,8 +202,6 @@ $( "#id_dated" ).datepicker( "option", "showAnim", 'clip' )
   				</div><!-- END content-main -->
 			{% endblock %}
 		<!-- END content -->
-
-  <br/><br/><br/><br/><br/><br />
   </div>
 </div>
         {% block footer %}
@@ -192,4 +210,3 @@ $( "#id_dated" ).datepicker( "option", "showAnim", 'clip' )
    
 </body>
 </html>
-

@@ -1,42 +1,123 @@
-{% extends base_template|default:"base.html" %}
-{% load i18n %}
-<html>
-	<head>
-		<title>{{title.name}}</title>
-	</head>
+{% extends base_template|default:"base.html" %} {% load i18n %} {% block content %}
 
-{% block content %}
-	
-	<h2 class="changeBlue">Add Job</h2>
-<table>
- <tr>
- 	<td><label for="id_search">Type of work:</label></td>
- 	<td><select name="form" ONCHANGE="location =
-this.options[this.selectedIndex].value;">
-	<option value="">Select Work</option>
-{% for reports in report %}
-  <option value="{{ LOCAL_URL }}/automation/tcc/select/?id={{reports.id}}&client={{client}}">{{reports.name}}</option>
-	{% endfor %}
-</select></td>
- </table>
-<br/><br/><i><b><u>Type of work done (explained in brief)</u></b></i>
-<br/>
-<i><b>Field works are :</b></i><br/>
-{% if mat %}
-	{% for material in mat %}
- 		{% if material.report_id == 2 %}
-		{{material.name}}<br/>
-		{% endif %}
-	{% endfor %}
-{% endif %}
-<i><b>Lab works are :</b></i> <br/>
-{% if mat %}
-	{% for material in mat %}
-		{% if material.report_id == 1 %}		
-		{{material.name}}<br/>
-		{% endif %}
-	{% endfor %}
-{% endif %}
+<h2 class="changeBlue">Add Job</h2>
+<form>
+    {% csrf_token %}
+    <table>
+        <tr>
+            <td rowspan="2">
+                <label for="report_id">Type of work:</label>
+            </td>
+            <td>
+                <select name="report_id" id="report_id">
+                    <option value="">Select Work</option>
+                    {% for reports in report %}
+                    <option value="{{reports.id}}">{{reports.name}}</option>
+                    {% endfor %}
+                </select>
+                <input type="hidden" id="client_id" value="{{ client }}" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#" id="view_tow">Click here to check the type of work done</a>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2">
+                <label for="material_id">Material:</label>
+            </td>
+            <td>
+                <select id="material_id">
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="#" id="view_material">Click here to view the Material Tags</a>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<div style="display: none" id="tow">
+    <i><b>Field works are :</b></i>
+    <br/>{% if mat %} {% for material in mat %} {% if material.report_id == 2 %} {{material.name}}
+    <br/>{% endif %} {% endfor %} {% endif %}
+    <i><b>Lab works are :</b></i> 
+    <br/>{% if mat %} {% for material in mat %} {% if material.report_id == 1 %} {{material.name}}
+    <br/>{% endif %} {% endfor %} {% endif %}
 </div>
+
+<div style="display:none" id="material">
+    <br/>
+    <br/><i><b>Material Tags</b></i>
+    <div class="tag-cloud">
+        {% load tag_cloud %} {% tag_cloud_for_model tcc.Material as tags with steps=6 distribution=log %} {% for tag in tags %}
+        <span class="tag-{{tag.font_size|add:" 2 "}}">
+            <a href="{{ LOCAL_URL }}/automation/tcc/tag/{{tag.name|slugify}}/">{{tag.name}}, </a>
+        </span>
+        {% endfor %}
+    </div>
+</div>
+
+<script type="text/javascript">
+csrf_token = "{{ csrf_token }}";
+/*
+First thing. Write script to manage this page basically.
+First step is to select the type of work. 
+Next step is to Select the material.
+Next step is to add the job
+
+		We have facilitate all of this on one page
+		*/
+
+$(document).ready(function() {
+
+    /*
+	This is just to show the types of work that are available and nothing else
+	*/
+    $("#view_tow").click(function() {
+        $("#tow").slideToggle("medium");
+    });
+
+    /*
+	This is just to show the tags that are available and nothing else
+	*/
+    $("#view_material").click(function() {
+        $("#material").slideToggle("medium");
+    });
+
+    $("#report_id").change(function() {
+
+        // Get the current selected value
+        var selectedValue = $(this).val();
+
+        $.post("{{ LOCAL_URL }}/automation/tcc/getmaterial/", {
+            id: selectedValue,
+        }, function(data) {
+            var material = null;
+            //After loading the Json we have to parse it load it in material_id above
+            try {
+                materials = $.parseJSON(data);
+            } catch (err) {
+                alert("Json Parse Error: " + err.message);
+            }
+
+            if (material != null) {
+                //If we already have options from previously selected option remove it
+                $("#material_id").children().remove();
+
+                //Now we have the materials of the given report add it to the select
+                for (material in materials) {
+                    $("#material_id").append("<option value='" + material.id + "'>" + material.name + "</option>");
+                }
+            }
+
+        });
+    });
+});
+</script>
+
 </html>
 {% endblock %}

@@ -11,6 +11,7 @@ import itertools
 
 from django.views.decorators.cache import patch_cache_control
 from functools import wraps
+import json
 def stop_caching(decorated_function):
     @wraps(decorated_function)
     def wrapper(*args, **kwargs):
@@ -437,31 +438,21 @@ def selectfield(request):
 	same.
 	"""
 	try : 
-		client =UserProfile.objects.get(id=request.GET['id'])
+		client = UserProfile.objects.get(id=request.GET['id'])
 		user = request.user
-		jobno = request.GET.get('job','')
-		if jobno =='':
-			id = Bill.objects.aggregate(Max('job_no'))
-			"""
-			why max job no. from bill?
-			what if a job is registered but bill is not genarated? 
-			"""
-			maxid =id['job_no__max']
-			if maxid== None :
-				maxid = 1
-			else:
-				maxid = maxid + 1
-		else:
-			maxid = jobno
-		m = Clientadd(client = client,user=user,job_no=maxid)
+		print client.id
+
+		# there is a difference between User and Client
+		# User is someone like Kiran Mam
+		# and client is someone who is a outsider and comes to gets his job done
+
+		
+		
 		"""
 		job no in client = max job no from bill + 1, why?
 		Suppose another job is added while previous job bill is not generated, then?
 		"""
-		m.save()
-		client = Clientadd.objects.aggregate(Max('id'))
-		client =client['id__max']
-		temp = {'client':client}
+		temp = {"client": client.id}
 		return render_to_response('tcc/typeofwork.html', 
 		dict(temp.items() + tmp.items()), context_instance=
 		RequestContext(request))
@@ -481,7 +472,7 @@ def select(request):
 	advances payment, then the form for the same is opened to be
 	filled.
 	"""	
-	material = Report.objects.get(id=request.GET['id']) 
+	 
 	"""
 	TODO: change name of material to type of work 
 	"""
@@ -540,6 +531,25 @@ def select(request):
 		temp = {'field_list':field_list, 'clid':clid}
 		return render_to_response('tcc/tags.html',dict(temp.items() + 
 		tmp.items()),context_instance = RequestContext(request))
+
+
+def getmaterial(request):
+
+	# Get all the material by report id that is LAB, FIELD etc
+	material = Material.objects.all().filter(report_id = request.POST['id'])
+
+	#initialize an empty list where we can put the new array
+	materialary = []
+
+	# Run a loop which will collect the name of the material and its id
+	for x in material:
+		materialary.append({"name": x.name, "id": x.id})
+		pass
+
+	#print the array that we have got
+	return HttpResponse(json.dumps(materialary), content_type="application/json");
+	pass
+
 
 @stop_caching
 @login_required
