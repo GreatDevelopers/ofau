@@ -618,6 +618,7 @@ class Bill(models.Model):
 	
 	""" 
 	job_no = models.IntegerField(editable =False)
+	date = models.DateField(auto_now_add=True)
 	education_tax = models.IntegerField(blank=True,null=True)
 	higher_education_tax = models.IntegerField(blank=True,null=True)
 	service_tax = models.IntegerField(blank=True,null=True)
