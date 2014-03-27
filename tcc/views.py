@@ -30,14 +30,14 @@ def home(request):
 	active is the normal user. Depending upon there status different 
 	views are created in index1.html and index2.html respectively. 
 	'''
-	
+
 	id = Job.objects.aggregate(Max('job_no'))
 	maxid = id['job_no__max']
 	''' 
 	id is assigned the max value of job_no which is an attribute of relation Job.
 	id gets an array in result and max value is actually stored in id['job_no__max']  
 	'''
-	
+
 	if maxid == None :
 		maxid = 1
 	else:
@@ -144,7 +144,6 @@ def view_profile(request):
 	tmp.items()), context_instance = RequestContext(request))
 
 @stop_caching	
-@login_required
 @login_required
 def profile(request):
 	"""
@@ -435,15 +434,17 @@ def selectfield(request):
 		user = request.user
 		jobno = request.GET.get('job','')
 		if jobno =='':
-			id = Bill.objects.aggregate(Max('job_no'))
-			maxid =id['job_no__max']
-			if maxid== None :
-				maxid = 1
+			id = Bill.objects.aggregate(Max('id'))
+			maxid =id['id__max']
+			get_last_jobno = Bill.objects.get(id = maxid)
+			last_jobno = get_last_jobno.job_no
+			if last_jobno== None :
+				last_jobno = 1
 			else:
-				maxid = maxid + 1
+				last_jobno = last_jobno + 1
 		else:
-			maxid = jobno
-		m = Clientadd(client = client,user=user,job_no=maxid)
+			last_jobno = jobno
+		m = Clientadd(client = client,user=user,job_no=last_jobno)
 		m.save()
 		client = Clientadd.objects.aggregate(Max('id'))
 		client =client['id__max']
@@ -936,19 +937,21 @@ def job_ok(request):
 	tds amount etc.
 	"""
 	material =request.GET.get('id', '')
-	id = Job.objects.aggregate(Max('job_no'))
-	maxid =id['job_no__max']
-	job_no = maxid
+	id = Job.objects.aggregate(Max('id'))
+	maxid =id['id__max']
+	last_job_no = Job.objects.get(id=maxid)
+	get_job_no = last_job_no.job_no
+	date = last_job_no.date
 	value =Job.objects.values_list('testtotal__unit_price',flat=True)\
-	.filter(job_no=maxid)
+	.filter(job_no=get_job_no).filter(date=date)
 	price = sum(value)
 	from ofau.tcc.variable import *
 	try:
 		trans_value = Job.objects.values_list('suspence__rate',flat=\
-		True).filter(job_no=maxid)
+		True).filter(job_no=get_job_no).filter(date=date)
 		trans_total = sum(trans_value)
 		discount_value = Job.objects.values_list('discount',flat=True)\
-		.filter(job_no=maxid)
+		.filter(job_no=get_job_no).filter(date=date)
 		discount_total = sum(discount_value)
 		trans_net_total = price + trans_total - discount_total
 		service_tax= round(servicetax *  trans_net_total)
@@ -958,17 +961,17 @@ def job_ok(request):
 		net_total =  trans_net_total + higher_education_tax +\
 		education_tax + service_tax
 		bal = Job.objects.values_list('tds',flat=True).\
-		filter(job_no=maxid)
+		filter(job_no=get_job_no).filter(date=date)
 		tdstotal = sum(bal)
 		balance = net_total - tdstotal
-		m = Bill(job_no = job_no, price = price, service_tax=service_tax, 
+		m = Bill(job_no = get_job_no, price = price, service_tax=service_tax, 
 		higher_education_tax = higher_education_tax, education_tax = 
-		education_tax, net_total = net_total, balance = 
+		education_tax, net_total = net_total, date = date, balance = 
 		balance,trans_total=trans_total,trans_net_total=trans_net_total,
 		discount_total=discount_total)
 	except Exception:
 		discount_value = Job.objects.values_list('discount',flat=True).\
-		filter(job_no=maxid)
+		filter(job_no=get_job_no).filter(date=date)
 		discount_total = sum(discount_value)
 		trans_net_total = price - discount_total
 		service_tax= round(servicetax *  trans_net_total)
@@ -978,16 +981,17 @@ def job_ok(request):
 		net_total =  trans_net_total + higher_education_tax +\
 		education_tax + service_tax
 		bal = Job.objects.values_list('tds',flat=True).\
-		filter(job_no=maxid)
+		filter(job_no=get_job_no).filter(date=date)
 		tdstotal = sum(bal)
 		balance = net_total - tdstotal
-		m = Bill(job_no = job_no, price = price, service_tax=service_tax, 
+		m = Bill(job_no = get_job_no, price = price, service_tax=service_tax, 
 		higher_education_tax = higher_education_tax, education_tax = 
-		education_tax, net_total = net_total, balance = balance, 
+		education_tax, net_total = net_total,  date = date,balance = balance, 
 		discount_total=discount_total,trans_net_total=trans_net_total,)
 	m.save()
-	amt = Job.objects.filter(job_no=maxid).values('amount__report_type')
-	temp = {"maxid":maxid,'amt':amt}
+	amt = Job.objects.filter(job_no=get_job_no).values('amount__report_type').\
+	filter(date=date)
+	temp = {"maxid":get_job_no,'amt':amt}
 	if request.user.is_staff == 1 and request.user.is_active == 1 and \
 	request.user.is_superuser == 1 :
 		return HttpResponseRedirect('job_ok_show')
@@ -997,22 +1001,27 @@ def job_ok(request):
 @stop_caching
 def job_ok_show(request):
 	material =request.GET.get('id', '')
-	id = Job.objects.aggregate(Max('job_no'))
-	maxid =id['job_no__max']
-	job_no = maxid
-	amt = Job.objects.filter(job_no=maxid).values('amount__report_type')
-	temp = {"maxid":maxid,'amt':amt}
+	id = Job.objects.aggregate(Max('id'))
+	maxid =id['id__max']
+	job = Job.objects.get(id=maxid)
+	last_job_no = job.job_no
+	date=job.date
+	amt = Job.objects.filter(job_no=last_job_no).filter(date=date).\
+	values('amount__report_type')
+	temp = {"maxid":last_job_no,'amt':amt}
 	return render_to_response('tcc/job_ok.html',dict(temp.items() + 
 		tmp.items()), context_instance=RequestContext(request))
 
 @stop_caching
 def client_job_ok_show(request):
-	material =request.GET.get('id', '')
-	id = Job.objects.aggregate(Max('job_no'))
-	maxid =id['job_no__max']
-	job_no = maxid
-	amt = Job.objects.filter(job_no=maxid).values('amount__report_type')
-	temp = {"maxid":maxid,'amt':amt}
+	id = Job.objects.aggregate(Max('id'))
+	maxid =id['id__max']
+	job = Job.objects.get(id=maxid)
+	last_job_no = job.job_no
+	date=job.date
+	amt = Job.objects.filter(job_no=last_job_no).filter(date=date).\
+	values('amount__report_type')
+	temp = {"maxid":last_job_no,'amt':amt}
 	return render_to_response('tcc/client_job_ok.html', dict(temp.items() + 
 		tmp.items()), context_instance=RequestContext(request))
 
@@ -1058,17 +1067,17 @@ def bill(request):
 	jobid = job.id
 	job_no = job.job_no
 	job_date =job.date
-	getjob = Job.objects.all().filter(job_no=job_no).values(
-	'clientjob__material__name','date','testtotal__unit_price','site',
+	getjob = Job.objects.all().filter(job_no=job_no).filter(date=job_date).\
+	values(	'clientjob__material__name','date','testtotal__unit_price','site',
 	'suspencejob__field__name','report_type', 'clientjob__other_test',
 	'clientjob__material__matcomment_id','suspencejob__field__matcomment_id',
 	'sample','letter_no','letter_date', 'suspencejob__other',
 	'clientjob__material__id','suspencejob__field__id',
 	'suspencejob__other_test',).distinct()
-	testname = Job.objects.all().filter(job_no=job_no).values(
+	testname = Job.objects.all().filter(job_no=job_no).filter(date=job_date).values(
 	'clientjob__test__name','clientjob__test__material',
 	'suspencejob__test__material','suspencejob__test__name' ).distinct()
-	gettest = Job.objects.all().filter(job_no=job_no).values(
+	gettest = Job.objects.all().filter(job_no=job_no).filter(date=job_date).values(
 	'clientjob__material__test__name','clientjob__material__id',
 	'clientjob__material__test__name')
 	getadd = Job.objects.all().filter(id = jobid).values(
@@ -1077,7 +1086,9 @@ def bill(request):
 	'client__client__city', 'client__client__company',
 	'client__client__state','site',).distinct()
 	from ofau.tcc.variable import *
-	bill = Bill.objects.get(job_no=job_no)
+	get_bill_id = Bill.objects.filter(job_no=job_no).filter(date=job_date).\
+	values('id')
+	bill = Bill.objects.get(id=get_bill_id)
 	matcomment= MatComment.objects.all()
 	servicetaxprint = servicetaxprint
 	educationtaxprint = educationtaxprint
@@ -1113,17 +1124,17 @@ def suspence_bill(request):
 	jobid = job.id
 	job_no = job.job_no
 	job_date =job.date
-	getjob = Job.objects.all().filter(job_no=job_no).values(
-	'clientjob__material__name','date','testtotal__unit_price','site',
-	'suspencejob__field__name','report_type', 
-	'clientjob__material__matcomment_id','suspencejob__field__matcomment_id',
-	'sample','letter_no','letter_date', 'suspencejob__other',
-	'clientjob__material__id','suspencejob__field__id').distinct()
-	testname = Job.objects.all().filter(job_no=job_no).values(
-	'clientjob__test__name','clientjob__test__material',
+	getjob = Job.objects.all().filter(job_no=job_no).filter(date=job_date).\
+	values('clientjob__material__name','date','testtotal__unit_price','site',
+	'suspencejob__field__name','report_type', 'clientjob__material__matcomment_id',
+	'suspencejob__field__matcomment_id','sample','letter_no','letter_date', 
+	'suspencejob__other','clientjob__material__id',
+	'suspencejob__field__id').distinct()
+	testname = Job.objects.all().filter(job_no=job_no).filter(date=job_date).\
+	values('clientjob__test__name','clientjob__test__material',
 	'suspencejob__test__material','suspencejob__test__name' ).distinct()
-	gettest = Job.objects.all().filter(job_no=job_no).values(
-	'clientjob__material__test__name','clientjob__material__id',
+	gettest = Job.objects.all().filter(job_no=job_no).filter(date=job_date).\
+	values('clientjob__material__test__name','clientjob__material__id',
 	'clientjob__material__test__name')
 	getadd = Job.objects.all().filter(id = jobid).values(
 	'client__client__first_name', 'client__client__middle_name', 
@@ -1131,7 +1142,9 @@ def suspence_bill(request):
 	'client__client__city', 'client__client__company',
 	'client__client__state','site',).distinct()
 	from ofau.tcc.variable import *
-	bill = Bill.objects.get(job_no=job_no)
+	get_bill_id = Bill.objects.filter(job_no=job_no).filter(date=job_date).\
+	values('id')
+	bill = Bill.objects.get(id=get_bill_id)
 	matcomment= MatComment.objects.all()
 	servicetaxprint = servicetaxprint
 	educationtaxprint = educationtaxprint
@@ -1176,11 +1189,13 @@ def receipt_report(request):
 	'client__client__first_name', 'client__client__middle_name', 
 	'client__client__last_name','client__client__address', 
 	'client__client__city','client__client__company')
-	mate = Job.objects.all().filter(job_no=job_no).values(
-	'clientjob__material__name','suspencejob__field__name',
+	mate = Job.objects.all().filter(job_no=job_no).filter(date=job_date).\
+	values('clientjob__material__name','suspencejob__field__name',
 	'report_type','date','clientjob__material__matcomment_id',
 	'suspencejob__field__matcomment_id').distinct()
-	bill = Bill.objects.get(job_no=job_no)
+	get_bill_id = Bill.objects.filter(job_no=job_no).filter(date=job_date).\
+	values('id')
+	bill = Bill.objects.get(id=get_bill_id)
 	matcomment= MatComment.objects.all()
 	balance = bill.balance
 	net_total_eng = num2eng(balance)
@@ -1207,7 +1222,10 @@ def additional(request):
 		maxid =id['id__max']
 		job = Job.objects.get(id = maxid)
 	job_no = job.job_no
-	bill = Bill.objects.get(job_no=job_no)
+	job_date = job.date
+	get_bill_id = Bill.objects.filter(job_no=job_no).filter(date=job_date).\
+	values('id')
+	bill = Bill.objects.get(id=get_bill_id)
 	template = {'job':job,'job_no': job_no ,'bill':bill,'servicetaxprint' : servicetaxprint,
 	'highereducationtaxprint' : highereducationtaxprint,'educationtaxprint'
 	:educationtaxprint,}
@@ -1232,8 +1250,8 @@ def s_report(request):
 	jobid = job.id
 	job_no = job.job_no
 	job_date = job.date
-	getjob = Job.objects.all().filter(job_no=job_no).values(
-	'clientjob__material__name','testtotal__unit_price','site',
+	getjob = Job.objects.all().filter(job_no=job_no).filter(date=job_date).\
+	values('clientjob__material__name','testtotal__unit_price','site',
 	'suspencejob__field__name','report_type','sample','pay',
 	'check_number','check_dd_date','clientjob__material__matcomment_id',
 	'suspencejob__field__matcomment_id').distinct()
@@ -1243,8 +1261,11 @@ def s_report(request):
 	'client__client__city', 'client__client__state','site','letter_no',
 	'letter_date','client__client__company').distinct()
 	from ofau.tcc.variable import *
-	bill = Bill.objects.get(job_no=job_no)
-	bal = Job.objects.values_list('tds',flat=True).filter(job_no=job_no)
+	get_bill_id = Bill.objects.filter(job_no=job_no).filter(date=job_date).\
+	values('id')
+	bill = Bill.objects.get(id=get_bill_id)
+	bal = Job.objects.values_list('tds',flat=True).filter(job_no=job_no).\
+	filter(date=job_date)
 	tdstotal = sum(bal)
 	net_total1 = bill.balance
 	from ofau.tcc.convert_function import *
@@ -1289,10 +1310,10 @@ def rep(request):
 	amount = Amount.objects.all().get(job_id =query)
 	user = Job.objects.all().get(id=query)
 	job = user.job_no
-	id = Job.objects.aggregate(Max('id'))
-	maxid =id['id__max']
-	jobid = Job.objects.get(id = maxid)
-	bill = Bill.objects.all().get(job_no=job)
+	job_date = user.date
+	get_bill_id = Bill.objects.filter(job_no=job).filter(date=job_date).\
+	values('id')
+	bill = Bill.objects.get(id=get_bill_id)
 	name = Job.objects.all().filter(id=query).values(\
 	'client__client__first_name', 'client__client__middle_name', 
 	'client__client__last_name','client__client__address',
@@ -1321,7 +1342,7 @@ def rep(request):
 	amount,'con_type':con_type, 'ratio1':ratio1, 'ratio2':ratio2, 
 	'collegeincome':collegeincome, 'admincharge' : admincharge, 'user'
 	:user, 'name':name, 'mate':mate, 'staff':staff,'bill':bill,'job':job,
-	'jobid':jobid}
+	'jobid':user}
 	return render_to_response('tcc/report.html', dict(template.items() + 
 	tmp.items()), context_instance = RequestContext(request))
 	
