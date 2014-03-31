@@ -20,6 +20,15 @@ from ofau.tcc.choices import *
 #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
 
 #::::::::::::::::::::::DEFINE THE MODELS HERE::::::::::::::::::::::::#
+class Category(models.Model):
+	"""
+	This stores the categories that exists in any shop such as Electronics. This is also an alternative to Report
+	"""
+
+	name = models.CharField(max_length=50)
+	parent = models.ForeignKey("self", null = True)
+
+
 class Report(models.Model):
 	"""
 	** Report **
@@ -58,7 +67,7 @@ class UserProfile(models.Model):
 	contact_no = models.CharField(max_length=500)
 	type_of_organisation = models.CharField(max_length=20, choices = 
 	ORGANISATION_CHOICES)
-	date = models.DateField(auto_now_add=True)
+	date = models.DateTimeField(auto_now_add=True)
 
 	def __unicode__(self):
         	return self.first_name
@@ -160,7 +169,7 @@ class Distribution(models.Model):
 	"""
 	** Distribution **
 	
-	Distribution Class define all didtribution of income that is to be 
+	Distribution Class define all distribution of income that is to be 
 	done.
 	
 	"""
@@ -195,6 +204,12 @@ class MatComment(models.Model):
     def __unicode__(self):
         	return self.name
 
+class Products(models.Model):
+	"""
+	This contain the Products that we sell. In TCC Automation case we sell tests
+	"""
+	name = models.CharField(max_length=300)
+	category = models.ForeignKey(Category)
 
 class Material(models.Model):
 	"""
@@ -203,7 +218,7 @@ class Material(models.Model):
 	Material Class define all fields required to submit detail about a 
 	Material under a Lab.
 	
-	""" 
+	"""
 	lab = models.ForeignKey(Lab)
 	distribution = models.ForeignKey(Distribution)
 	name = models.CharField(max_length=300)

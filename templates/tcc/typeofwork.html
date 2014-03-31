@@ -1,7 +1,7 @@
 {% extends base_template|default:"base.html" %} {% load i18n %} {% block content %}
 
 <h2 class="changeBlue">Add Job</h2>
-<form>
+<form action="{% url 'ofau.tcc.views.add_job' %}" method="post">
     {% csrf_token %}
     <table>
         <tr>
@@ -15,7 +15,7 @@
                     <option value="{{reports.id}}">{{reports.name}}</option>
                     {% endfor %}
                 </select>
-                <input type="hidden" id="client_id" value="{{ client }}" />
+                <input type="hidden" id="client_id" name="client_id" value="{{ client }}" />
             </td>
         </tr>
         <tr>
@@ -28,7 +28,7 @@
                 <label for="material_id">Material:</label>
             </td>
             <td>
-                <select id="material_id">
+                <select id="material_id" name="material_id">
                 </select>
             </td>
         </tr>
@@ -37,6 +37,14 @@
                 <a href="#" id="view_material">Click here to view the Material Tags</a>
             </td>
         </tr>
+        <tr>
+            <td>
+            </td>
+            <td>
+                <input type="submit" class="btn" value="Submit" />
+            </td>
+        </tr>
+
     </table>
 </form>
 
@@ -92,20 +100,23 @@ $(document).ready(function() {
         // Get the current selected value
         var selectedValue = $(this).val();
 
-        $.post("{{ LOCAL_URL }}/automation/tcc/getmaterial/", {
-            id: selectedValue,
-        }, function(data) {
-            materials = data;
-            //If we already have options from previously selected option remove it
-            $("#material_id").children().remove();
+        $("#material_id").children().remove();
+        if (selectedValue != "") {
+            $.post("{{ LOCAL_URL }}/automation/tcc/getmaterial/", {
+                id: selectedValue,
+            }, function(data) {
+                materials = data;
+                //If we already have options from previously selected option remove it
 
-            //Now we have the materials of the given report add it to the select
-            $.each(materials, function (key, value)
-            {
-            	$("#material_id").append("<option value='" + value.id + "'>" + value.name + "</option>");
+                //Now we have the materials of the given report add it to the select
+                $.each(materials, function(key, value) {
+                    $("#material_id").append("<option value='" + value.id + "'>" + value.name + "</option>");
+                });
+
             });
+        }
 
-        });
+
     });
 });
 </script>

@@ -439,15 +439,11 @@ def selectfield(request):
 	"""
 	try : 
 		client = UserProfile.objects.get(id=request.GET['id'])
-		user = request.user
-		print client.id
 
 		# there is a difference between User and Client
 		# User is someone like Kiran Mam
 		# and client is someone who is a outsider and comes to gets his job done
 
-		
-		
 		"""
 		job no in client = max job no from bill + 1, why?
 		Suppose another job is added while previous job bill is not generated, then?
@@ -471,21 +467,25 @@ def select(request):
 	the report_type is 3 or 4 means, the work to be done is CDF or
 	advances payment, then the form for the same is opened to be
 	filled.
-	"""	
+	"""
 	 
 	"""
 	TODO: change name of material to type of work 
 	"""
-	client = Clientadd.objects.get(id=request.GET['client'])
-	clid = client.id
-	report = material.id
+	
+	client = UserProfile.objects.get(id=request.POST['client_id'])
+	report = Report.objects.get(id=request.POST['report_id'])
+	
+	# We might not always get material_id so perform a check and assign value accordingly
+	try:
+		material = Material.objects.all().filter(id=request.POST['material_id'])[0]
+		pass
+	except Exception, e:
+		material = None
 	"""
 	TODO: f!@#$%^g change the name of report to something that humans can understand
 	"""
-	if report == 3 or report == 4 or report == 6:
-		"""
-		TODO: why the hell are reports hardcoded ? , change that so something sensible. 
-		"""
+	if report.id == 3 or report.id == 4 or report.id == 6: # Reports are hardcoded change it.
 		if request.method=='POST':
 			form1 = AdvancedForm(request.POST)
 			form2 = BillForm(request.POST)
@@ -515,8 +515,7 @@ def select(request):
 				maxid =id['id__max']
 				bill = Bill.objects.get(id=maxid)
 				bal = bill.net_total
-				Bill.objects.filter(id = maxid).update( balance = 
-				bill.net_total)
+				Bill.objects.filter(id = maxid).update( balance = bill.net_total)
 				temp = {'maxid':maxid}
 				return render_to_response('tcc/advanced_ok.html', 
 				dict(temp.items() + tmp.items()), context_instance=
@@ -527,8 +526,7 @@ def select(request):
 		return render_to_response('tcc/advanced_job.html', tmp,
 		context_instance=RequestContext(request))
 	else :
-		field_list = Material.objects.all().filter(report_id =material)
-		temp = {'field_list':field_list, 'clid':clid}
+		temp = {"report_id": report.id}
 		return render_to_response('tcc/tags.html',dict(temp.items() + 
 		tmp.items()),context_instance = RequestContext(request))
 
@@ -563,11 +561,7 @@ def add_job(request):
 	tables one after the other. One is clientJob and other is
 	SuspenceJob.
 	"""
-	query =request.GET.get('q', '')
-	"""
-	if you are wondering, what's q? that's id of material, funny names, eh?
-	"""
-	client = Clientadd.objects.get(id=request.GET['client'])
+	client = UserProfile.objects.get(id=request.GET['client_id'])
 	"""
 	You get client id in GET and from there we get the client object
 	TODO: why is client table named clientadd ? 
@@ -576,11 +570,7 @@ def add_job(request):
 	"""
 	Primary key of client table is clid
 	"""
-	maxid = client.job_no
-	"""
-	job_no again :-/ third redundant job no x-(
-	"""
-	material =Material.objects.get(id=request.GET['q'])
+	material =Material.objects.get(id=request.GET['material_id'])
 	test = Test.objects.all().filter(material_id = query)
 	"""
 	What's all the confusion between query and request.GEt['q']
@@ -593,7 +583,7 @@ def add_job(request):
 		if request.method=='POST':
 			form1 = JobForm(request.POST)
 			form2 = ClientJobForm(request.POST)
-			if form1.is_valid and form2.is_valid():
+			if form1.is_valid() and form2.is_valid():
 				def clean_name(self):
 					cleaned_data = self.cleaned_data
 					pay = cleaned_data.get('pay', '')
@@ -625,7 +615,7 @@ def add_job(request):
 		else:	
 			form1 = JobForm()
 			form2 = ClientJobForm()
-		temp = {"form1":form1,"test":test,'field_list':field_list,'query':query,
+		temp = {"form1":form1,"test":test,'field_list':field_list,'query':material_id,
 		'clid':clid}
 		return render_to_response('tcc/add_job.html', dict(temp.items() + 
 		tmp.items()), context_instance=RequestContext(request))
