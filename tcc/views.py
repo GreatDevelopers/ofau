@@ -6,7 +6,7 @@ It is the interface between the user interface, urls and database.
 """
 
 from ofau.tcc.header import *
-from datetime import datetime
+from datetime import *
 import itertools
 
 from django.views.decorators.cache import patch_cache_control
@@ -1210,10 +1210,13 @@ def additional(request):
 		job = Job.objects.get(id = maxid)
 	job_no = job.job_no
 	job_date = job.date
-	voucher_no = job.id-1708;
+	if (job_date >= date(2014,4,1)):
+		voucher_no = job.id-1763;
+	else:
+		voucher_no = job.id;
 	get_bill_id = Bill.objects.filter(job_no=job_no).filter(date=job_date).\
 	values('id')
-	bill = Bill.objects.get(id=get_bill_id)
+	bill = Bill.objects.filter(id=get_bill_id)[0];
 	template = {'job':job,'job_no': job_no ,'bill':bill,'servicetaxprint' : servicetaxprint,
 	'highereducationtaxprint' : highereducationtaxprint,'educationtaxprint'
 	:educationtaxprint,'voucher_no':voucher_no, }
@@ -1299,6 +1302,10 @@ def rep(request):
 	user = Job.objects.all().get(id=query)
 	job = user.job_no
 	job_date = user.date
+	if (job_date >= date(2014,4,1)):
+		voucher_no = user.id-1763;
+	else:
+		voucher_no = user.id;
 	get_bill_id = Bill.objects.filter(job_no=job).filter(date=job_date).\
 	values('id')
 	bill = Bill.objects.get(id=get_bill_id)
@@ -1330,7 +1337,7 @@ def rep(request):
 	amount,'con_type':con_type, 'ratio1':ratio1, 'ratio2':ratio2, 
 	'collegeincome':collegeincome, 'admincharge' : admincharge, 'user'
 	:user, 'name':name, 'mate':mate, 'staff':staff,'bill':bill,'job':job,
-	'jobid':user}
+	'jobid':user, 'voucher_no':voucher_no }
 	return render_to_response('tcc/report.html', dict(template.items() + 
 	tmp.items()), context_instance = RequestContext(request))
 	
