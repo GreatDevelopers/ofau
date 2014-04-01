@@ -246,7 +246,8 @@ def  main_register(request):
 			'job__clientjob__material__name',
 			'job__client__client__company').order_by('job__id')
 			for x in amount:
-				x['job__id'] -= 1763
+				if year > 2013 and month > 3:
+					x['job__id'] -= 1763
 				
 			admin_charge_temp = Amount.objects.filter(job_id__in=job).\
 			filter(report_type ='General_report').aggregate(Sum(\
