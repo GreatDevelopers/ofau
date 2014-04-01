@@ -420,32 +420,28 @@ def selectfield(request):
 	added to same job_no and thus the job_no in clientadd remains
 	same.
 	"""
-	try : 
-		client =UserProfile.objects.get(id=request.GET['id'])
-		user = request.user
-		jobno = request.GET.get('job','')
-		if jobno =='':
-			id = Bill.objects.aggregate(Max('id'))
-			maxid =id['id__max']
-			get_last_jobno = Bill.objects.get(id = maxid)
-			last_jobno = get_last_jobno.job_no
-			if last_jobno== None :
-				last_jobno = 1
-			else:
-				last_jobno = last_jobno + 1
+	client =UserProfile.objects.get(id=request.GET['id'])
+	user = request.user
+	jobno = request.GET.get('job','')
+	if jobno =='':
+		id = Bill.objects.aggregate(Max('id'))
+		maxid =id['id__max']
+		get_last_jobno = Bill.objects.get(id = maxid)
+		last_jobno = get_last_jobno.job_no
+		if last_jobno== None :
+			last_jobno = 1
 		else:
-			last_jobno = jobno
-		m = Clientadd(client = client,user=user,job_no=last_jobno)
-		m.save()
-		client = Clientadd.objects.aggregate(Max('id'))
-		client =client['id__max']
-		temp = {'client':client}
-		return render_to_response('tcc/typeofwork.html', 
-		dict(temp.items() + tmp.items()), context_instance=
-		RequestContext(request))
-	except Exception:
-		return render_to_response('tcc/profile_first.html',tmp, 
-		context_instance = RequestContext(request))
+			last_jobno = last_jobno + 1
+	else:
+		last_jobno = jobno
+	m = Clientadd(client = client,user=user,job_no=last_jobno)
+	m.save()
+	client = Clientadd.objects.aggregate(Max('id'))
+	client =client['id__max']
+	temp = {'client':client}
+	return render_to_response('tcc/typeofwork.html', 
+	dict(temp.items() + tmp.items()), context_instance=
+	RequestContext(request))
 
 @stop_caching
 @login_required
@@ -1214,12 +1210,13 @@ def additional(request):
 		job = Job.objects.get(id = maxid)
 	job_no = job.job_no
 	job_date = job.date
+	voucher_no = job.id-1708;
 	get_bill_id = Bill.objects.filter(job_no=job_no).filter(date=job_date).\
 	values('id')
 	bill = Bill.objects.get(id=get_bill_id)
 	template = {'job':job,'job_no': job_no ,'bill':bill,'servicetaxprint' : servicetaxprint,
 	'highereducationtaxprint' : highereducationtaxprint,'educationtaxprint'
-	:educationtaxprint,}
+	:educationtaxprint,'voucher_no':voucher_no, }
 	return render_to_response('tcc/additional.html',dict(template.items() + tmp.items()), 
 	context_instance = RequestContext(request))
 
