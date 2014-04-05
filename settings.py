@@ -12,9 +12,9 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'db_name',                      # Or path to database file if using sqlite3.
-        'USER': 'db_user',                      # Not used with sqlite3.
-        'PASSWORD': 'db_password',
+        'NAME': 'automation',                      # Or path to database file if using sqlite3.
+        'USER': 'root',                      # Not used with sqlite3.
+        'PASSWORD': 'piyush',
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
@@ -54,7 +54,7 @@ USE_L10N = True
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = '/usr/local/lib/python2.7/dist-packages/django/contrib/admin/media/'
-STATIC_ROOT = 'mpath/ofau/static/'
+STATIC_ROOT = '/home/piyush/ofau/static/'
 
 LOCAL_URL = 'http://localhost/'
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
@@ -114,7 +114,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'ofau.urls'
 
-TEMPLATE_DIRS = ("mpath/ofau/templates"
+TEMPLATE_DIRS = ("/home/piyush/ofau/templates"
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -131,7 +131,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.humanize',
     'registration',
-    'ofau.tcc',
+#    'ofau.tcc',
+    'ofau.cart',
     'tagging',
 )
 
