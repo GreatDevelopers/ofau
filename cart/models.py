@@ -8,19 +8,26 @@ class cart(models.Model):
 
 class attributes(models.Model):
     name = models.CharField(max_length=200)
-    is_number = models.BooleanField
-    is_string = models.BooleanField
-	def __unicode__(self):
-		return self.name
+    is_number = models.BooleanField()
+    is_string = models.BooleanField()
+    def __unicode__(self):
+	return self.name
 
-class items(models.Model):
-    cost_id = models.ForeignKey(cart)
-    product_id = models.ForeignKey(product)
-	
 class category(models.Model):
     parent = models.ForeignKey('self',null = True)
     def __unicode__(self):
         return self.id
+
+class product(models.Model):
+    name = models.CharField(max_length = 100)
+    category = models.ForeignKey(category)
+    ammount = models.IntegerField()
+    def __unicode__(self):
+        return self.name
+
+class items(models.Model):
+    cost_id = models.ForeignKey(cart)
+    product_id = models.ForeignKey(product)
 
 class attributeValue(models.Model):
     attribute = models.ForeignKey(attributes)
@@ -29,9 +36,3 @@ class attributeValue(models.Model):
     def __unicode__(self):
         return self.name
 
-class product(models.Model):
-    name = models.CharField(max_length = 100)
-    category = models.ForeignKey(category)
-    ammount = models.IntegerField()
-    def __unicode__(self):
-        return self.name
