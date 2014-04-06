@@ -5,67 +5,24 @@
 <head>
     <title>{{title.name}}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="TCC automation - Office automation Software" />
-    <meta name="description" content="Office automation Software is a versatile software which changes according to the work that need to be done." />
+    <meta name="keywords" content="Libre Hatti" />
+    <meta name="description" content="Libre Hatti is a versatile software which changes according to the work that need to be done." />
     <meta http-equiv="content-language" content="en">
     <meta name="author" content="Sandeep Kaur" />
 
-    <link href="{{ LOCAL_URL }}/static/css/css/dropdown/dropdown.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="{{ LOCAL_URL }}{{ STATIC_URL }}css/css/dropdown/dropdown.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="{{ LOCAL_URL }}/static/css/css/dropdown/themes/nvidia.com/default.advanced.css" media="screen" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="{{ LOCAL_URL }}/static/css2/css/contrib/animate.min.css" type="text/css" media="all" title="Screen" />
-    <link rel="stylesheet" href="{{ LOCAL_URL }}/static/css2/css/jquery.smallipop.css" type="text/css" media="all" title="Screen" />
-    <link rel="stylesheet" href="{{ LOCAL_URL }}/static/css2/css/screen.css" type="text/css" media="all" title="Screen" />
-    <script type="text/javascript" src="/static/js/swfobject.js"></script>
+    <link href="{{ LOCAL_URL }}{{ STATIC_URL }}css/bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ LOCAL_URL }}{{ STATIC_URL }}css2/css/contrib/animate.min.css" type="text/css" media="all" title="Screen" />
+    <link rel="stylesheet" href="{{ LOCAL_URL }}{{ STATIC_URL }}css2/css/jquery.smallipop.css" type="text/css" media="all" title="Screen" />
+    <link rel="stylesheet" href="{{ LOCAL_URL }}{{ STATIC_URL }}css2/css/screen.css" type="text/css" media="all" title="Screen" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/swfobject.js"></script>
     <link rel="stylesheet" href="/static/jquery-ui.css" />
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/jquery-ui.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery-ui.js"></script>
+    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
     <script>
-    $(function() {
-        $("#id_date").datepicker({
-
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: 'yy-mm-dd'
-        });
-        $("#id_date").datepicker("option", "showAnim", 'clip');
-        $("#id_start_date").datepicker({
-
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: 'yy-mm-dd'
-        });
-        $("#id_start_date").datepicker("option", "showAnim", 'clip');
-        $("#id_end_date").datepicker({
-
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: 'yy-mm-dd'
-        });
-        $("#id_end_date").datepicker("option", "showAnim", 'clip');
-
-        $("#id_letter_date").datepicker({
-
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: 'yy-mm-dd'
-        });
-        $("#id_letter_date").datepicker("option", "showAnim", 'clip')
-        $("#id_check_dd_date").datepicker({
-
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: 'yy-mm-dd'
-        });
-        $("#id_check_dd_date").datepicker("option", "showAnim", 'clip')
-        $("#id_dated").datepicker({
-
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: 'yy-mm-dd'
-        });
-        $("#id_dated").datepicker("option", "showAnim", 'clip')
-    });
-
+    
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {
             function getCookie(name) {
