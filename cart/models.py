@@ -28,7 +28,8 @@ class address(models.Model):
 class user(models.Model):
     """
 
-    """ 
+    """
+    user = models.OneToOneField(User) 
     address = models.ForeignKey(address)
     email_address = models.EmailField(max_length = 70, blank = True, null = True)
     telephone = models.CharField(max_length = 500)
