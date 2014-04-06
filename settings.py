@@ -12,9 +12,9 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'automation',                      # Or path to database file if using sqlite3.
-        'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': 'piyush',
+        'NAME': 'db_name',                      # Or path to database file if using sqlite3.
+        'USER': 'db_user',                      # Not used with sqlite3.
+        'PASSWORD': 'db_password',
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
@@ -38,7 +38,7 @@ DEFAULT_FROM_EMAIL = 'user@host.com'
 EMAIL_HOST = 'smtp.host.com'
 EMAIL_HOST_USER = 'user@host.com'
 EMAIL_HOST_PASSWORD = 'user@host.com'
-EMAIL_USE_TLS = True 
+EMAIL_USE_TLS = True
 EMAIL_PORT = "587"
 
 SESSION_KEY = '_auth_user_id'
@@ -54,7 +54,7 @@ USE_L10N = True
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = '/usr/local/lib/python2.7/dist-packages/django/contrib/admin/media/'
-STATIC_ROOT = '/home/piyush/ofau/static/'
+STATIC_ROOT = 'mpath/ofau/static/'
 
 LOCAL_URL = 'http://localhost/'
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
@@ -114,7 +114,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'ofau.urls'
 
-TEMPLATE_DIRS = ("/home/piyush/ofau/templates"
+TEMPLATE_DIRS = ("mpath/ofau/templates"
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
