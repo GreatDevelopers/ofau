@@ -719,6 +719,47 @@ def lab_report(request):
 	return render_to_response('tcc/client.html', dict(template.items() + 
 	tmp.items()), context_instance=RequestContext(request))
 	
+def lab_register(request):
+	"""
+	** lab_register **
+
+	This function lists all the jobs for a particular lab in a 
+	date range.
+	"""   
+	form = LabRegister(request.POST)
+	if form.is_valid():
+		cd = form.cleaned_data
+		start_date = cd['start_date']
+		end_date = cd['end_date'] 
+		dates(start_date, end_date)	 
+		lab = cd['lab']
+		get_lab = Lab.objects.get(name=lab)
+		sel_lab = get_lab.name
+		try:
+			job = Job.objects.filter(clientjob__material__lab__name=sel_lab).\
+			filter(date__range=(start_date,end_date))
+		except Exception:
+			job = Job.objects.filter(suspencejob__field__lab__name=sel_lab).\
+			filter(date__range=(start_date,end_date))
+		client = Job.objects.filter(id__in=job).values('job_no', 'date', 
+		'client__client__first_name','client__client__middle_name','client__client__last_name',
+		'client__client__city', 'client__client__address', 'client__client__company', 'amount__unit_price')
+		total_temp = Amount.objects.all().filter(job__in=job).\
+		aggregate(Sum('unit_price'))
+		total= total_temp['unit_price__sum']
+		template ={'form':form, 'total':total, 'start_date':start_date, 
+		'client':client, 'job':job, 'sel_lab':sel_lab,'end_date':
+		end_date}
+		return render_to_response('tcc/lab_register.html', 
+		dict(template.items() + tmp.items()) , context_instance =
+		RequestContext(request))
+	else:
+		form = LabRegister()         
+	template ={'form': form}  
+	return render_to_response('tcc/client.html', dict(template.items() + 
+	tmp.items()), context_instance=RequestContext(request))
+	
+	
 def consultancy_funds(request):       
 	"""
 	** consultancy_funds **

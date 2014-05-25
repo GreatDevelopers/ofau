@@ -950,6 +950,18 @@ class LabReport(forms.Form):
 	end_date= forms.DateField()
 	material = forms.ModelChoiceField(queryset=Material.objects.all())
 	
+class LabRegister(forms.Form):
+	"""
+	** LabRegister **
+
+	LabRegister Form that displays start and end date and thus helps in 
+	retrieving data between this date range for a particular Lab.
+
+	"""
+	start_date= forms.DateField()
+	end_date= forms.DateField()
+	lab = forms.ModelChoiceField(queryset=Lab.objects.all())
+	
 class SelStaff(models.Model):
 	 staff = models.ManyToManyField(Staff,blank=True,null=True)
 	
