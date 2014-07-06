@@ -162,6 +162,9 @@ class Steel(models.Model):
 	def __unicode__(self):
 		return self.S_No + "(" + str(self.Report_id) + ")"
 
+class Auction(models.Model):
+	dealer = models.CharField(max_length=14)
+
 class Steel(models.Model):
 	ip_address = models.IPAddressField()		
 	Report_id = models.ForeignKey(Report)
