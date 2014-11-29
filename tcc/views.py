@@ -302,12 +302,14 @@ def non_payment_job(request):
 	means the job that describes the work to be done without making
 	any payment.
 	"""
-	id = NonPaymentJob.objects.aggregate(Max('job_no'))
-	maxid =id['job_no__max']
-	if maxid== None :
-		maxid = 1
-	else:
-		maxid = maxid + 1
+	id = NonPaymentJob.objects.aggregate(Max('id'))
+	maxid =id['id__max']
+	get_job_no=NonPaymentJob.objects.get(id = maxid)
+	job_no = get_job_no.job_no
+	if job_no == None : 
+		job_no = 1
+	else : 
+		job_no = job_no+1
 	user = UserProfile.objects.get(id=request.GET['id'])
 	id=request.GET['id']
 	if request.method == 'POST':
@@ -315,7 +317,7 @@ def non_payment_job(request):
 		if form.is_valid():
 			profile = form.save(commit=False)
 			profile.client= user
-			profile.job_no = maxid
+			profile.job_no = job_no
 			profile.save()
 			form.save_m2m()
 			x = {'form': form, 'user': id}		
@@ -324,7 +326,7 @@ def non_payment_job(request):
 			RequestContext(request))
 	else:
 		form = NonPaymentJobForm()
-	form = {'form':form, 'maxid':maxid}
+	form = {'form':form, 'maxid':job_no}
 	return render_to_response('tcc/non_payment_job.html',dict(form.\
 	items() + tmp.items()),context_instance=RequestContext(request))
 
