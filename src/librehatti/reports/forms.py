@@ -1,9 +1,9 @@
 from django import forms
 
-from search_choices import CLIENT_FIELD_CHOICES
-from search_choices import CLIENT_ORDER_CHOICES
-from search_choices import CONSTRAINT_CHOICES
-from search_choices import MONTH_CHOICES
+from .search_choices import CLIENT_FIELD_CHOICES
+from .search_choices import CLIENT_ORDER_CHOICES
+from .search_choices import CONSTRAINT_CHOICES
+from .search_choices import MONTH_CHOICES
 
 import datetime
 
@@ -116,7 +116,7 @@ class AddConstraints(forms.Form):
     session_end = FinancialSession.objects.values_list('session_end_date', \
         flat = True)
     session_choices = [('', '--------')] + [(id, str(start) + '-To-' + \
-        str(end)) for id, start, end in itertools.izip(session_id, \
+        str(end)) for id, start, end in itertools.zip_longest(session_id, \
         session_start, session_end)]
     session = forms.ChoiceField(session_choices)
 
@@ -128,7 +128,7 @@ class AddConstraints(forms.Form):
     mode_of_payment_id = ModeOfPayment.objects.values_list('id', flat = True)
     mode = ModeOfPayment.objects.values_list('method', flat = True)
     mode_choices = [('', '--------')] + [(id, mode) for id, mode in itertools.\
-        izip(mode_of_payment_id, mode)]
+        zip_longest(mode_of_payment_id, mode)]
     mode_of_payment = forms.ChoiceField(mode_choices)
 
     grand_total = forms.BooleanField()

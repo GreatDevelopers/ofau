@@ -3,8 +3,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from reports.register_generator import GenerateRegister
-from reports.search import SearchResult
+from .reports.register_generator import GenerateRegister
+from .reports.search import SearchResult
 from ajax_select import urls as ajax_select_urls
 
 admin.autodiscover()
@@ -36,7 +36,7 @@ urlpatterns = patterns('',
     url(r'^filter_sub_category/', 'librehatti.reports.views.filter_sub_category'),
     url(r'^bill/', 'librehatti.prints.views.bill'),
     url(r'^suspense_bill/', 'librehatti.prints.views.suspense_bill'),
-    url(r'^quoted_bill/', 'librehatti.prints.views.quoted_bill'),
+#    url(r'^quoted_bill/', 'librehatti.prints.views.quoted_bill'),
     url(r'^tax/', 'librehatti.prints.views.tax'),
     url(r'^bills/', include('librehatti.bills.urls')),
     url(r'^suspense/', include('librehatti.suspense.urls')),
